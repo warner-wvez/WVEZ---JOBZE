@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J.O.B.Z.E. — Job Search System for New Grads</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #000; --s1: hsl(0,0%,5%); --s2: hsl(0,0%,8%); --s3: hsl(0,0%,3%);
+  --border: hsl(0,0%,18%); --border2: hsl(0,0%,28%);
+  --fg: #fff; --muted: hsl(0,0%,62%); --dim: hsl(0,0%,36%);
+  --mono: 'IBM Plex Mono', monospace; --sans: 'Inter', sans-serif; --display: 'Syne', sans-serif;
+  --r: 6px; --accent: #fff;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); font-family: var(--sans); color: var(--fg); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+.snap-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; padding-top: 80px; padding-bottom: 80px; border-bottom: 1px solid var(--border); }
+.snap-section, .step-stack-outer, .hero, [id] { scroll-margin-top: 60px; }
+.snap-section::before, .snap-section::after { content: ''; position: absolute; left: 0; right: 0; height: 120px; pointer-events: none; z-index: 2; }
+.snap-section::before { top: 0; background: linear-gradient(to bottom, var(--bg), transparent); }
+.snap-section::after { bottom: 0; background: linear-gradient(to top, var(--bg), transparent); }
+a { color: inherit; text-decoration: none; }
+
+/* ═══════ UTILITIES ═══════ */
+.mono { font-family: var(--mono); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; padding: 3px 10px; border: 1px solid var(--border); border-radius: 40px; color: var(--dim); }
+.container { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.sec-label { font-family: var(--mono); font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
+.sec-h2 { font-family: var(--display); font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 14px; }
+.sec-sub { font-size: 14px; color: var(--muted); line-height: 1.8; max-width: 560px; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes scramble { 0% { opacity: .6; } 50% { opacity: 1; } 100% { opacity: .6; } }
+@keyframes countUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ═══════ NAV ═══════ */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(0,0,0,.72); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: .06em; }
+.nav-logo span { color: var(--dim); font-weight: 400; }
+.nav-links { position: fixed; top: 0; right: 0; width: 50vw; height: 53px; display: flex; gap: 28px; align-items: center; justify-content: center; z-index: 101; }
+.nav-links a { font-size: 12px; font-weight: 500; color: var(--muted); transition: color .15s; letter-spacing: .01em; }
+.nav-links a:hover { color: var(--fg); }
+.nav-cta { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; padding: 8px 18px; border: 1px solid var(--border); border-radius: 40px; color: var(--fg); transition: all .2s; background: transparent; cursor: pointer; text-transform: uppercase; }
+.nav-cta:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+/* ═══════ HERO ═══════ */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 78.5px 0 80px; margin: 0; position: relative; width: 50vw; margin-left: 0; padding-left: 40px; padding-right: 40px; border-bottom: none; }
+.hero::before { content: ''; position: absolute; bottom: 0; left: 0; width: 100vw; height: 1px; background: var(--border); }
+.hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px; background: linear-gradient(to top, var(--bg), transparent); pointer-events: none; z-index: 2; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 28px; padding: 5px 14px; border: 1px solid var(--border); border-radius: 40px; width: fit-content; }
+.hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--fg); animation: pulse 2s ease infinite; }
+.hero-title { font-family: var(--display); font-size: clamp(36px, 5vw, 64px); font-weight: 800; letter-spacing: -.04em; line-height: 1.05; margin-bottom: 24px; max-width: 100%; }
+.hero-title .line2 { color: var(--muted); }
+.hero-hook { font-size: 16px; color: var(--fg); font-weight: 500; line-height: 1.6; margin-bottom: 16px; max-width: 100%; }
+.hero-sub { font-size: 14px; color: var(--muted); line-height: 1.85; max-width: 100%; margin-bottom: 15px; }
+.hero-proof { font-family: var(--mono); font-size: 10px; color: var(--dim); letter-spacing: .04em; margin-top: -8px; }
+.hero-ctas { display: flex; gap: 14px; align-items: center; margin-bottom: 24px; }
+.btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--fg); color: var(--bg); border: 1px solid var(--fg); border-radius: var(--r); font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: all .2s; letter-spacing: -.01em; }
+.btn-primary:hover { opacity: .85; transform: translateY(-1px); }
+.btn-secondary { display: inline-flex; align-items: center; padding: 14px 28px; font-size: 13px; font-weight: 500; color: var(--fg); cursor: pointer; transition: all .2s; border: 1px solid var(--muted); border-radius: var(--r); background: var(--bg); font-family: var(--sans); }
+.btn-secondary:hover { opacity: .85; transform: translateY(-1px); }
+
+
+/* Grid background */
+.hero-grid { position: fixed; inset: 0; z-index: -1; opacity: .12; background-image: radial-gradient(rgba(255,255,255,.5) .6px, transparent .6px); background-size: 24px 24px; pointer-events: none; mask-image: radial-gradient(ellipse 60% 50% at var(--mx, 50%) var(--my, 50%), black 0%, transparent 100%); -webkit-mask-image: radial-gradient(ellipse 60% 50% at var(--mx, 50%) var(--my, 50%), black 0%, transparent 100%); }
+
+/* ═══════ CHARACTER MATRIX EFFECT ═══════ */
+.hero-matrix-wrap {
+  position: absolute;
+  top: 0; left: 100%;
+  width: 50vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  border-left: 1px solid var(--border);
+  border-bottom: none;
+  border-right: none;
+  border-top: none;
+  border-radius: 0;
+}
+.hero-matrix-wrap canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* Ensure hero content stays above the canvas */
+.hero > *:not(.hero-matrix-wrap) { position: relative; z-index: 1; }
+
+@media (max-width: 768px) {
+  .hero-matrix-wrap {
+    width: 100%;
+    height: 40%;
+    top: auto; left: 0;
+    bottom: 0;
+    opacity: 0.5;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: 0;
+  }
+}
+
+/* ═══════ HOW IT WORKS ═══════ */
+.steps-sec { padding: 0 40px; max-width: 1160px; margin: 0 auto; }
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 40px; }
+.step-wrapper { position: relative; border-radius: 10px; padding: 1px; background: linear-gradient(160deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.03) 100%); }
+.step { border-radius: 9px; background: var(--s1); overflow: hidden; transition: background .2s; position: relative; }
+.step::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255,255,255,0.04) 0%, transparent 70%); opacity: 0; transition: opacity .3s; pointer-events: none; }
+.step-wrapper:hover .step::after { opacity: 1; }
+.step-wrapper:hover .step { background: var(--s2); }
+.step-visual { width: 100%; height: 240px; background: #0a0a0a; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; mask-image: linear-gradient(to bottom, black 50%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%); }
+.step-mock { width: 85%; border: 1px solid rgba(255,255,255,0.10); border-radius: 8px; background: rgba(255,255,255,0.03); box-shadow: 0 -1px 40px rgba(255,255,255,0.15); padding: 16px; }
+.step-body { padding: 0 24px 28px; }
+.step-num { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--fg); margin-bottom: 16px; }
+.step-title { font-size: 16px; font-weight: 700; letter-spacing: -.02em; margin-bottom: 12px; line-height: 1.3; }
+.step-desc { font-size: 13px; color: var(--muted); line-height: 1.8; }
+/* Card 1 — form mockup */
+.mock-form-title { font-family: var(--sans); font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 10px; text-align: center; }
+.mock-input { display: block; width: 100%; padding: 6px 8px; margin-bottom: 6px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; font-family: var(--mono); font-size: 8px; color: var(--dim); box-sizing: border-box; }
+.mock-upload { display: block; width: 100%; padding: 10px 8px; border: 1px dashed rgba(255,255,255,0.12); border-radius: 4px; text-align: center; font-family: var(--mono); font-size: 7px; color: var(--dim); margin-top: 2px; box-sizing: border-box; }
+/* Card 2 — notification mockup */
+.mock-notif { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+.mock-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #44b078; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.mock-notif-name { font-family: var(--sans); font-size: 11px; font-weight: 700; color: #fff; }
+.mock-notif-msg { font-family: var(--mono); font-size: 9px; color: var(--dim); margin-top: 3px; }
+/* Card 3 — execute mockup */
+.mock-header { font-family: var(--sans); font-size: 9px; font-weight: 700; color: var(--dim); text-align: center; margin-bottom: 10px; letter-spacing: .06em; }
+.mock-pill { display: inline-block; float: right; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 4px 12px; font-family: var(--mono); font-size: 9px; color: #fff; margin-bottom: 10px; }
+.mock-pill-clear { clear: both; }
+.mock-job { padding: 7px 0 7px 10px; border-left: 2px solid #44b078; margin-bottom: 5px; }
+.mock-job-title { font-family: var(--sans); font-size: 10px; font-weight: 700; color: #fff; }
+.mock-job-meta { font-family: var(--mono); font-size: 8px; color: var(--dim); margin-top: 2px; }
+@media (max-width: 768px) { .steps-grid { grid-template-columns: 1fr; } }
+.step-stack-outer { position: relative; height: 250vh; border-bottom: 1px solid var(--border); }
+.step-stack-inner { position: sticky; top: 0; height: 100vh; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1160px; margin: 0 auto; padding: 80px 40px; overflow: hidden; }
+.step-stack-heading { align-self: center; }
+.step-stack-cards { position: relative; height: 100%; }
+.step-stack-card { position: absolute; inset: 0; display: flex; align-items: center; background: transparent; transform-origin: top center; will-change: transform, opacity; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.step-stack-card .step-wrapper { width: 100%; }
+@media (max-width: 768px) { .step-stack-outer { height: auto; } .step-stack-inner { position: relative; height: auto; grid-template-columns: 1fr; } .step-stack-cards { height: auto; } .step-stack-card { position: relative; inset: auto; margin-bottom: 20px; } }
+
+/* ═══════ PRODUCT / SLACK DEMO ═══════ */
+.demo-sec { padding: 0 40px; max-width: 1160px; margin: 0 auto; }
+.demo-shell { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--s3); }
+.demo-titlebar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--s2); }
+.demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+.demo-dot.r { background: #ff5f57; } .demo-dot.y { background: #febc2e; } .demo-dot.g { background: #28c840; }
+.demo-titlebar-text { font-family: var(--mono); font-size: 9px; color: var(--dim); letter-spacing: .06em; margin-left: 8px; }
+.slack-body { display: grid; grid-template-columns: 200px 1fr; min-height: 480px; }
+
+/* Slack sidebar */
+.slack-side { border-right: 1px solid var(--border); background: rgba(0,0,0,.5); padding: 16px 0; display: flex; flex-direction: column; }
+.slack-ws { padding: 0 14px 14px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+.slack-ws-name { font-size: 13px; font-weight: 700; letter-spacing: -.01em; }
+.slack-ws-status { font-family: var(--mono); font-size: 7.5px; color: var(--dim); letter-spacing: .06em; margin-top: 3px; }
+.slack-cat { font-family: var(--mono); font-size: 7.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); padding: 8px 14px 4px; }
+.slack-ch { display: flex; align-items: center; gap: 8px; padding: 4px 14px; font-size: 12px; color: var(--muted); cursor: default; }
+.slack-ch.active { color: var(--fg); background: rgba(255,255,255,.06); font-weight: 600; }
+.slack-ch-hash { font-size: 11px; opacity: .5; }
+.slack-dm { display: flex; align-items: center; gap: 8px; padding: 5px 14px; font-size: 12px; color: var(--muted); }
+.slack-dm.active { color: var(--fg); background: rgba(255,255,255,.06); font-weight: 600; }
+.slack-dm-dot { width: 7px; height: 7px; border-radius: 50%; background: #44b078; flex-shrink: 0; }
+.slack-dm-dot.offline { background: var(--border); }
+
+/* Slack chat area */
+.slack-chat { display: flex; flex-direction: column; }
+.slack-header { padding: 12px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.slack-header-name { font-size: 14px; font-weight: 700; }
+.slack-header-badge { font-family: var(--mono); font-size: 7px; letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border: 1px solid rgba(68,176,120,.4); border-radius: 40px; color: #44b078; }
+.slack-messages { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+.slack-messages::-webkit-scrollbar { width: 4px; }
+.slack-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.slack-msg { display: flex; gap: 10px; animation: fadeUp .3s ease both; }
+.slack-avatar { width: 32px; height: 32px; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; }
+.slack-avatar.bot { background: rgba(255,255,255,.08); border: 1px solid var(--border); color: var(--dim); }
+.slack-avatar.user { background: rgba(68,176,120,.15); border: 1px solid rgba(68,176,120,.3); color: #44b078; }
+.slack-msg-body { flex: 1; min-width: 0; }
+.slack-msg-name { font-size: 12px; font-weight: 700; margin-bottom: 3px; }
+.slack-msg-name .ts { font-weight: 400; color: var(--dim); font-size: 10px; margin-left: 6px; font-family: var(--mono); }
+.slack-msg-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.slack-msg-text strong { color: var(--fg); font-weight: 600; }
+.slack-msg-text code { font-family: var(--mono); font-size: 11px; background: rgba(255,255,255,.06); padding: 1px 5px; border-radius: 3px; color: rgba(255,255,255,.8); }
+.slack-msg-text .context-block { margin-top: 8px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--r); background: rgba(255,255,255,.02); font-size: 12px; line-height: 1.7; }
+.slack-msg-text .job-card { margin-top: 8px; padding: 10px 12px; border-left: 3px solid rgba(68,176,120,.6); background: rgba(68,176,120,.04); border-radius: 0 var(--r) var(--r) 0; }
+.slack-msg-text .job-title { font-weight: 600; color: var(--fg); font-size: 13px; }
+.slack-msg-text .job-meta { font-family: var(--mono); font-size: 10px; color: var(--dim); margin-top: 2px; }
+.slack-msg-text .job-reason { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
+.typing-indicator { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+.typing-indicator span { width: 6px; height: 6px; border-radius: 50%; background: var(--dim); animation: pulse 1.2s ease infinite; }
+.typing-indicator span:nth-child(2) { animation-delay: .2s; }
+.typing-indicator span:nth-child(3) { animation-delay: .4s; }
+
+/* Chat input */
+.slack-input-area { padding: 12px 18px; border-top: 1px solid var(--border); }
+.slack-input-wrap { display: flex; align-items: center; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; background: var(--s2); transition: border-color .2s; }
+.slack-input-wrap:focus-within { border-color: var(--border2); }
+.slack-input { flex: 1; background: transparent; border: none; outline: none; color: var(--fg); font-size: 13px; font-family: var(--sans); padding: 10px 14px; }
+.slack-input::placeholder { color: var(--dim); }
+.slack-send { padding: 10px 16px; background: transparent; border: none; color: var(--dim); cursor: pointer; font-size: 14px; transition: color .15s; }
+.slack-send:hover { color: var(--fg); }
+
+/* ═══════ COMPARISON GRID ═══════ */
+.compare-grid { display: grid; grid-template-columns: 1fr 48px 1fr; gap: 0; margin-top: 24px; align-items: stretch; }
+.compare-col { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; transition: opacity 0.7s ease, transform 0.7s ease; opacity: 0; transform: translateX(-40px); }
+.compare-col.slide-right { transform: translateX(40px); }
+.compare-col.animate-in { opacity: 1 !important; transform: translateX(0) !important; }
+.compare-col.muted { filter: saturate(0.25) brightness(0.7); }
+.compare-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 10px 16px; border-bottom: 1px solid var(--border); color: var(--dim); background: var(--s1); }
+.compare-label.bad { color: #ff5f57; }
+.compare-label.good { color: #28c840; }
+.chatgpt-shell { background: #1a1a1a; padding: 14px; display: flex; flex-direction: column; gap: 10px; position: relative; overflow: hidden; min-height: 320px; }
+.chatgpt-shell::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px); pointer-events: none; z-index: 1; animation: scanlines 8s linear infinite; }
+@keyframes scanlines { 0% { background-position: 0 0; } 100% { background-position: 0 100px; } }
+.chatgpt-user-msg { align-self: flex-end; background: #2f2f2f; border-radius: 18px; padding: 10px 16px; font-size: 13px; color: rgba(255,255,255,0.85); max-width: 80%; position: relative; z-index: 2; }
+.chatgpt-bot-msg { align-self: flex-start; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; max-width: 95%; position: relative; z-index: 2; min-height: 18px; }
+.chatgpt-result { background: #222; border: 1px solid #333; border-radius: 8px; padding: 10px 14px; margin-top: 6px; opacity: 0; transform: translateY(6px); transition: opacity 0.4s ease, transform 0.4s ease; position: relative; z-index: 2; }
+.chatgpt-result.visible { opacity: 1; transform: translateY(0); }
+.chatgpt-result-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.8); }
+.chatgpt-result-url { font-family: var(--mono); font-size: 10px; color: #4a9eff; margin-top: 3px; }
+.chatgpt-result-status { font-family: var(--mono); font-size: 9px; color: #ff5f57; margin-top: 4px; letter-spacing: .04em; animation: glitch-flicker 3s ease infinite; }
+.chatgpt-note { font-size: 11px; opacity: 0.45; position: relative; z-index: 2; color: rgba(255,255,255,0.7); line-height: 1.6; margin-top: 4px; }
+@keyframes glitch-flicker { 0%,89%,100% { opacity: 1; } 91% { opacity: 0.2; } 93% { opacity: 1; } 95% { opacity: 0.1; } 97% { opacity: 1; } }
+.compare-vs { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 2; }
+.compare-vs-line { width: 1px; flex: 1; background: var(--border); transform: scaleY(0); transform-origin: top; transition: transform 0.7s ease 0.4s; }
+.compare-vs-line.bottom { transform-origin: bottom; }
+.compare-vs-line.draw { transform: scaleY(1); }
+.compare-vs-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .12em; color: var(--dim); padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); white-space: nowrap; flex-shrink: 0; }
+.jobze-shell { background: var(--s3); padding: 14px; display: flex; flex-direction: column; gap: 10px; min-height: 320px; }
+.jobze-user-msg { align-self: flex-end; background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 18px; padding: 10px 16px; font-size: 13px; color: var(--muted); max-width: 80%; }
+.jobze-bot-intro { font-size: 13px; color: var(--muted); line-height: 1.7; min-height: 18px; }
+.jobze-job-card { opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease; }
+.jobze-job-card.visible { opacity: 1; transform: translateY(0); }
+.typewriter-cursor { display: inline-block; width: 2px; height: 12px; background: var(--muted); margin-left: 1px; vertical-align: middle; animation: blink 0.7s step-end infinite; }
+.compare-stat-badge { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: #28c840; padding: 3px 10px; border: 1px solid rgba(40,200,120,0.3); border-radius: 40px; display: inline-block; margin-top: 8px; opacity: 0; transition: opacity 0.4s ease; }
+.compare-stat-badge.visible { opacity: 1; }
+.jobze-send-btn { background: none; border: 1px solid var(--border); border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: var(--dim); cursor: pointer; transition: all .2s; opacity: 0.3; pointer-events: none; flex-shrink: 0; margin-left: auto; }
+.jobze-send-btn.active { opacity: 1; pointer-events: auto; border-color: #28c840; color: #28c840; animation: send-pulse 1.5s ease infinite; }
+.jobze-send-btn.active:hover { background: rgba(40,200,120,0.1); }
+.jobze-send-btn.sent { opacity: 0.3; pointer-events: none; animation: none; }
+@keyframes send-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(40,200,120,0.3); } 50% { box-shadow: 0 0 0 6px rgba(40,200,120,0); } }
+#jobze-send-row { display: flex; align-items: center; gap: 10px; }
+.compare-play-btn { display: flex; align-items: center; gap: 8px; margin: 0 auto 0; padding: 10px 22px; background: transparent; border: 1px solid var(--border); border-radius: 40px; color: var(--muted); font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: all .25s ease; }
+.compare-play-btn:hover { border-color: var(--fg); color: var(--fg); }
+.compare-play-btn .play-icon { width: 18px; height: 18px; border-radius: 50%; border: 1px solid currentColor; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.compare-play-btn .play-icon svg { width: 8px; height: 8px; fill: currentColor; margin-left: 1px; }
+.compare-play-btn.is-replay .play-icon svg { margin-left: 0; }
+@media (max-width: 768px) { .compare-grid { grid-template-columns: 1fr; } .compare-vs { flex-direction: row; height: 48px; } .compare-vs-line { width: 100%; height: 1px; flex: 1; transform: scaleX(0); transform-origin: left; } .compare-vs-line.draw { transform: scaleX(1); } }
+
+/* ═══════ UNIFIED SHOOTOUT ═══════ */
+/* Shootout section: anchor to top, fill viewport, allow internal scroll */
+.snap-section.shootout-snap { justify-content: flex-start; padding-top: 60px; padding-bottom: 40px; overflow: hidden; }
+.shootout-sec { padding: 0 40px; max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; height: calc(100vh - 100px); overflow: hidden; }
+.shootout-tabs { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; flex-shrink: 0; }
+.shootout-tabs::-webkit-scrollbar { display: none; }
+.shootout-tab { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 16px; border: 1px solid var(--border); border-radius: 40px; background: transparent; color: var(--dim); cursor: pointer; white-space: nowrap; transition: all .2s; }
+.shootout-tab:hover { border-color: var(--border2); color: var(--muted); }
+.shootout-tab.active { border-color: var(--fg); color: var(--fg); }
+.shootout-grid { display: grid; grid-template-columns: 1fr 48px 1fr; gap: 0; align-items: stretch; min-height: 0; }
+.shootout-col { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
+.shootout-col-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 10px 16px; border-bottom: 1px solid var(--border); color: var(--dim); background: var(--s1); }
+.shootout-col-label.bad { color: #ff5f57; }
+.shootout-col-label.good { color: #28c840; }
+.shootout-status-bar { font-family: var(--mono); font-size: 8px; letter-spacing: .06em; color: var(--dim); padding: 6px 16px; border-bottom: 1px solid var(--border); background: rgba(40,200,64,0.03); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shootout-feed { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px; min-height: 0; position: relative; overflow-y: auto; scroll-behavior: smooth; }
+.shootout-feed::-webkit-scrollbar { width: 4px; }
+.shootout-feed::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.shootout-idle { font-family: var(--mono); font-size: 11px; color: var(--dim); text-align: center; margin: auto; }
+/* Shootout messages */
+.shootout-msg { animation: fadeUp .45s ease both; }
+.shootout-msg-user { align-self: flex-end; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 16px; padding: 8px 14px; font-size: 13px; color: var(--muted); max-width: 85%; }
+.shootout-msg-bot { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; max-width: 95%; }
+.shootout-msg-bot.bad { background: #1a1a1a; border-radius: var(--r); padding: 10px 14px; }
+.shootout-msg-bot.good { background: var(--s3); border-radius: var(--r); padding: 10px 14px; }
+/* Context blocks (JOBZE side) — collapsible */
+.shootout-context { margin-top: 8px; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.shootout-context-toggle { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); cursor: pointer; font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); transition: color .2s; user-select: none; }
+.shootout-context-toggle:hover { color: var(--muted); }
+.shootout-context-toggle::after { content: '+'; font-size: 12px; transition: transform .2s; }
+.shootout-context.open .shootout-context-toggle::after { content: '−'; }
+.shootout-context-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+.shootout-context.open .shootout-context-body { max-height: 300px; }
+.shootout-context-body-inner { padding: 10px 12px; font-size: 12px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--border); }
+/* Typing indicator */
+.shootout-typing { display: flex; gap: 4px; align-items: center; padding: 8px 0; }
+.shootout-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--dim); animation: pulse 1.2s ease infinite; }
+.shootout-typing span:nth-child(2) { animation-delay: .2s; }
+.shootout-typing span:nth-child(3) { animation-delay: .4s; }
+/* Play button wrap */
+.shootout-play-wrap { text-align: center; margin-top: 12px; min-height: 44px; flex-shrink: 0; }
+/* Playback controls */
+.shootout-controls { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 10px; flex-shrink: 0; min-height: 34px; }
+.shootout-ctrl-btn { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 14px; border: 1px solid var(--border); border-radius: 40px; background: transparent; color: var(--dim); cursor: pointer; transition: all .2s; }
+.shootout-ctrl-btn:hover { border-color: var(--border2); color: var(--muted); }
+.shootout-ctrl-btn.active { border-color: var(--fg); color: var(--fg); }
+/* Phase states */
+.shootout-grid.phase-center { display: block; max-width: 580px; margin: 0 auto; }
+.shootout-grid.phase-center .compare-vs,
+.shootout-grid.phase-center #shootout-right { display: none; }
+.shootout-grid.phase-split { display: grid; grid-template-columns: 1fr 48px 1fr; max-width: none; }
+.shootout-grid.phase-split #shootout-right { animation: slideInRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.shootout-grid.phase-split .compare-vs { animation: fadeIn 0.4s ease 0.1s both; }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* ═══════ SHOOTOUT STAGE: side panels + grid ═══════ */
+.shootout-stage { display: grid; grid-template-columns: 0fr 1fr 0fr; gap: 0; align-items: stretch; transition: grid-template-columns 0.6s cubic-bezier(0.22, 1, 0.36, 1), gap 0.6s cubic-bezier(0.22, 1, 0.36, 1); overflow: hidden; flex: 1; min-height: 0; }
+.shootout-stage.annos-visible { grid-template-columns: 200px 1fr 200px; gap: 12px; }
+/* Side panels */
+.shootout-side-panel { opacity: 0; overflow: hidden; display: flex; flex-direction: column; pointer-events: none; }
+.shootout-side-panel.visible { opacity: 1; pointer-events: auto; }
+.shootout-side-panel.left { transform: translateX(-20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.shootout-side-panel.right { transform: translateX(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.shootout-side-panel.left.visible { transform: translateX(0); }
+.shootout-side-panel.right.visible { transform: translateX(0); }
+/* Scrollable annotation content */
+.shootout-anno-scroll { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 4px 0; }
+.shootout-anno-scroll::-webkit-scrollbar { width: 3px; }
+.shootout-anno-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+/* Annotation cards */
+.shootout-anno { border: 1px solid var(--border); border-radius: var(--r); padding: 10px 12px; background: var(--s1); flex-shrink: 0; }
+.shootout-anno.bad { border-left: 2px solid #ff5f57; }
+.shootout-anno.good { border-left: 2px solid #28c840; }
+.shootout-anno-label { font-family: var(--mono); font-size: 8px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 4px; }
+.shootout-anno-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+.shootout-anno-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+/* Verdict strip */
+.shootout-verdict { border: 1px solid var(--border); border-radius: var(--r); padding: 12px 16px; text-align: center; font-size: 14px; font-weight: 600; background: var(--s1); opacity: 0; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; margin-top: 12px; flex-shrink: 0; }
+.shootout-verdict.visible { opacity: 1; transform: translateY(0); }
+@media (max-width: 768px) {
+  .shootout-sec { height: auto; overflow: visible; }
+  .shootout-grid { grid-template-columns: 1fr; }
+  .shootout-grid .compare-vs { flex-direction: row; height: 48px; }
+  .shootout-grid .compare-vs-line { width: 100%; height: 1px; flex: 1; }
+  .shootout-tabs { gap: 4px; }
+  .snap-section.shootout-snap { min-height: auto; height: auto; overflow: visible; padding-top: 40px; padding-bottom: 40px; }
+  .shootout-feed { max-height: 350px; min-height: 250px; }
+  .shootout-grid.phase-center { display: grid; grid-template-columns: 1fr; max-width: none; }
+  .shootout-grid.phase-center .compare-vs,
+  .shootout-grid.phase-center #shootout-right { display: none; }
+  .shootout-grid.phase-split { grid-template-columns: 1fr; }
+  .shootout-grid.phase-split #shootout-right { animation: none; }
+  .shootout-grid.phase-split .compare-vs { display: none; }
+  .shootout-stage { display: flex; flex-direction: column; gap: 16px; }
+  .shootout-stage.annos-visible { grid-template-columns: unset; }
+  .shootout-side-panel { order: 2; transform: none !important; }
+  .shootout-side-panel.left { order: 2; }
+  .shootout-side-panel.right { order: 3; }
+  .shootout-grid { order: 1; }
+  .shootout-anno-scroll { max-height: 200px; }
+}
+
+/* ═══════ STORY / REAL TALK ═══════ */
+.story-sec { padding: 0 40px; max-width: 1160px; margin: 0 auto; }
+.snap-section.story-snap { min-height: 100vh; overflow: visible; }
+.story-split { display: grid; grid-template-columns: 1fr 1px 1fr; gap: 0 48px; align-items: start; }
+.story-divider { width: 1px; align-self: stretch; background: linear-gradient(to bottom, transparent, var(--border) 15%, var(--border) 85%, transparent); }
+.story-col-right { opacity: 0; transform: translateX(30px); transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+.story-col-right.visible { opacity: 1; transform: translateX(0); }
+.story-h { font-family: var(--display); font-size: clamp(24px, 3.5vw, 38px); font-weight: 800; letter-spacing: -.04em; line-height: 1.1; margin-bottom: 24px; color: var(--fg); }
+.story-col p { font-size: 14px; color: var(--muted); line-height: 1.85; margin-bottom: 16px; }
+.story-col p strong { color: var(--fg); font-weight: 600; }
+.story-callout { font-size: 15px; color: var(--fg); font-weight: 500; font-style: italic; padding: 18px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin: 24px 0; text-align: center; line-height: 1.6; }
+.story-closer { color: var(--fg) !important; font-weight: 500; margin-top: 8px; }
+/* Word reveal spans */
+.sw { opacity: 0; transition: opacity 0.15s linear; display: inline; }
+.sw.revealed { opacity: 1; }
+@media (max-width: 768px) {
+  .story-split { grid-template-columns: 1fr; gap: 0; }
+  .story-divider { display: none; }
+  .story-col-right { opacity: 1; transform: none; margin-top: 24px; }
+  .sw { opacity: 1 !important; }
+}
+
+/* ═══════ PRICING ═══════ */
+.snap-section.pricing-snap { justify-content: flex-start; padding-top: 60px; padding-bottom: 80px; overflow-y: visible; }
+.snap-section.pricing-snap::before, .snap-section.pricing-snap::after { display: none; }
+.pricing-sec { padding: 0 40px; max-width: 1200px; margin: 0 auto; }
+.pricing-sec > .reveal:first-child { text-align: center; }
+.price-hero { font-family: var(--display); font-size: clamp(48px, 8vw, 96px); font-weight: 800; letter-spacing: -.05em; line-height: 1; }
+.price-sub { font-family: var(--mono); font-size: 13px; color: var(--dim); margin-top: 6px; letter-spacing: .04em; font-style: italic; }
+.price-explain { font-size: 13px; color: var(--muted); line-height: 1.75; max-width: 520px; margin: 20px auto 0; }
+/* Side-by-side layout */
+.price-layout { display: grid; grid-template-columns: 320px 1fr; gap: 24px; align-items: start; margin-top: 36px; text-align: left; }
+.price-layout .price-tier-card { position: sticky; top: 80px; }
+.price-compare-side { min-width: 0; }
+.price-compare-side .price-compare-label { text-align: left; margin-bottom: 12px; }
+/* Price tier card */
+.price-tier-card { width: 100%; border: 1px solid var(--border); border-radius: 12px; padding: 24px 24px; background: var(--s1); position: relative; overflow: hidden; text-align: left; }
+.price-tier-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); }
+.price-tier-badge { font-family: var(--mono); font-size: 8px; letter-spacing: .14em; text-transform: uppercase; color: var(--bg); background: var(--fg); padding: 3px 10px; border-radius: 40px; display: inline-block; margin-bottom: 12px; font-weight: 700; }
+.price-tier-name { font-family: var(--display); font-size: 18px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 6px; }
+.price-tier-price { font-family: var(--display); font-size: 40px; font-weight: 800; letter-spacing: -.04em; line-height: 1; margin-bottom: 4px; }
+.price-tier-period { font-family: var(--mono); font-size: 14px; font-weight: 400; color: var(--dim); letter-spacing: .02em; margin-left: 2px; }
+.price-tier-note { font-size: 11px; color: var(--dim); margin-bottom: 16px; line-height: 1.5; }
+.price-tier-highlights { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+.price-tier-hl { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.price-tier-cta { display: block; width: 100%; padding: 12px; background: var(--fg); color: var(--bg); border: none; border-radius: var(--r); font-family: var(--sans); font-size: 13px; font-weight: 700; text-align: center; text-decoration: none; cursor: pointer; transition: all 0.2s; letter-spacing: -.01em; }
+.price-tier-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+/* Comparison table */
+.price-compare-label { font-family: var(--mono); font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
+.price-compare { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; background: var(--s1); }
+.pc-header { display: grid; grid-template-columns: 1fr 140px 140px; gap: 0; padding: 10px 20px; border-bottom: 1px solid var(--border); background: var(--s2); }
+.pc-feature-col { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.pc-col { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); text-align: center; }
+.pc-col-jobze { color: var(--fg); font-weight: 600; }
+.pc-group-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background 0.15s; user-select: none; }
+.pc-group-header:hover { background: rgba(255,255,255,0.02); }
+.pc-group-header span:first-child { font-size: 13px; font-weight: 600; color: var(--fg); letter-spacing: -.01em; }
+.pc-group-toggle { font-family: var(--mono); font-size: 13px; color: var(--dim); transition: transform 0.2s; }
+.pc-group.open .pc-group-toggle { transform: rotate(45deg); }
+.pc-group-rows { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.pc-group.open .pc-group-rows { max-height: 600px; }
+.pc-expand-all { background:none; border:none; cursor:pointer; font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); transition:color .15s; padding:0; }
+.pc-expand-all:hover { color:var(--muted); }
+.pc-row { display: grid; grid-template-columns: 1fr 140px 140px; gap: 0; padding: 8px 20px; border-bottom: 1px solid var(--border); font-size: 13px; }
+.pc-row:last-child { border-bottom: none; }
+.pc-row .pc-feature-col { font-family: var(--sans); font-size: 12.5px; color: var(--muted); text-transform: none; letter-spacing: 0; }
+.pc-row .pc-col { font-size: 14px; text-transform: none; letter-spacing: 0; display: flex; align-items: center; justify-content: center; }
+.pc-yes { color: #28c840; font-weight: 700; font-size: 16px; }
+.pc-no { color: #ff5f57; font-weight: 400; font-size: 14px; opacity: 0.7; }
+.pc-partial { color: #febc2e; font-weight: 600; font-size: 16px; font-family: var(--sans); }
+.pricing-cta { text-align: center; margin-top: 16px; padding-bottom: 20px; }
+@media (max-width: 768px) {
+  .price-layout { grid-template-columns: 1fr; gap: 24px; }
+  .price-layout .price-tier-card { position: static; max-width: 340px; margin: 0 auto; }
+  .price-tier-card { max-width: 340px; }
+  .pc-header, .pc-row { grid-template-columns: 1fr 80px 80px; padding: 10px 12px; }
+  .pc-group-header { padding: 12px; }
+  .pc-row .pc-feature-col { font-size: 11px; }
+  .pc-col { font-size: 8px; }
+  .pc-row .pc-col { font-size: 12px; }
+}
+
+/* ═══════ COMMUNITY ═══════ */
+.snap-section.community-snap { justify-content: flex-start; padding-top: 80px; padding-bottom: 80px; overflow-y: visible; }
+.snap-section.community-snap::before, .snap-section.community-snap::after { display: none; }
+.community-sec { padding: 0 40px; max-width: 1160px; margin: 0 auto; }
+.community-blocks { display: flex; flex-direction: column; gap: 24px; margin-top: 36px; max-width: 640px; }
+.community-block { padding: 20px 24px; border-left: 2px solid var(--border2); background: var(--s1); border-radius: 0 var(--r) var(--r) 0; }
+.community-block-title { font-size: 15px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 6px; color: var(--fg); }
+.community-block-desc { font-size: 13px; color: var(--muted); line-height: 1.8; }
+@media (max-width: 768px) {
+  .community-sec { padding-left: 20px; padding-right: 20px; }
+}
+
+/* ═══════ GET STARTED ═══════ */
+.waitlist-sec { padding: 100px 40px 60px; max-width: 1160px; margin: 0 auto; }
+.waitlist-layout { display: grid; grid-template-columns: 340px 1fr; gap: 48px; margin-top: 40px; }
+.wl-sidebar { position: sticky; top: 120px; align-self: start; }
+.wl-sidebar .wl-check { display: flex; gap: 10px; margin-bottom: 16px; align-items: flex-start; }
+.wl-sidebar .wl-check-icon { width: 18px; height: 18px; border: 1px solid var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; color: var(--dim); font-size: 10px; }
+.wl-sidebar .wl-check-text { font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+
+/* Form */
+.wl-form { display: flex; flex-direction: column; gap: 32px; }
+.form-section-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size: 12px; font-weight: 500; color: var(--muted); }
+.form-group input, .form-group textarea, .form-group select { background: var(--s2); border: 1px solid var(--border); border-radius: var(--r); color: var(--fg); font-family: var(--sans); font-size: 13px; padding: 10px 14px; outline: none; transition: border-color .2s; }
+.form-group input:focus, .form-group textarea:focus { border-color: var(--border2); }
+.form-group textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+.form-group input::placeholder, .form-group textarea::placeholder { color: var(--dim); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Upload zone */
+.upload-zone { border: 1px dashed var(--border); border-radius: var(--r); padding: 28px; text-align: center; cursor: pointer; transition: all .2s; background: var(--s1); }
+.upload-zone:hover { border-color: var(--border2); background: var(--s2); }
+.upload-zone .uz-icon { font-size: 22px; margin-bottom: 8px; color: var(--dim); }
+.upload-zone .uz-text { font-size: 12px; color: var(--muted); }
+.upload-zone .uz-hint { font-family: var(--mono); font-size: 8px; color: var(--dim); margin-top: 4px; letter-spacing: .06em; }
+
+.submit-btn { width: 100%; padding: 16px; background: var(--fg); color: var(--bg); border: none; border-radius: var(--r); font-family: var(--sans); font-size: 14px; font-weight: 700; cursor: pointer; transition: all .2s; letter-spacing: -.01em; }
+.submit-btn:hover { opacity: .85; transform: translateY(-1px); }
+.email-warning { font-family: var(--mono); font-size: 9px; color: var(--dim); letter-spacing: .04em; text-align: center; margin-top: 8px; line-height: 1.6; }
+
+/* Success state */
+.success-state { display: none; text-align: center; padding: 60px 20px; }
+.success-state.show { display: block; animation: fadeUp .5s ease both; }
+.success-icon { font-size: 40px; margin-bottom: 16px; }
+.success-h { font-family: var(--display); font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+.success-p { font-size: 13px; color: var(--muted); line-height: 1.8; max-width: 400px; margin: 0 auto; }
+
+/* ═══════ FOOTER ═══════ */
+.footer { padding: 40px; text-align: center; }
+.footer-logo { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: .06em; margin-bottom: 6px; }
+.footer-tagline { font-family: var(--mono); font-size: 9px; color: var(--dim); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px; }
+.footer-links { display: flex; justify-content: center; gap: 16px; margin-bottom: 12px; }
+.footer-links a { font-size: 11px; color: var(--muted); transition: color .15s; }
+.footer-links a:hover { color: var(--fg); }
+.footer-copy { font-family: var(--mono); font-size: 8px; color: var(--dim); letter-spacing: .06em; }
+
+/* ═══════ DIVIDERS ═══════ */
+.divider { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+.divider-line { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 768px) {
+  .nav { padding: 12px 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 20px 60px; width: 100%; }
+  .container, .steps-sec, .demo-sec, .pricing-sec, .waitlist-sec, .story-sec { padding-left: 20px; padding-right: 20px; }
+  .hero-title { max-width: 100%; }
+  .hero-sub { max-width: 100%; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .slack-body { grid-template-columns: 1fr; }
+  .slack-side { display: none; }
+  .waitlist-layout { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ NAV ═══════ -->
+<nav class="nav">
+  <div class="nav-logo">J.O.B.Z.E. <span>powered by WVEZ</span></div>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#product">Product</a>
+    <a href="#about">About</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#community">Community</a>
+    <a href="#waitlist">Waitlist</a>
+    <a href="#waitlist" class="nav-cta">Join Waitlist</a>
+  </div>
+</nav>
+
+<!-- ═══════ MOUSE GRID ═══════ -->
+<div class="hero-grid"></div>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero" id="home">
+  <!-- ═══════ CHARACTER MATRIX CANVAS ═══════ -->
+  <div class="hero-matrix-wrap">
+    <canvas id="hero-matrix"></canvas>
+  </div>
+  <div class="hero-badge reveal"><span class="dot"></span> <span class="scramble-text" data-text="PRIVATE BETA — STUDENTS & NEW GRADS">PRIVATE BETA — STUDENTS & NEW GRADS</span></div>
+  <h1 class="hero-title reveal" style="transition-delay:.1s">
+    The rules changed. <br><span class="line2">Nobody sent the memo.</span>
+  </h1>
+  <p class="hero-hook reveal" style="transition-delay:.15s">You're doing everything right. The system just isn't built for you.<br>So we built a new one.</p>
+<p class="hero-sub reveal" style="transition-delay:.2s">A job search system and community that lives in Slack. It reads your resume, enforces your filters, and guarantees 3 verified roles you fully qualify for — every single search. Between searches, it can help rewrite resumes, prep for interviews, and tells you straight up whether a company is worth applying to given your credentials.<br><br>Free during beta. 50 spots. You're not doing this alone.</p>
+  <div class="hero-ctas reveal" style="transition-delay:.3s">
+    <a href="#waitlist" class="btn-primary">Claim Your Spot — It's Free &rarr;</a>
+  </div>
+  <div class="hero-proof reveal" style="transition-delay:.4s">4 summers at a Fortune 500. Now helping peers land the same interviews.</div>
+</section>
+
+<!-- ═══════ HOW IT WORKS — STACKING CARDS ═══════ -->
+<div class="step-stack-outer" id="steps">
+  <div class="step-stack-inner">
+    <div class="step-stack-heading">
+      <div class="sec-label">How the beta works</div>
+      <h2 class="sec-h2">Four steps to your spot.</h2>
+      <p class="sec-sub">This is a closed beta. Limited spots. Here's exactly what happens between now and your first search. And what happens after.</p>
+    </div>
+    <div class="step-stack-cards">
+      <!-- STEP 01 -->
+      <div class="step-stack-card" style="--i:0">
+        <div class="step-wrapper">
+          <div class="step">
+            <div class="step-visual">
+              <div class="step-mock">
+                <div class="mock-form-title">Join the Waitlist</div>
+                <span class="mock-input">Full Name</span>
+                <span class="mock-input">Email</span>
+                <span class="mock-input">School</span>
+                <span class="mock-input">Major</span>
+                <span class="mock-upload">↑ Upload Resume</span>
+              </div>
+            </div>
+            <div class="step-body">
+              <div class="step-num">Step 01 — Right now</div>
+              <div class="step-title">Fill out the waitlist below.</div>
+              <div class="step-desc">Drop your info, your preferences, and your resume. This isn't just a signup — it's your profile. J.O.B.Z.E. reads everything you submit here so day one in Slack requires zero setup from you.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- STEP 02 -->
+      <div class="step-stack-card" style="--i:1">
+        <div class="step-wrapper">
+          <div class="step">
+            <div class="step-visual">
+              <div class="step-mock">
+                <div class="mock-notif">
+                  <div class="mock-avatar">JZ</div>
+                  <div>
+                    <div class="mock-notif-name">J.O.B.Z.E.</div>
+                    <div class="mock-notif-msg">Your beta invite is ready.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="step-body">
+              <div class="step-num">Step 02 — When beta drops</div>
+              <div class="step-title">You'll get the Slack invite.</div>
+              <div class="step-desc">When the beta goes live, everyone on the waitlist gets an email with their personal Slack invite. That's your access. First come, first served — spots are limited and go in the order they came in.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- STEP 03 -->
+      <div class="step-stack-card" style="--i:2">
+        <div class="step-wrapper">
+          <div class="step">
+            <div class="step-visual">
+              <div class="step-mock">
+                <div class="mock-header">J.O.B.Z.E.</div>
+                <div class="mock-pill">execute</div>
+                <div class="mock-pill-clear"></div>
+                <div class="mock-job">
+                  <div class="mock-job-title">Manufacturing Engineer I</div>
+                  <div class="mock-job-meta">Parker Hannifin · Cleveland, OH</div>
+                </div>
+                <div class="mock-job">
+                  <div class="mock-job-title">Design Engineer, Rotational</div>
+                  <div class="mock-job-meta">Caterpillar · Peoria, IL</div>
+                </div>
+                <div class="mock-job">
+                  <div class="mock-job-title">Test Engineer</div>
+                  <div class="mock-job-meta">Honeywell · Phoenix, AZ</div>
+                </div>
+                <div class="mock-followup" style="margin-top:8px; padding:6px 10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; font-family:var(--mono); font-size:7.5px; color:var(--dim); line-height:1.5;">Want me to prep you for the Caterpillar interview? Or rewrite your resume for that Honeywell role?</div>
+              </div>
+            </div>
+            <div class="step-body">
+              <div class="step-num">Step 03 — First message</div>
+              <div class="step-title">Type "execute." That's it.</div>
+              <div class="step-desc">J.O.B.Z.E. already has your resume and preferences from the form. Open Slack, DM it, say "execute." It comes back with 3 roles you qualify for, haven't seen, and match everything you specified. No dashboard, no onboarding, no re-explaining yourself. And the conversation doesn't stop there.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- STEP 04 -->
+      <div class="step-stack-card" style="--i:3">
+        <div class="step-wrapper">
+          <div class="step">
+            <div class="step-visual">
+              <div class="step-mock">
+                <div class="mock-header">J.O.B.Z.E.</div>
+                <div class="mock-pill" style="float:right;">is Honeywell worth applying to?</div>
+                <div class="mock-pill-clear"></div>
+                <div style="padding:8px 10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; margin-top:2px;">
+                  <div style="font-family:var(--sans); font-size:9px; font-weight:700; color:#fff; margin-bottom:4px;">Recommendation: Apply</div>
+                  <div style="font-family:var(--mono); font-size:7.5px; color:var(--dim); line-height:1.6;">Strong entry-level engineering culture. 3.9 on Glassdoor, trending up. Comp is $68-74k, above your floor.</div>
+                </div>
+              </div>
+            </div>
+            <div class="step-body">
+              <div class="step-num">Step 04 — Between searches</div>
+              <div class="step-title">Now it becomes your coach.</div>
+              <div class="step-desc">Between executions, J.O.B.Z.E. is still working. Ask it to rewrite a resume bullet and it tailors it for the exact role you're targeting. Ask it to prep you for an interview and it pulls real questions from real candidates. Ask if a company's worth applying to and it gives you a straight answer backed by real data. Ask it to write your cover letter and it builds one around your actual experience. It doesn't clock out after the search. That's the point.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="snap-section shootout-snap">
+<!-- ═══════ UNIFIED SHOOTOUT DEMO ═══════ -->
+<section class="shootout-sec" id="product">
+  <div class="reveal">
+    <div class="sec-label">See the difference</div>
+    <h2 class="sec-h2">Same ask. Different universe.</h2>
+    <p class="sec-sub">Pick a scenario. Watch both sides respond.</p>
+  </div>
+
+  <!-- Scenario tabs -->
+  <div class="shootout-tabs reveal" style="transition-delay:.1s">
+    <button class="shootout-tab active" data-scenario="0">Find me jobs</button>
+    <button class="shootout-tab" data-scenario="1">Fix my resume bullet</button>
+    <button class="shootout-tab" data-scenario="2">Prep me for an interview</button>
+    <button class="shootout-tab" data-scenario="3">Is this company worth it?</button>
+  </div>
+
+  <!-- Shootout stage: side panels + grid -->
+  <div class="shootout-stage" id="shootout-stage">
+    <!-- Left annotation panel (limitations) -->
+    <div class="shootout-side-panel left" id="anno-left">
+      <div class="shootout-anno-scroll">
+        <div class="shootout-anno bad">
+          <div class="shootout-anno-label">Limitation 01</div>
+          <div class="shootout-anno-title">No memory between sessions.</div>
+          <div class="shootout-anno-desc">Every conversation starts from zero. Your resume, preferences, and history don't carry over.</div>
+        </div>
+        <div class="shootout-anno bad">
+          <div class="shootout-anno-label">Limitation 02</div>
+          <div class="shootout-anno-title">Can't verify its own output.</div>
+          <div class="shootout-anno-desc">It generates URLs that look real but frequently 404 or point to expired listings.</div>
+        </div>
+        <div class="shootout-anno bad">
+          <div class="shootout-anno-label">Limitation 03</div>
+          <div class="shootout-anno-title">Generic by design.</div>
+          <div class="shootout-anno-desc">It gives the same advice to everyone because it doesn't know anything specific about you.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main grid (ChatGPT + VS + JOBZE) -->
+    <div class="shootout-grid reveal" style="transition-delay:.2s">
+      <!-- ChatGPT column -->
+      <div class="shootout-col" id="shootout-left">
+        <div class="shootout-col-label bad">ChatGPT — General AI</div>
+        <div class="shootout-feed" id="shootout-feed-left">
+          <div class="shootout-idle">Pick a scenario above</div>
+        </div>
+      </div>
+
+      <!-- VS divider -->
+      <div class="compare-vs">
+        <div class="compare-vs-line draw"></div>
+        <div class="compare-vs-badge">VS</div>
+        <div class="compare-vs-line bottom draw"></div>
+      </div>
+
+      <!-- JOBZE column -->
+      <div class="shootout-col" id="shootout-right">
+        <div class="shootout-col-label good">J.O.B.Z.E. — Built for this</div>
+        <div class="shootout-status-bar">Profile: ME Senior, UIUC &nbsp;|&nbsp; Filters: 0-2yr exp, no defense, no oil &amp; gas &nbsp;|&nbsp; Exclusions: 4 companies &nbsp;|&nbsp; Context: 11 interactions</div>
+        <div class="shootout-feed" id="shootout-feed-right">
+          <div class="shootout-idle">Pick a scenario above</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right annotation panel (advantages) -->
+    <div class="shootout-side-panel right" id="anno-right">
+      <div class="shootout-anno-scroll">
+        <div class="shootout-anno good">
+          <div class="shootout-anno-label">Advantage 01</div>
+          <div class="shootout-anno-title">Persistent profile and memory.</div>
+          <div class="shootout-anno-desc">Your resume, preferences, exclusions, and full history are stored and referenced every time.</div>
+        </div>
+        <div class="shootout-anno good">
+          <div class="shootout-anno-label">Advantage 02</div>
+          <div class="shootout-anno-title">Every link is verified live.</div>
+          <div class="shootout-anno-desc">Web search confirms each listing is active before it reaches you. Dead links never make it through.</div>
+        </div>
+        <div class="shootout-anno good">
+          <div class="shootout-anno-label">Advantage 03</div>
+          <div class="shootout-anno-title">Hard rules, not suggestions.</div>
+          <div class="shootout-anno-desc">Experience filters, industry exclusions, and duplicate blocking are enforced. The system says no so you don't have to.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Play button -->
+  <div class="shootout-play-wrap" id="shootout-play-wrap">
+    <button class="compare-play-btn" id="shootout-play-btn">
+      <span class="play-icon"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></span>
+      <span id="shootout-play-label">Run ChatGPT</span>
+    </button>
+  </div>
+
+  <!-- Playback controls (pause/resume/2x) -->
+  <div class="shootout-controls" id="shootout-controls" style="display:none">
+    <button class="shootout-ctrl-btn" id="ctrl-pause">Pause</button>
+    <button class="shootout-ctrl-btn" id="ctrl-2x">2x</button>
+  </div>
+
+  <!-- Verdict strip -->
+  <div class="shootout-verdict" id="shootout-verdict">
+    [Verdict line for this scenario]
+  </div>
+</section>
+</div>
+
+<!-- ═══════ WRAPPER CALLOUT ═══════ -->
+<div class="snap-section wrapper-callout-snap" style="padding:80px 40px; text-align:center;">
+  <div class="reveal">
+    <p style="font-family:var(--display); font-size:clamp(24px, 4vw, 44px); font-weight:800; letter-spacing:-.04em; line-height:1.15; color:var(--fg); max-width:600px; margin:0 auto;">Ok ok ok...<br>just tell me how much<br>your "ChatGPT wrapper" costs.</p>
+    <a href="#pricing" class="btn-primary" style="margin-top:32px;">See pricing &rarr;</a>
+  </div>
+</div>
+
+<div class="snap-section pricing-snap">
+<!-- ═══════ PRICING ═══════ -->
+<section class="pricing-sec" id="pricing">
+  <div class="reveal">
+    <div class="sec-label">Pricing</div>
+    <div class="price-hero">FREE.</div>
+    <div class="price-sub">For now.</div>
+    <p class="price-explain">J.O.B.Z.E. is in private beta. Full access, no cost, no card. You get the same product the paid version will be &mdash; we just need your honest feedback while we refine it. That's the deal.</p>
+  </div>
+
+  <!-- Pricing layout: card + comparison side by side -->
+  <div class="price-layout reveal" style="transition-delay:.1s">
+    <!-- Left: Tier card -->
+    <div class="price-tier-card">
+      <div class="price-tier-badge">BETA</div>
+      <div class="price-tier-name">J.O.B.Z.E. Beta</div>
+      <div class="price-tier-price">$0<span class="price-tier-period">/month</span></div>
+      <div class="price-tier-note">Full access. No card required. 50 spots total.</div>
+      <div class="price-tier-highlights">
+        <div class="price-tier-hl">&#10003; 3 executions per week</div>
+        <div class="price-tier-hl">&#10003; 6 advisor skills, unlimited use</div>
+        <div class="price-tier-hl">&#10003; Persistent memory &amp; hard filters</div>
+        <div class="price-tier-hl">&#10003; Slack community access</div>
+      </div>
+      <a href="#waitlist" class="price-tier-cta">Claim Your Spot &rarr;</a>
+    </div>
+
+    <!-- Right: Comparison table -->
+    <div class="price-compare-side">
+      <div class="price-compare-label">What you actually get</div>
+      <div class="price-compare" id="price-compare">
+        <div class="pc-header">
+          <div class="pc-feature-col">Feature</div>
+          <div class="pc-col pc-col-chatgpt">ChatGPT Free</div>
+          <div class="pc-col pc-col-jobze">J.O.B.Z.E. Beta</div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; padding:6px 20px 2px;">
+          <button class="pc-expand-all" id="pc-expand-all" type="button">+ Expand All</button>
+        </div>
+
+        <div class="pc-group" data-group="search">
+          <div class="pc-group-header"><span>Search &amp; Matching</span><span class="pc-group-toggle">+</span></div>
+          <div class="pc-group-rows">
+            <div class="pc-row"><div class="pc-feature-col">Personalized job search</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Hard experience filters (0-2yr enforced)</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Live-verified listings</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Duplicate &amp; exclusion blocking</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+          </div>
+        </div>
+
+        <div class="pc-group" data-group="advisor">
+          <div class="pc-group-header"><span>Career Advisor</span><span class="pc-group-toggle">+</span></div>
+          <div class="pc-group-rows">
+            <div class="pc-row"><div class="pc-feature-col">Resume rewrite using your experience</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Interview prep from real questions</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Company intel with sourced data</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Cover letter from your resume</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Tough love / honest feedback</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Sourced data (Glassdoor, Levels.fyi, Blind)</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+          </div>
+        </div>
+
+        <div class="pc-group" data-group="system">
+          <div class="pc-group-header"><span>System</span><span class="pc-group-toggle">+</span></div>
+          <div class="pc-group-rows">
+            <div class="pc-row"><div class="pc-feature-col">Persistent memory across sessions</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Reads your resume every response</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Preferences auto-update from conversation</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+          </div>
+        </div>
+
+        <div class="pc-group" data-group="community">
+          <div class="pc-group-header"><span>Community</span><span class="pc-group-toggle">+</span></div>
+          <div class="pc-group-rows">
+            <div class="pc-row"><div class="pc-feature-col">Slack community with other job seekers</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Suggest features &amp; vote on changes</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Share strategies with beta users</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="pricing-cta reveal" style="transition-delay:.3s">
+    <a href="#waitlist" class="btn-primary" style="margin-top:20px; font-size:14px; padding:14px 32px;">Claim Your Spot &rarr;</a>
+    <div style="font-family:var(--mono); font-size:9px; color:var(--dim); letter-spacing:.06em; margin-top:12px;">BETA IS INVITE-ONLY &middot; SPOTS GO IN ORDER</div>
+  </div>
+</section>
+
+</div>
+
+<!-- ═══════ COMMUNITY ═══════ -->
+<div class="snap-section community-snap">
+<section class="community-sec" id="community">
+  <div class="reveal">
+    <div class="sec-label">More than a tool</div>
+    <h2 class="sec-h2">You're not doing this alone.</h2>
+    <p class="sec-sub">J.O.B.Z.E. isn't a solo tool you use in silence. It's a Slack workspace where everyone in the beta is in the same room.</p>
+  </div>
+
+  <div class="community-blocks reveal" style="transition-delay:.1s">
+    <div class="community-block">
+      <div class="community-block-title">A room full of people running the same race.</div>
+      <div class="community-block-desc">Every beta user joins the same Slack workspace. Share leads, swap strategies, vent about ghosting, celebrate wins. You're not grinding in isolation anymore.</div>
+    </div>
+    <div class="community-block">
+      <div class="community-block-title">DM the person who built it.</div>
+      <div class="community-block-desc">Every user can message Warner directly. Not a support bot. Not a ticket system. The actual person who built J.O.B.Z.E. reads your feedback and ships changes based on what you need.</div>
+    </div>
+    <div class="community-block">
+      <div class="community-block-title">The product gets smarter because you're in it.</div>
+      <div class="community-block-desc">Your feedback doesn't go into a void. Every suggestion, complaint, and feature request from the beta directly shapes what gets built next. This is a product built with you, not just for you.</div>
+    </div>
+  </div>
+
+  <div class="reveal" style="transition-delay:.2s; margin-top:32px;">
+    <a href="#waitlist" class="btn-primary">Join the Beta &rarr;</a>
+  </div>
+</section>
+</div>
+
+<!-- ═══════ WAITLIST FORM ═══════ -->
+<div class="snap-section" id="waitlist">
+<section class="waitlist-sec">
+  <div class="reveal">
+    <div class="sec-label">Beta Waitlist</div>
+    <h2 class="sec-h2">You're early. Good.</h2>
+    <p class="sec-sub">Beta is limited to 50 users. Fill this out now &mdash; spots go in the order they come in.</p>
+  </div>
+
+  <div class="waitlist-layout">
+    <!-- Sidebar checklist -->
+    <div class="wl-sidebar reveal" style="transition-delay:.1s">
+      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">Use the same email here that you'll use for Slack. That's the only way J.O.B.Z.E. knows who you are on day one.</div></div>
+      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">Your resume gets read before every single search. Keep it updated after onboarding.</div></div>
+      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">Your preferences are locked in from day one and evolve every time you chat.</div></div>
+      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">This is free. No card. No catch. Limited spots.</div></div>
+    </div>
+
+    <!-- Form -->
+    <div id="form-container">
+      <form class="wl-form reveal" style="transition-delay:.2s" id="waitlist-form">
+        <!-- Section 1 -->
+        <div>
+          <div class="form-section-label">01 &mdash; Who you are</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="form-row">
+              <div class="form-group"><label>Full Name</label><input type="text" name="full_name" placeholder="Your full name" required></div>
+              <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="you@university.edu" required></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>School</label><input type="text" name="school" placeholder="e.g. Loyola University Chicago"></div>
+              <div class="form-group"><label>Major</label><input type="text" name="major" placeholder="e.g. Finance, Computer Science"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Expected Graduation</label><input type="text" name="graduation" placeholder="e.g. May 2026"></div>
+              <div class="form-group"><label>City / Location Preference</label><input type="text" name="location" placeholder="e.g. Chicago, open to remote"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div>
+          <div class="form-section-label">02 &mdash; What you're after</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="form-group"><label>Role Types You're Targeting</label><textarea name="role_types" placeholder="e.g. RevOps analyst, rotational programs, strategy & ops, marketing coordinator"></textarea></div>
+            <div class="form-row">
+              <div class="form-group"><label>Industries You're Interested In</label><input type="text" name="industries" placeholder="e.g. FinTech, SaaS, healthcare tech"></div>
+              <div class="form-group"><label>Salary Floor (optional)</label><input type="text" name="salary_floor" placeholder="e.g. $55k or leave blank"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div>
+          <div class="form-section-label">03 &mdash; What's off the table</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="form-group"><label>Industries / Role Types to Exclude</label><textarea name="exclusions" placeholder="e.g. insurance, cold calling, clinical roles, door-to-door sales"></textarea></div>
+            <div class="form-group"><label>Companies Already Applied To or Rejected From</label><textarea name="applied_companies" placeholder="One per line"></textarea></div>
+          </div>
+        </div>
+
+        <!-- Section 4 -->
+        <div>
+          <div class="form-section-label">04 &mdash; Your edge</div>
+          <div class="form-group"><label>Top 3 experiences, projects, or skills you want J.O.B.Z.E. to lean on</label><textarea name="top_experiences" placeholder="e.g. 4 summers at Abbott, built n8n automation workflows, 95% processing time reduction, fluent in SQL and Power BI"></textarea></div>
+        </div>
+
+        <!-- Resume Upload -->
+        <div>
+          <div class="form-section-label">Resume Upload</div>
+          <div class="upload-zone" id="upload-zone">
+            <div class="uz-icon">&#8593;</div>
+            <div class="uz-text">Drop your resume here or click to upload</div>
+            <div class="uz-hint">PDF only &middot; Max 5MB</div>
+          </div>
+          <input type="file" id="resume-upload" name="resume" accept=".pdf" style="display:none">
+        </div>
+
+        <button type="submit" class="submit-btn">Claim My Spot &rarr;</button>
+        <div class="email-warning">The email you use here must match your Slack sign-in. That's how J.O.B.Z.E. recognizes you on day one.</div>
+      </form>
+
+      <div class="success-state" id="success-state">
+        <div class="success-icon">&#10003;</div>
+        <div class="success-h">You're in.</div>
+        <p class="success-p">We got your application. When your slot opens, you'll get a Slack invite to the JOBZE Beta workspace. Check your inbox &mdash; it'll come from us directly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="snap-section story-snap">
+<section class="story-sec" id="about">
+  <div class="story-split" id="story-split">
+    <!-- Left column -->
+    <div class="story-col story-col-left" id="story-left">
+      <div class="sec-label">Real talk</div>
+      <h2 class="story-h">This isn't a shortcut<br>built by someone selling shortcuts.</h2>
+      <p>Every AI job tool you've seen works the same way: text box, generic output, no memory, $20/month. They exist because someone realized they could charge for a ChatGPT prompt with a nicer font. The person who built it doesn't use it. They don't need to &mdash; they already have a job.</p>
+      <div class="story-callout">I built J.O.B.Z.E. because the math stopped making sense.</div>
+      <p>To actually compete for a role right now, you need a tailored resume and a tailored cover letter &mdash; framed specifically for that job, that company, that description. Everyone knows this. The problem is you also need to be firing off applications constantly because the market doesn't wait. And doing both of those things &mdash; personalizing everything while applying at volume &mdash; takes more hours than anyone actually has.</p>
+    </div>
+
+    <!-- Vertical divider -->
+    <div class="story-divider"></div>
+
+    <!-- Right column -->
+    <div class="story-col story-col-right" id="story-right">
+      <p>So I built a workflow. At first it just found jobs for me. Then I added preference filters. Then I taught it how to read my resume and match against listings properly. Then I built the skills &mdash; resume rewrites, cover letters, interview prep, company research &mdash; each one tuned to do what I was spending hours doing manually.</p>
+      <p>What started as one automation to save myself time turned into a full system with hard rules, persistent memory, and six specialized skills that handle every part of the job search that used to eat my entire week.</p>
+      <div class="story-callout">I use it myself. Every week. This isn't a demo product. It's the tool I needed and couldn't find anywhere else.</div>
+      <p>The beta exists because I want to hear what's broken in your job search and build that into the system too. Not to hit a revenue number. To actually solve the problem.</p>
+      <p class="story-closer">If you want a shortcut, there are cheaper ones. If you want something that works, you're in the right place.</p>
+    </div>
+  </div>
+
+</section>
+</div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="footer-logo">J.O.B.Z.E.</div>
+  <div class="footer-tagline">Hard Problems. EZ Solutions.</div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/warner-varnado-549b391a2" target="_blank">LinkedIn</a>
+    <a href="https://wvez.org" target="_blank">WVEZ Solutions</a>
+  </div>
+  <div class="footer-copy">&copy; 2026 WVEZ Solutions. All rights reserved.</div>
+</footer>
+
+<script>
+/* ═══════ SCROLL REVEAL (IntersectionObserver) ═══════ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ═══════ STEP CARD STACK EFFECT ═══════
+(function() {
+  var stepCards = Array.from(document.querySelectorAll('.step-stack-card'));
+
+  function updateStackCards() {
+    var outer = document.querySelector('.step-stack-outer');
+    if (!outer || !stepCards.length) return;
+    var outerRect = outer.getBoundingClientRect();
+    var scrolled = -outerRect.top;
+    var segH = (outerRect.height - window.innerHeight) / stepCards.length;
+
+    var activeIdx = 0;
+    stepCards.forEach(function(card, i) {
+      var cardStart = i * segH;
+      if (scrolled >= cardStart - 10) activeIdx = i;
+    });
+
+    stepCards.forEach(function(card, i) {
+      if (i === activeIdx) {
+        card.style.transform = 'scale(1) translateY(0)';
+        card.style.opacity = '1';
+        card.style.zIndex = '10';
+      } else if (i < activeIdx) {
+        var depth = activeIdx - i;
+        var scale = 1 - depth * 0.04;
+        var ty = -depth * 14;
+        card.style.transform = 'scale(' + scale + ') translateY(' + ty + 'px)';
+        card.style.opacity = (1 - depth * 0.35).toString();
+        card.style.zIndex = (10 - depth).toString();
+      } else {
+        card.style.transform = 'scale(1) translateY(60px)';
+        card.style.opacity = '0';
+        card.style.zIndex = '1';
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateStackCards, { passive: true });
+  updateStackCards();
+})();
+
+/* ═══════ MOUSE GRID TRACKING ═══════ */
+document.addEventListener('mousemove', (e) => {
+  const x = (e.clientX / window.innerWidth) * 100;
+  const y = (e.clientY / window.innerHeight) * 100;
+  document.querySelector('.hero-grid').style.setProperty('--mx', x + '%');
+  document.querySelector('.hero-grid').style.setProperty('--my', y + '%');
+});
+
+/* ═══════ COUNTER ANIMATION ═══════ */
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const target = parseInt(el.dataset.target);
+      let current = 0;
+      const step = Math.max(1, Math.floor(target / 40));
+      const interval = setInterval(() => {
+        current += step;
+        if (current >= target) { current = target; clearInterval(interval); el.textContent = target + '+'; }
+        else { el.textContent = current; }
+      }, 30);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+/* ═══════ SHOOTOUT DEMO ═══════ */
+(function() {
+  const feedLeft = document.getElementById('shootout-feed-left');
+  const feedRight = document.getElementById('shootout-feed-right');
+  const stage = document.getElementById('shootout-stage');
+  const panelLeft = document.getElementById('anno-left');
+  const panelRight = document.getElementById('anno-right');
+  const verdict = document.getElementById('shootout-verdict');
+  const tabs = document.querySelectorAll('.shootout-tab');
+  const grid = document.querySelector('.shootout-grid');
+  const playWrap = document.getElementById('shootout-play-wrap');
+  const playBtn = document.getElementById('shootout-play-btn');
+  const playLabel = document.getElementById('shootout-play-label');
+  const controlsWrap = document.getElementById('shootout-controls');
+  const ctrlPause = document.getElementById('ctrl-pause');
+  const ctrl2x = document.getElementById('ctrl-2x');
+  if (!feedLeft || !feedRight || !tabs.length || !grid || !playBtn) return;
+
+  let running = false;
+  let currentTimeout = [];
+  let rightContextCount = 0;
+  let currentPhase = 'idle';
+  let selectedIndex = 0;
+
+  // ── Snapshot cache: completed scenarios persist ──
+  const completedSnapshots = {}; // { index: { leftHTML, rightHTML, verdictText } }
+
+  // ── Pause / 2x state ──
+  let paused = false;
+  let pausedTimers = []; // { remaining, fn } — timers frozen on pause
+  let pauseTimestamp = 0;
+  let speedFactor = 1; // 1 = normal, 0.5 = 2x speed
+
+  function showControls() {
+    if (controlsWrap) controlsWrap.style.display = 'flex';
+    if (ctrlPause) { ctrlPause.textContent = 'Pause'; ctrlPause.classList.remove('active'); }
+    if (ctrl2x) { ctrl2x.classList.remove('active'); }
+    speedFactor = 1;
+    paused = false;
+  }
+
+  function hideControls() {
+    if (controlsWrap) controlsWrap.style.display = 'none';
+    paused = false;
+    pausedTimers = [];
+    speedFactor = 1;
+  }
+
+  // Wrap setTimeout to support pause/resume
+  function scheduleTimeout(fn, delay) {
+    const adjustedDelay = delay * speedFactor;
+    const entry = { fn: fn, startTime: Date.now(), totalDelay: adjustedDelay, id: null };
+    entry.id = setTimeout(() => {
+      // Remove from tracking
+      const idx = currentTimeout.indexOf(entry);
+      if (idx !== -1) currentTimeout.splice(idx, 1);
+      fn();
+    }, adjustedDelay);
+    currentTimeout.push(entry);
+  }
+
+  function clearAllTimers() {
+    currentTimeout.forEach(entry => {
+      if (typeof entry === 'object' && entry.id != null) clearTimeout(entry.id);
+      else if (typeof entry === 'number') clearTimeout(entry);
+    });
+    currentTimeout = [];
+    pausedTimers = [];
+  }
+
+  function pausePlayback() {
+    if (paused) return;
+    paused = true;
+    pauseTimestamp = Date.now();
+    pausedTimers = [];
+    currentTimeout.forEach(entry => {
+      if (typeof entry === 'object' && entry.id != null) {
+        clearTimeout(entry.id);
+        const elapsed = pauseTimestamp - entry.startTime;
+        const remaining = Math.max(0, entry.totalDelay - elapsed);
+        pausedTimers.push({ fn: entry.fn, remaining: remaining });
+      }
+    });
+    currentTimeout = [];
+    if (ctrlPause) { ctrlPause.textContent = 'Resume'; ctrlPause.classList.add('active'); }
+  }
+
+  function resumePlayback() {
+    if (!paused) return;
+    paused = false;
+    if (ctrlPause) { ctrlPause.textContent = 'Pause'; ctrlPause.classList.remove('active'); }
+    // Re-schedule each paused timer with its remaining time (already in real ms)
+    pausedTimers.forEach(pt => {
+      const entry = { fn: pt.fn, startTime: Date.now(), totalDelay: pt.remaining, id: null };
+      entry.id = setTimeout(() => {
+        const idx = currentTimeout.indexOf(entry);
+        if (idx !== -1) currentTimeout.splice(idx, 1);
+        pt.fn();
+      }, pt.remaining);
+      currentTimeout.push(entry);
+    });
+    pausedTimers = [];
+  }
+
+  const scenarios = [
+    { // 0: Find me jobs
+      left: [
+        { type: 'user', html: 'Find me entry-level mechanical engineering jobs in Chicago', typingDur: 300, readTime: 600 },
+        { type: 'bot', html: 'Here are some entry-level mechanical engineering positions in the Chicago area that might be a good fit:', typingDur: 600, readTime: 800 },
+        { type: 'bot', html: '<div style="margin-top:8px"><div style="font-weight:600; font-size:13px;">Mechanical Engineer I — Illinois Tool Works</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">itw.com/careers/mechanical-eng-2024</div><div style="font-size:10px; color:#ff5f57; margin-top:3px; opacity:.7;">⚠ Page not found</div></div><div style="margin-top:12px"><div style="font-weight:600; font-size:13px;">Design Engineer — Northrop Grumman</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">northropgrumman.com/jobs/design-eng-chi</div><div style="font-size:10px; color:#ff5f57; margin-top:3px; opacity:.7;">⚠ Defense contractor</div></div><div style="margin-top:12px"><div style="font-weight:600; font-size:13px;">Senior Mechanical Engineer — Motorola Solutions</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">motorolasolutions.com/careers/sr-mech-eng</div><div style="font-size:10px; color:#ff5f57; margin-top:3px; opacity:.7;">⚠ Requires 5–7 years experience</div></div>', typingDur: 800, readTime: 3500 },
+        { type: 'bot', html: '<em style="font-size:12px; color:var(--dim);">Note: I don\'t have access to your resume or previous searches. Please share your background and preferences for more tailored results.</em>', typingDur: 400, readTime: 1200 }
+      ],
+      right: [
+        { type: 'user', html: 'execute', typingDur: 300, readTime: 400 },
+        { type: 'bot', html: 'Found these roles matching your criteria:', context: { label: 'Data pulled', body: 'Resume: Heat exchanger design project (18% thermal efficiency gain), manufacturing internship with thermocouple validation experience · Preferences: 0-2yr only, Chicago/Midwest, no oil & gas, no defense contractors · Exclusions: 4 companies already sent · Job log: 11 roles tracked' }, typingDur: 700, readTime: 2000 },
+        { type: 'bot', html: '<div style="margin-top:8px; padding:10px 12px; border-left:3px solid rgba(68,176,120,.6); background:rgba(68,176,120,.04); border-radius:0 6px 6px 0; margin-bottom:8px;"><div style="font-weight:600; font-size:13px;">Manufacturing Engineer I — Parker Hannifin</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">Chicago, IL · Entry Level · $65k–$74k · ✅ Active</div><div style="font-size:12px; color:var(--muted); margin-top:6px; font-style:italic;">Your heat exchanger project proves you can take a design from prototype to validated performance data. That\'s exactly what this role does at production scale.</div></div><div style="padding:10px 12px; border-left:3px solid rgba(68,176,120,.6); background:rgba(68,176,120,.04); border-radius:0 6px 6px 0; margin-bottom:8px;"><div style="font-weight:600; font-size:13px;">Product Design Engineer — Caterpillar</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">Peoria, IL · 0–2yr · $68k–$78k · ✅ Active</div><div style="font-size:12px; color:var(--muted); margin-top:6px; font-style:italic;">Your thermal systems work maps to their powertrain cooling team. Manufacturing internship gives you the shop floor credibility they look for.</div></div><div style="padding:10px 12px; border-left:3px solid rgba(68,176,120,.6); background:rgba(68,176,120,.04); border-radius:0 6px 6px 0;"><div style="font-weight:600; font-size:13px;">Test Engineer, Rotational — Honeywell</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">Des Plaines, IL · New Grad · $70k–$76k · ✅ Active</div><div style="font-size:12px; color:var(--muted); margin-top:6px; font-style:italic;">Rotational programs want engineers who can test, analyze, and iterate. Your senior design project is a perfect STAR story for their interview.</div></div>', typingDur: 1000, readTime: 5000 },
+        { type: 'bot', html: '3 roles added to your job log. You won\'t see these again.', typingDur: 400, readTime: 800 }
+      ]
+    },
+    { // 1: Fix my resume bullet
+      left: [
+        { type: 'user', html: 'Fix this bullet: Assisted with testing and data collection for thermal systems', typingDur: 300, readTime: 600 },
+        { type: 'bot', html: 'That\'s a solid foundation! Here are some ways to strengthen it:', typingDur: 500, readTime: 800 },
+        { type: 'bot', html: '<div style="margin-top:4px; line-height:1.8;">• Consider quantifying your contributions — how many tests did you run?<br>• Use a stronger action verb like "Supported" or "Contributed to"<br>• Try to highlight the outcome or result of your work<br>• Example: "Supported thermal systems testing and data collection, contributing to improved product performance across the engineering team"</div>', typingDur: 700, readTime: 3000 },
+        { type: 'bot', html: '<em style="font-size:12px; color:var(--dim);">Would you like me to refine this further? It would help to know what role you\'re targeting.</em>', typingDur: 400, readTime: 1000 }
+      ],
+      right: [
+        { type: 'user', html: 'Fix this bullet: Assisted with testing and data collection for thermal systems', typingDur: 300, readTime: 600 },
+        { type: 'bot', html: 'That bullet has three problems.', context: { label: 'Data pulled', body: 'Resume section: Manufacturing internship, Summer 2025 · Target roles: Entry-level ME, test/design engineer · Major: Mechanical Engineering · Stored resume version: v2 (last updated Feb 8)' }, typingDur: 600, readTime: 1500 },
+        { type: 'bot', html: '<div style="line-height:1.8;"><div style="margin-bottom:8px;">🔴 <strong>"Assisted with"</strong> — passive verb. Engineering resumes need ownership verbs: tested, validated, calibrated, designed. Recruiters skip bullets that start with helper language.</div><div style="margin-bottom:8px;">🔴 <strong>No metric.</strong> "Testing and data collection" is a task, not a result. You ran thermocouple validation on 12 heat exchanger prototypes during that internship. Use that number.</div><div>🔴 <strong>Generic scope.</strong> "Thermal systems" could be anyone. Anchor it to the specific equipment and the outcome.</div></div>', typingDur: 900, readTime: 4000 },
+        { type: 'bot', html: '<div style="margin-top:10px;"><div style="font-size:11px; color:var(--dim); font-family:var(--mono); letter-spacing:.06em; margin-bottom:6px;">REWRITE:</div><div style="padding:10px 12px; border:1px solid var(--border); border-radius:6px; background:rgba(255,255,255,.02); font-size:13px; line-height:1.7;">Validated thermal performance across 12 heat exchanger prototypes using thermocouple arrays, identifying a calibration drift that reduced measurement error by 8% on the production line.</div></div>', context: { label: 'Why this works', body: 'XYZ formula (Accomplished X, measured by Y, by doing Z) — originated from Google\'s recruiting guidance. Verb is active (validated), metric is specific (12 prototypes, 8% error reduction), scope is anchored to the actual equipment. Tailored for test/design engineer roles per your target.' }, typingDur: 800, readTime: 3500 }
+      ]
+    },
+    { // 2: Prep me for an interview
+      left: [
+        { type: 'user', html: 'I have an interview at Caterpillar for a product design engineer role. How should I prep?', typingDur: 300, readTime: 600 },
+        { type: 'bot', html: 'Congratulations on the interview! Here are some tips to prepare:', typingDur: 500, readTime: 700 },
+        { type: 'bot', html: '<div style="line-height:1.8;">• Research Caterpillar\'s mission, products, and recent news<br>• Review the job description and map your experiences to their requirements<br>• Prepare STAR-format answers for behavioral questions<br>• Have 2–3 thoughtful questions ready for the interviewer<br>• Practice your elevator pitch and dress professionally</div>', typingDur: 700, readTime: 2500 },
+        { type: 'bot', html: '<em style="font-size:12px; color:var(--dim);">Would you like help with specific interview questions? Share the role details and I can help you practice.</em>', typingDur: 400, readTime: 1000 }
+      ],
+      right: [
+        { type: 'user', html: 'I have an interview at Caterpillar for a product design engineer role. How should I prep?', typingDur: 300, readTime: 600 },
+        { type: 'bot', html: 'Caterpillar PDE role. Here\'s what you need walking in:', context: { label: 'Data pulled', body: 'Job listing: Caterpillar Product Design Engineer, Peoria IL · Your resume: Heat exchanger senior design project, manufacturing internship · Glassdoor interview data: 34 reported interviews for engineering roles at CAT · Preferences: Already flagged Caterpillar as a target company' }, typingDur: 700, readTime: 1800 },
+        { type: 'bot', html: '<div style="line-height:1.8;"><div style="margin-bottom:10px;"><strong>What they actually ask:</strong> Based on reported interviews, Caterpillar PDE interviews focus on design-for-manufacturing and root cause analysis. Expect: "Walk me through a time you had to redesign something based on test results" and "How would you approach a component that\'s failing in the field?"</div><div style="margin-bottom:10px;"><strong>Your angle:</strong> Most candidates from ME programs lead with coursework. You have a tested physical prototype with measured performance data. Lead with the heat exchanger story — you designed it, tested it, and improved it by 18%. That\'s the full design cycle in one project. That\'s uncommon for a new grad.</div><div><strong>Don\'t say:</strong> Don\'t lead with software tools (SolidWorks, ANSYS). They assume you know those. They want to hear how you think through a design problem, not which buttons you press. Don\'t say "I work well in teams" without a specific moment to prove it.</div></div>', typingDur: 1000, readTime: 5500 },
+        { type: 'bot', html: 'Want to run a 5-question mock? I\'ll ask what they actually ask and score your answers.', context: { label: 'Source', body: 'Interview prep sourced from 34 Glassdoor interview reports for Caterpillar engineering roles, filtered for 2024-2026 entries. Comp data: $68k-$78k base per reported offers.' }, typingDur: 500, readTime: 1500 }
+      ]
+    },
+    { // 3: Is this company worth it?
+      left: [
+        { type: 'user', html: 'Is General Dynamics worth applying to?', typingDur: 300, readTime: 600 },
+        { type: 'bot', html: 'General Dynamics is one of the largest aerospace and defense companies in the world, headquartered in Reston, Virginia. Here\'s an overview:', typingDur: 600, readTime: 1000 },
+        { type: 'bot', html: '<div style="line-height:1.8;">• Founded in 1899, they employ over 100,000 people globally<br>• Known for Gulfstream jets, combat vehicles, and IT services<br>• They offer engineering roles across multiple divisions<br>• Glassdoor rating is around 3.8/5 with generally positive reviews<br>• Could be a good fit if you\'re interested in aerospace or defense</div>', typingDur: 700, readTime: 2500 },
+        { type: 'bot', html: '<em style="font-size:12px; color:var(--dim);">Would you like me to help you find open positions there?</em>', typingDur: 400, readTime: 1000 }
+      ],
+      right: [
+        { type: 'user', html: 'Is General Dynamics worth applying to?', typingDur: 300, readTime: 600 },
+        { type: 'bot', html: 'Short answer: No. Here\'s why.', context: { label: 'Data pulled', body: 'Your preferences: "No defense contractors" (set during onboarding) · Industry filter: Defense/aerospace sector excluded · This company would have been auto-filtered from any execute search' }, typingDur: 500, readTime: 1500 },
+        { type: 'bot', html: '<div style="line-height:1.8;"><div style="margin-bottom:8px;">🔴 <strong>Blocked by your own filter.</strong> You set "no defense contractors" in your preferences during onboarding. General Dynamics is a defense prime. This would have never appeared in any of your searches.</div><div style="margin-bottom:8px;">🟡 <strong>Even without the filter:</strong> Their ME roles skew toward cleared positions requiring security clearance. Entry-level clearance processing takes 6-12 months. That\'s 6-12 months before you\'re doing real engineering work.</div><div>🟡 <strong>Comp:</strong> Entry-level ME roles at GD pay $62k-$70k base in their Midwest offices. That\'s $5k-$8k below the roles you\'ve been engaging with.</div></div>', typingDur: 900, readTime: 4500 },
+        { type: 'bot', html: 'I\'d skip it. You have 2 stronger matches queued from your last search that are still active. Want me to pull those up?', typingDur: 400, readTime: 1200 }
+      ]
+    }
+  ];
+
+  const verdicts = [
+    "ChatGPT guessed. Three broken links. JOBZE searched, verified, and explained why each role fits your resume.",
+    "One side gave writing tips. The other side rewrote the bullet using your actual internship data.",
+    "Generic interview advice vs. what Caterpillar actually asks — sourced from 34 real interviews.",
+    "ChatGPT wrote a company bio. JOBZE said no — because you already told it to."
+  ];
+
+  function clearTimeouts() {
+    clearAllTimers();
+  }
+
+  function addTyping(feed) {
+    const el = document.createElement('div');
+    el.className = 'shootout-typing';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    feed.appendChild(el);
+    feed.scrollTop = feed.scrollHeight;
+    return el;
+  }
+
+  function addMessage(feed, msg, side) {
+    const el = document.createElement('div');
+    el.className = 'shootout-msg';
+    if (msg.type === 'user') {
+      let prefix = '';
+      if (side === 'right') {
+        prefix = '<div style="font-family:var(--mono); font-size:9px; color:var(--dim); letter-spacing:.06em; text-align:right; margin-bottom:4px; opacity:.6;">In Slack, Alex types:</div>';
+      }
+      el.innerHTML = prefix + '<div class="shootout-msg-user">' + msg.html + '</div>';
+    } else {
+      const sideClass = side === 'left' ? 'bad' : 'good';
+      let contextHtml = '';
+      if (msg.context) {
+        let isFirstContext = false;
+        if (side === 'right') {
+          rightContextCount++;
+          if (rightContextCount === 1) isFirstContext = true;
+        }
+        contextHtml = '<div class="shootout-context' + (isFirstContext ? ' open' : '') + '">' +
+          '<div class="shootout-context-toggle" onclick="this.parentElement.classList.toggle(\'open\')">' + msg.context.label + '</div>' +
+          '<div class="shootout-context-body"><div class="shootout-context-body-inner">' + msg.context.body + '</div></div></div>';
+      }
+      el.innerHTML = '<div class="shootout-msg-bot ' + sideClass + '">' + msg.html + contextHtml + '</div>';
+    }
+    feed.appendChild(el);
+    feed.scrollTop = feed.scrollHeight;
+  }
+
+  // ── Reset everything to Phase 0 ──
+  function resetAll() {
+    clearTimeouts();
+    hideControls();
+    feedLeft.innerHTML = '<div class="shootout-idle">Pick a scenario above</div>';
+    feedRight.innerHTML = '';
+    feedLeft.style.opacity = '1';
+    feedLeft.style.transition = '';
+    if (stage) stage.classList.remove('annos-visible');
+    if (panelLeft) panelLeft.classList.remove('visible');
+    if (panelRight) panelRight.classList.remove('visible');
+    verdict.classList.remove('visible');
+    grid.classList.remove('phase-split');
+    grid.classList.add('phase-center');
+    playWrap.style.display = 'none';
+    playBtn.disabled = false;
+    playBtn.classList.remove('is-replay');
+    playLabel.textContent = 'Run ChatGPT';
+    running = false;
+    rightContextCount = 0;
+    currentPhase = 'idle';
+  }
+
+  // ── Restore a completed scenario from snapshot ──
+  function restoreSnapshot(index) {
+    const snap = completedSnapshots[index];
+    if (!snap) return false;
+    clearTimeouts();
+    hideControls();
+    selectedIndex = index;
+    currentPhase = 'done';
+    running = false;
+
+    // Restore grid state
+    grid.classList.remove('phase-center');
+    grid.classList.add('phase-split');
+    feedLeft.innerHTML = snap.leftHTML;
+    feedLeft.style.opacity = '1';
+    feedLeft.style.transition = '';
+    feedRight.innerHTML = snap.rightHTML;
+
+    // Restore annotations
+    if (stage) stage.classList.add('annos-visible');
+    if (panelLeft) panelLeft.classList.add('visible');
+    if (panelRight) panelRight.classList.add('visible');
+
+    // Restore verdict
+    verdict.textContent = snap.verdictText;
+    verdict.classList.add('visible');
+
+    // Show replay button
+    playWrap.style.display = 'block';
+    playBtn.disabled = false;
+    playLabel.textContent = '\u21BB Replay';
+    playBtn.classList.add('is-replay');
+
+    return true;
+  }
+
+  // ── Phase 1: Select scenario ──
+  function selectScenario(index, forceReplay) {
+    if (running && currentPhase !== 'done') return;
+
+    // If this scenario was already completed and not a forced replay, restore it
+    if (!forceReplay && completedSnapshots[index]) {
+      restoreSnapshot(index);
+      return;
+    }
+
+    resetAll();
+    selectedIndex = index;
+    currentPhase = 'selected';
+
+    // Show user prompt immediately in ChatGPT feed
+    const sc = scenarios[index];
+    const userMsg = sc.left[0];
+    feedLeft.innerHTML = '';
+    const el = document.createElement('div');
+    el.className = 'shootout-msg';
+    el.innerHTML = '<div class="shootout-msg-user">' + userMsg.html + '</div>';
+    feedLeft.appendChild(el);
+
+    // Show play button
+    playWrap.style.display = 'block';
+    playBtn.disabled = false;
+    playLabel.textContent = 'Run ChatGPT';
+  }
+
+  // ── Phase 2: Run ChatGPT ──
+  function runChatGPT() {
+    if (currentPhase !== 'selected') return;
+    currentPhase = 'chatgpt-running';
+    running = true;
+    playBtn.disabled = true;
+    playWrap.style.display = 'none';
+    showControls();
+
+    // Immediately show typing indicator
+    const immediateTyping = addTyping(feedLeft);
+    scheduleTimeout(() => { immediateTyping.remove(); }, 350);
+
+    const sc = scenarios[selectedIndex];
+    const chatgptMsgs = sc.left.slice(1);
+    const baseMultiplier = 1.8;
+
+    let t = 400;
+
+    chatgptMsgs.forEach((msg) => {
+      const typing = (msg.typingDur || 500) * baseMultiplier;
+      const read = (msg.readTime || 800) * baseMultiplier;
+      const showAt = t;
+      scheduleTimeout(() => {
+        const indicator = addTyping(feedLeft);
+        scheduleTimeout(() => {
+          indicator.remove();
+          addMessage(feedLeft, msg, 'left');
+        }, typing);
+      }, showAt);
+      t += typing + read;
+    });
+
+    // After ChatGPT finishes — pause, dim, then transition
+    const chatgptDoneTime = t + 1500;
+    scheduleTimeout(() => {
+      feedLeft.style.opacity = '0.65';
+      feedLeft.style.transition = 'opacity 0.5s ease';
+      scheduleTimeout(() => {
+        feedLeft.style.opacity = '1';
+        feedLeft.style.transition = 'opacity 0.3s ease';
+        hideControls();
+        startTransition();
+      }, 800);
+    }, chatgptDoneTime);
+  }
+
+  // ── Phase 3: Transition — slide ChatGPT left, bring in JOBZE ──
+  function startTransition() {
+    currentPhase = 'transitioning';
+
+    // Switch grid from centered to split
+    grid.classList.remove('phase-center');
+    grid.classList.add('phase-split');
+
+    // Show user prompt in JOBZE feed immediately
+    const sc = scenarios[selectedIndex];
+    const userMsg = sc.right[0];
+    feedRight.innerHTML = '';
+    const el = document.createElement('div');
+    el.className = 'shootout-msg';
+    const prefix = '<div style="font-family:var(--mono); font-size:9px; color:var(--dim); letter-spacing:.06em; text-align:right; margin-bottom:4px; opacity:.6;">In Slack, Alex types:</div>';
+    el.innerHTML = prefix + '<div class="shootout-msg-user">' + userMsg.html + '</div>';
+    feedRight.appendChild(el);
+
+    // Show brief typing indicator to signal JOBZE is ready
+    const readyTyping = addTyping(feedRight);
+    scheduleTimeout(() => {
+      readyTyping.remove();
+      currentPhase = 'jobze-ready';
+      playWrap.style.display = 'block';
+      playBtn.disabled = false;
+      playLabel.textContent = 'Run J.O.B.Z.E.';
+    }, 500);
+  }
+
+  // ── Phase 4: Run JOBZE ──
+  function runJOBZE() {
+    if (currentPhase !== 'jobze-ready') return;
+    currentPhase = 'jobze-running';
+    playBtn.disabled = true;
+    playWrap.style.display = 'none';
+    showControls();
+
+    // Immediately show typing indicator
+    const immediateTyping = addTyping(feedRight);
+    scheduleTimeout(() => { immediateTyping.remove(); }, 250);
+
+    rightContextCount = 0;
+
+    const sc = scenarios[selectedIndex];
+    const jobzeMsgs = sc.right.slice(1);
+    const baseMultiplier = 1.5;
+
+    let t = 300;
+
+    jobzeMsgs.forEach((msg) => {
+      const typing = (msg.typingDur || 500) * baseMultiplier;
+      const read = (msg.readTime || 800) * baseMultiplier;
+      const showAt = t;
+      scheduleTimeout(() => {
+        const indicator = addTyping(feedRight);
+        scheduleTimeout(() => {
+          indicator.remove();
+          addMessage(feedRight, msg, 'right');
+        }, typing);
+      }, showAt);
+      t += typing + read;
+    });
+
+    // After JOBZE finishes, show annotations (Phase 5)
+    scheduleTimeout(() => {
+      hideControls();
+      showAnnotations();
+    }, t + 1800);
+  }
+
+  // ── Phase 5: Annotations slide in from sides ──
+  function showAnnotations() {
+    currentPhase = 'done';
+
+    // Expand the stage grid to make room for side panels
+    if (stage) stage.classList.add('annos-visible');
+
+    // Fade in side panels simultaneously
+    if (panelLeft) panelLeft.classList.add('visible');
+    if (panelRight) panelRight.classList.add('visible');
+
+    // Verdict fades in after annotations land
+    scheduleTimeout(() => {
+      verdict.textContent = verdicts[selectedIndex];
+      verdict.classList.add('visible');
+
+      // Save snapshot for this scenario
+      completedSnapshots[selectedIndex] = {
+        leftHTML: feedLeft.innerHTML,
+        rightHTML: feedRight.innerHTML,
+        verdictText: verdicts[selectedIndex]
+      };
+
+      // Show replay button
+      scheduleTimeout(() => {
+        playWrap.style.display = 'block';
+        playBtn.disabled = false;
+        playLabel.textContent = '\u21BB Replay';
+        playBtn.classList.add('is-replay');
+        running = false;
+      }, 500);
+    }, 3000);
+  }
+
+  // ── Play button handler ──
+  playBtn.addEventListener('click', () => {
+    if (playBtn.disabled) return;
+    if (currentPhase === 'selected') {
+      runChatGPT();
+    } else if (currentPhase === 'jobze-ready') {
+      runJOBZE();
+    } else if (currentPhase === 'done') {
+      // Force replay — bypass snapshot cache
+      selectScenario(selectedIndex, true);
+    }
+  });
+
+  // ── Playback control handlers ──
+  if (ctrlPause) {
+    ctrlPause.addEventListener('click', () => {
+      if (paused) { resumePlayback(); } else { pausePlayback(); }
+    });
+  }
+  if (ctrl2x) {
+    ctrl2x.addEventListener('click', () => {
+      if (speedFactor === 1) {
+        speedFactor = 0.5; // halve delays = 2x speed
+        ctrl2x.classList.add('active');
+      } else {
+        speedFactor = 1;
+        ctrl2x.classList.remove('active');
+      }
+      // If currently paused, the new speed applies on resume
+      // If running, it only affects newly scheduled timers (existing ones keep their delay)
+    });
+  }
+
+  // ── Tab switching ──
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const idx = parseInt(tab.dataset.scenario, 10);
+      selectScenario(idx);
+    });
+  });
+
+  // ── Initialize: start in centered/idle state ──
+  grid.classList.add('phase-center');
+  playWrap.style.display = 'none';
+
+  // ── Auto-play: when section scrolls into view, select scenario 0 ──
+  let autoPlayed = false;
+  const shootoutSection = document.getElementById('product');
+  if (shootoutSection) {
+    const autoPlayObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !autoPlayed) {
+          autoPlayed = true;
+          selectScenario(0);
+          autoPlayObserver.unobserve(shootoutSection);
+        }
+      });
+    }, { threshold: 0.3 });
+    autoPlayObserver.observe(shootoutSection);
+  }
+})();
+
+/* ═══════ STORY WORD-BY-WORD REVEAL ═══════ */
+(function() {
+  var storySplit = document.getElementById('story-split');
+  var storyLeft = document.getElementById('story-left');
+  var storyRight = document.getElementById('story-right');
+  if (!storySplit || !storyLeft) return;
+
+  // ── Wrap every word in <span class="sw"> ──
+  function wrapWords(container) {
+    var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+    var textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+    textNodes.forEach(function(node) {
+      var text = node.textContent;
+      if (!text.trim()) return;
+
+      var parts = text.split(/(\s+)/);
+      var frag = document.createDocumentFragment();
+
+      parts.forEach(function(part) {
+        if (/^\s+$/.test(part)) {
+          frag.appendChild(document.createTextNode(part));
+        } else if (part.length > 0) {
+          var span = document.createElement('span');
+          span.className = 'sw';
+          span.textContent = part;
+          frag.appendChild(span);
+        }
+      });
+
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  wrapWords(storyLeft);
+  if (storyRight) wrapWords(storyRight);
+
+  var leftWords = Array.from(storyLeft.querySelectorAll('.sw'));
+  var rightWords = storyRight ? Array.from(storyRight.querySelectorAll('.sw')) : [];
+  var allWords = leftWords.concat(rightWords);
+  var totalWords = allWords.length;
+  var rightStartIndex = leftWords.length;
+
+  if (totalWords === 0) return;
+
+  var storySection = storySplit.closest('.snap-section');
+  if (!storySection) return;
+
+  function updateReveal() {
+    var rect = storySection.getBoundingClientRect();
+    var vh = window.innerHeight;
+
+    // Progress: 0 when section top hits viewport bottom, 1 when section top near top of viewport
+    var start = vh;
+    var end = vh * 0.1;
+    var raw = (start - rect.top) / (start - end);
+    var progress = Math.max(0, Math.min(1, raw));
+
+    var revealCount = Math.floor(progress * totalWords);
+
+    for (var i = 0; i < totalWords; i++) {
+      if (i < revealCount) {
+        if (!allWords[i].classList.contains('revealed')) allWords[i].classList.add('revealed');
+      } else {
+        if (allWords[i].classList.contains('revealed')) allWords[i].classList.remove('revealed');
+      }
+    }
+
+    if (storyRight) {
+      if (revealCount >= rightStartIndex && !storyRight.classList.contains('visible')) {
+        storyRight.classList.add('visible');
+      }
+      if (revealCount < rightStartIndex && storyRight.classList.contains('visible')) {
+        storyRight.classList.remove('visible');
+      }
+    }
+  }
+
+  window.addEventListener('scroll', updateReveal, { passive: true });
+  updateReveal();
+})();
+
+/* ═══════ TEXT SCRAMBLE ON BADGE ═══════ */
+(function() {
+  const el = document.querySelector('.scramble-text');
+  if (!el) return;
+  const original = el.dataset.text;
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
+  let revealed = 0;
+  function runScramble() {
+    revealed = 0;
+    const interval = setInterval(() => {
+      let out = '';
+      for (let i = 0; i < original.length; i++) {
+        if (i < revealed) out += original[i];
+        else if (original[i] === ' ') out += ' ';
+        else out += chars[Math.floor(Math.random() * chars.length)];
+      }
+      el.textContent = out;
+      revealed += 1;
+      if (revealed > original.length) {
+        el.textContent = original;
+        clearInterval(interval);
+        setTimeout(runScramble, 3000);
+      }
+    }, 28);
+  }
+  const scrambleObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        scrambleObserver.unobserve(e.target);
+        runScramble();
+      }
+    });
+  }, { threshold: 0.5 });
+  scrambleObserver.observe(el);
+})();
+
+
+/* ═══════ PRICING COMPARISON GROUPS ═══════ */
+(function() {
+  var groups = document.querySelectorAll('.pc-group');
+  var btn = document.getElementById('pc-expand-all');
+  if (!groups.length || !btn) return;
+
+  function updateBtn() {
+    var allOpen = Array.prototype.every.call(groups, function(g) { return g.classList.contains('open'); });
+    btn.textContent = allOpen ? '\u2212 Collapse All' : '+ Expand All';
+  }
+
+  groups.forEach(function(group) {
+    var header = group.querySelector('.pc-group-header');
+    if (!header) return;
+    header.addEventListener('click', function() {
+      group.classList.toggle('open');
+      updateBtn();
+    });
+  });
+
+  btn.addEventListener('click', function() {
+    var allOpen = Array.prototype.every.call(groups, function(g) { return g.classList.contains('open'); });
+    groups.forEach(function(g) {
+      if (allOpen) g.classList.remove('open');
+      else g.classList.add('open');
+    });
+    updateBtn();
+  });
+})();
+
+/* ═══════ SMOOTH NAV SCROLL ═══════ */
+document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    var href = link.getAttribute('href');
+    if (!href || href === '#') return;
+    var target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+/* ═══════ CHARACTER MATRIX LOGO REVEAL ═══════ */
+(function() {
+  'use strict';
+
+  /* ──── TWEAKABLE CONTROLS ──── */
+  const CONFIG = {
+    LOGO_PATH: 'Gemini_Generated_Image_96k4p896k4p896k4-Picsart-BackgroundRemover.png',  // ← UPDATE THIS if logo filename changes
+    CHAR_SIZE: 10,           // px — controls character density (smaller = denser)
+    CHAR_SET: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+=<>{}[]|/\\~',
+    WAVE_SPEED: 0.01,        // 0-1 progress per frame (4x original speed)
+    WAVE_WIDTH: 0.12,        // fraction of canvas width the wave covers
+    DIM_ALPHA: 0.10,         // base dim character opacity (0-1)
+    WAVE_GLOW_ALPHA: 0.95,   // wave-active character brightness (0-1)
+    LOGO_BRIGHT_ALPHA: 0.7,  // final revealed logo character brightness (0-1)
+    LOGO_GLOW_BLUR: 6,       // px — soft glow radius on revealed logo chars
+    LOGO_GLOW_ALPHA: 0.35,   // glow layer opacity
+    HOLD_DURATION: 2500,     // ms — how long the revealed logo holds before reset
+    ALPHA_THRESHOLD: 80,     // 0-255 — minimum alpha to consider a pixel "visible" in the PNG
+    WAVE_AMPLITUDE: 0.06,   // how far the wave bends left/right (fraction of width)
+    WAVE_FREQUENCY: 3,       // number of sine cycles over the canvas height
+    FONT: 'IBM Plex Mono, monospace',
+    DIM_COLOR: [255, 255, 255],
+    WAVE_COLOR: [255, 255, 255],
+    LOGO_COLOR: [255, 255, 255],
+  };
+
+  const canvas = document.getElementById('hero-matrix');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let cols = 0, rows = 0;
+  let charGrid = [];       // { char, isLogo, brightness, targetBrightness }
+  let logoMask = null;     // 2D boolean array [row][col]
+  let animPhase = 'wave';  // 'wave' | 'hold' | 'fadeOut'
+  let waveProgress = -CONFIG.WAVE_WIDTH; // starts off-screen left
+  let holdTimer = 0;
+  let fadeOutProgress = 0;
+  let logoLoaded = false;
+  let rafId = null;
+
+  /* ──── RESIZE & GRID SETUP ──── */
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = Math.floor(rect.width * dpr);
+    canvas.height = Math.floor(rect.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    cols = Math.floor(rect.width / CONFIG.CHAR_SIZE);
+    rows = Math.floor(rect.height / CONFIG.CHAR_SIZE);
+
+    buildGrid();
+    if (logoLoaded) buildLogoMask();
+  }
+
+  function randomChar() {
+    return CONFIG.CHAR_SET[Math.floor(Math.random() * CONFIG.CHAR_SET.length)];
+  }
+
+  function buildGrid() {
+    charGrid = [];
+    for (let r = 0; r < rows; r++) {
+      charGrid[r] = [];
+      for (let c = 0; c < cols; c++) {
+        charGrid[r][c] = {
+          char: randomChar(),
+          isLogo: false,
+          brightness: CONFIG.DIM_ALPHA,
+          targetBrightness: CONFIG.DIM_ALPHA,
+        };
+      }
+    }
+  }
+
+  /* ──── LOGO MASK EXTRACTION ──── */
+  function buildLogoMask() {
+    const img = logoImg;
+    if (!img || !img.width) return;
+
+    // Create offscreen canvas to read pixels
+    const offCanvas = document.createElement('canvas');
+    const offCtx = offCanvas.getContext('2d');
+
+    // Calculate logo placement — centered in the grid, scaled to fit ~60% of the area
+    const gridW = cols * CONFIG.CHAR_SIZE;
+    const gridH = rows * CONFIG.CHAR_SIZE;
+    // Scale logo to match the hero title height (~40% of canvas height), allow width to overflow if needed
+    const targetH = gridH * 1.25;
+    const scale = targetH / img.height;
+    const drawW = img.width * scale;
+    const drawH = img.height * scale;
+    const offsetX = (gridW - drawW) / 2;
+    const offsetY = (gridH - drawH) / 2+80;
+
+    offCanvas.width = gridW;
+    offCanvas.height = gridH;
+    offCtx.clearRect(0, 0, gridW, gridH);
+    offCtx.drawImage(img, offsetX, offsetY, drawW, drawH);
+
+    const imageData = offCtx.getImageData(0, 0, gridW, gridH);
+    const pixels = imageData.data;
+
+    // Sample pixel at center of each character cell
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const px = Math.floor(c * CONFIG.CHAR_SIZE + CONFIG.CHAR_SIZE / 2);
+        const py = Math.floor(r * CONFIG.CHAR_SIZE + CONFIG.CHAR_SIZE / 2);
+        const idx = (py * gridW + px) * 4;
+        const alpha = pixels[idx + 3];
+        charGrid[r][c].isLogo = alpha >= CONFIG.ALPHA_THRESHOLD;
+      }
+    }
+    logoLoaded = true;
+  }
+
+  /* ──── LOAD LOGO IMAGE ──── */
+  let logoImg = new Image();
+  logoImg.crossOrigin = 'anonymous';
+  logoImg.onload = function() {
+    logoLoaded = true;
+    buildLogoMask();
+  };
+  logoImg.onerror = function() {
+    console.warn('Matrix effect: Could not load logo from', CONFIG.LOGO_PATH);
+    // Still run the wave effect, just no logo reveal
+  };
+  logoImg.src = CONFIG.LOGO_PATH;
+
+  /* ──── ANIMATION LOOP ──── */
+  let lastTime = 0;
+
+  function animate(timestamp) {
+    rafId = requestAnimationFrame(animate);
+    const dt = timestamp - lastTime;
+    lastTime = timestamp;
+    if (dt > 100) return; // skip frame if tab was hidden
+
+    const rect = canvas.parentElement.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+
+    // Update animation state
+    if (animPhase === 'wave') {
+      waveProgress += CONFIG.WAVE_SPEED;
+
+      // Update character targets based on wave position
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const cell = charGrid[r][c];
+          const xNorm = c / cols; // 0-1 position
+
+          // Sine-wave offset so the reveal line undulates
+          const yNorm = r / rows;
+          const waveOffset = Math.sin(yNorm * Math.PI * 2 * CONFIG.WAVE_FREQUENCY) * CONFIG.WAVE_AMPLITUDE;
+          const effectiveWavePos = waveProgress + waveOffset;
+
+          // Distance from wave center
+          const dist = Math.abs(xNorm - effectiveWavePos);
+
+          if (dist < CONFIG.WAVE_WIDTH / 2) {
+            // Inside the wave — bright
+            const waveFalloff = 1 - (dist / (CONFIG.WAVE_WIDTH / 2));
+            cell.targetBrightness = CONFIG.DIM_ALPHA + (CONFIG.WAVE_GLOW_ALPHA - CONFIG.DIM_ALPHA) * waveFalloff;
+            // Occasionally scramble character while wave is on it
+            if (Math.random() < 0.08) cell.char = randomChar();
+          } else if (effectiveWavePos > xNorm + CONFIG.WAVE_WIDTH / 2) {
+            // Wave has passed this column
+            if (cell.isLogo) {
+              cell.targetBrightness = CONFIG.LOGO_BRIGHT_ALPHA;
+            } else {
+              cell.targetBrightness = CONFIG.DIM_ALPHA;
+            }
+          } else {
+            // Wave hasn't reached yet
+            cell.targetBrightness = CONFIG.DIM_ALPHA;
+          }
+        }
+      }
+
+      // Wave complete when it's past the right edge
+      if (waveProgress > 1 + CONFIG.WAVE_WIDTH + CONFIG.WAVE_AMPLITUDE) {
+        animPhase = 'hold';
+        holdTimer = 0;
+        // Snap all logo chars to bright, others to dim
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const cell = charGrid[r][c];
+            cell.targetBrightness = cell.isLogo ? CONFIG.LOGO_BRIGHT_ALPHA : CONFIG.DIM_ALPHA;
+          }
+        }
+      }
+
+    } else if (animPhase === 'hold') {
+      holdTimer += dt;
+      if (holdTimer >= CONFIG.HOLD_DURATION) {
+        animPhase = 'fadeOut';
+        fadeOutProgress = 0;
+      }
+
+    } else if (animPhase === 'fadeOut') {
+      fadeOutProgress += dt / 800; // 800ms fade
+      if (fadeOutProgress >= 1) {
+        // Reset — re-randomize characters and restart wave
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            charGrid[r][c].char = randomChar();
+            charGrid[r][c].brightness = CONFIG.DIM_ALPHA;
+            charGrid[r][c].targetBrightness = CONFIG.DIM_ALPHA;
+          }
+        }
+        waveProgress = -CONFIG.WAVE_WIDTH;
+        animPhase = 'wave';
+      } else {
+        // Fade logo chars back to dim
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const cell = charGrid[r][c];
+            if (cell.isLogo) {
+              cell.targetBrightness = CONFIG.LOGO_BRIGHT_ALPHA * (1 - fadeOutProgress) + CONFIG.DIM_ALPHA * fadeOutProgress;
+            }
+          }
+        }
+      }
+    }
+
+    // Smooth interpolation of brightness
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const cell = charGrid[r][c];
+        cell.brightness += (cell.targetBrightness - cell.brightness) * 0.15;
+      }
+    }
+
+    // ──── RENDER ────
+    ctx.clearRect(0, 0, w, h);
+    ctx.font = `${CONFIG.CHAR_SIZE * 0.75}px ${CONFIG.FONT}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // First pass: glow layer for logo characters (only when visible)
+    if (animPhase === 'hold' || (animPhase === 'wave' && waveProgress > 0) || animPhase === 'fadeOut') {
+      ctx.save();
+      ctx.shadowBlur = CONFIG.LOGO_GLOW_BLUR;
+      ctx.shadowColor = `rgba(${CONFIG.LOGO_COLOR.join(',')}, ${CONFIG.LOGO_GLOW_ALPHA})`;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const cell = charGrid[r][c];
+          if (cell.isLogo && cell.brightness > CONFIG.DIM_ALPHA + 0.05) {
+            const x = c * CONFIG.CHAR_SIZE + CONFIG.CHAR_SIZE / 2;
+            const y = r * CONFIG.CHAR_SIZE + CONFIG.CHAR_SIZE / 2;
+            const gex = Math.min(c / (cols * 0.15), (cols - 1 - c) / (cols * 0.15), 1);
+            const gey = Math.min(r / (rows * 0.15), (rows - 1 - r) / (rows * 0.15), 1);
+            const gEdge = gex * gey;
+            const glowA = (cell.brightness - CONFIG.DIM_ALPHA) / (CONFIG.LOGO_BRIGHT_ALPHA - CONFIG.DIM_ALPHA);
+            ctx.fillStyle = `rgba(${CONFIG.LOGO_COLOR.join(',')}, ${Math.max(0, glowA * CONFIG.LOGO_GLOW_ALPHA * gEdge).toFixed(3)})`;
+            ctx.fillText(cell.char, x, y);
+          }
+        }
+      }
+      ctx.restore();
+    }
+
+    // Second pass: all characters
+    const edgeFade = 0.15; // fraction of grid width/height that fades out at edges
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const cell = charGrid[r][c];
+        const x = c * CONFIG.CHAR_SIZE + CONFIG.CHAR_SIZE / 2;
+        const y = r * CONFIG.CHAR_SIZE + CONFIG.CHAR_SIZE / 2;
+
+        // Edge proximity fade (0 at border, 1 when past edgeFade zone)
+        const ex = Math.min(c / (cols * edgeFade), (cols - 1 - c) / (cols * edgeFade), 1);
+        const ey = Math.min(r / (rows * edgeFade), (rows - 1 - r) / (rows * edgeFade), 1);
+        const edgeMul = ex * ey;
+
+        // Determine color based on state
+        let color;
+        if (cell.isLogo && cell.brightness > CONFIG.DIM_ALPHA + 0.05) {
+          color = CONFIG.LOGO_COLOR;
+        } else if (cell.brightness > CONFIG.DIM_ALPHA + 0.1) {
+          color = CONFIG.WAVE_COLOR;
+        } else {
+          color = CONFIG.DIM_COLOR;
+        }
+
+        ctx.fillStyle = `rgba(${color.join(',')}, ${(cell.brightness * edgeMul).toFixed(3)})`;
+        ctx.fillText(cell.char, x, y);
+      }
+    }
+  }
+
+  /* ──── INIT ──── */
+  function init() {
+    resize();
+    lastTime = performance.now();
+    rafId = requestAnimationFrame(animate);
+  }
+
+  // Debounced resize
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(resize, 200);
+  });
+
+  // Start when page is ready
+  if (document.readyState === 'complete') {
+    init();
+  } else {
+    window.addEventListener('load', init);
+  }
+
+  // Pause when not visible to save CPU
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      cancelAnimationFrame(rafId);
+    } else {
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(animate);
+    }
+  });
+
+  const matrixWrap = document.querySelector('.hero-matrix-wrap');
+  const heroEl = document.getElementById('home');
+
+  // Pause animation when scrolled past hero section
+  window.addEventListener('scroll', () => {
+    if (!matrixWrap || !heroEl) return;
+    const heroBottom = heroEl.getBoundingClientRect().bottom;
+    if (heroBottom <= 0 && rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    else if (heroBottom > 0 && !rafId) { rafId = requestAnimationFrame(animate); }
+  }, { passive: true });
+})();
+
+/* ═══════ WAITLIST UPLOAD ZONE ═══════ */
+(function() {
+  const zone = document.getElementById('upload-zone');
+  const fileInput = document.getElementById('resume-upload');
+  if (!zone || !fileInput) return;
+
+  function handleFiles(files) {
+    if (!files.length) return;
+    var file = files[0];
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File exceeds 5MB limit. Please upload a smaller resume.');
+      fileInput.value = '';
+      return;
+    }
+    zone.innerHTML = '<div class="uz-icon" style="color:var(--fg)">&#10003;</div><div class="uz-text" style="color:var(--fg)">' + file.name + '</div><div class="uz-hint">Click to change</div>';
+  }
+
+  zone.addEventListener('click', function() { fileInput.click(); });
+  fileInput.addEventListener('change', function(e) {
+    handleFiles(e.target.files);
+  });
+  zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.style.borderColor = 'var(--border2)'; });
+  zone.addEventListener('dragleave', function() { zone.style.borderColor = ''; });
+  zone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    zone.style.borderColor = '';
+    if (e.dataTransfer.files.length) {
+      fileInput.files = e.dataTransfer.files;
+      handleFiles(e.dataTransfer.files);
+    }
+  });
+})();
+
+/* ═══════ WAITLIST FORM SUBMIT ═══════ */
+(function() {
+  var form = document.getElementById('waitlist-form');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    form.style.display = 'none';
+    var success = document.getElementById('success-state');
+    success.classList.add('show');
+  });
+})();
+
+</script>
+</body>
+</html>
