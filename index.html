@@ -2178,13 +2178,32 @@ document.querySelectorAll('a[href^="#"]').forEach(function(link) {
 
 /* ═══════ WAITLIST FORM SUBMIT ═══════ */
 (function() {
+  var WEBHOOK_URL = 'https://n8n.wvez.org/webhook/jobze-waitlist-v2';
   var form = document.getElementById('waitlist-form');
-  if (!form) return;
+  var submitBtn = form ? form.querySelector('.submit-btn') : null;
+  if (!form || !submitBtn) return;
+  var originalBtnText = submitBtn.textContent;
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    form.style.display = 'none';
-    var success = document.getElementById('success-state');
-    success.classList.add('show');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    var formData = new FormData(form);
+
+    fetch(WEBHOOK_URL, { method: 'POST', body: formData })
+    .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function() {
+      form.style.display = 'none';
+      var success = document.getElementById('success-state');
+      success.classList.add('show');
+    })
+    .catch(function(err) {
+      console.error('Waitlist failed:', err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
+      alert('Something went wrong. Please try again.');
+    });
   });
 })();
 
