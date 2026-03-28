@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<title>J.O.B.Z.E. — Complete Your Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #000; --s1: hsl(0,0%,5%); --s2: hsl(0,0%,8%); --s3: hsl(0,0%,3%);
+  --border: hsl(0,0%,18%); --border2: hsl(0,0%,28%);
+  --fg: #fff; --muted: hsl(0,0%,62%); --dim: hsl(0,0%,36%);
+  --mono: 'IBM Plex Mono', monospace; --sans: 'Inter', sans-serif; --display: 'Syne', sans-serif;
+  --r: 6px; --accent: #44b078;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); font-family: var(--sans); color: var(--fg); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.sec-label { font-family: var(--mono); font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
+.sec-h2 { font-family: var(--display); font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 14px; }
+.sec-sub { font-size: 14px; color: var(--muted); line-height: 1.8; max-width: 560px; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Nav */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: rgba(0,0,0,.72); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: .06em; }
+.nav-logo span { color: var(--dim); font-weight: 400; }
+.nav-back { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; padding: 8px 18px; border: 1px solid var(--border); border-radius: 40px; color: var(--fg); transition: all .2s; background: transparent; cursor: pointer; text-transform: uppercase; }
+.nav-back:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+/* Page */
+.profile-sec { padding: 100px 40px 80px; max-width: 680px; margin: 0 auto; }
+
+/* Progress indicator */
+.progress-bar { display: flex; gap: 4px; margin-bottom: 32px; }
+.progress-step { flex: 1; height: 3px; border-radius: 2px; background: var(--border); }
+.progress-step.done { background: var(--accent); }
+.progress-step.current { background: linear-gradient(90deg, var(--accent), var(--border)); }
+
+/* Nudge box */
+.nudge { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: .04em; line-height: 1.6; margin-bottom: 32px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; background: rgba(255,255,255,.02); }
+.nudge strong { color: var(--fg); }
+
+/* Form */
+.profile-form { display: flex; flex-direction: column; gap: 36px; }
+.form-section-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.form-group:last-child { margin-bottom: 0; }
+.form-group label { font-size: 12px; font-weight: 500; color: var(--muted); }
+.form-group .field-hint { font-family: var(--mono); font-size: 9px; color: var(--dim); margin-top: 2px; line-height: 1.5; }
+.form-group input, .form-group textarea { background: var(--s2); border: 1px solid var(--border); border-radius: var(--r); color: var(--fg); font-family: var(--sans); font-size: 13px; padding: 10px 14px; outline: none; transition: border-color .2s; }
+.form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+.form-group textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+.form-group input::placeholder, .form-group textarea::placeholder { color: var(--dim); }
+
+/* Upload zone */
+.upload-zone { border: 1px dashed var(--border); border-radius: var(--r); padding: 28px; text-align: center; cursor: pointer; transition: all .2s; background: var(--s1); }
+.upload-zone:hover { border-color: var(--accent); background: var(--s2); }
+.upload-zone.has-file { border-color: var(--accent); border-style: solid; }
+.uz-icon { font-size: 22px; margin-bottom: 8px; color: var(--dim); }
+.uz-text { font-size: 12px; color: var(--muted); }
+.uz-hint { font-family: var(--mono); font-size: 8px; color: var(--dim); margin-top: 4px; letter-spacing: .06em; }
+
+/* Submit */
+.submit-btn { width: 100%; padding: 16px; background: var(--fg); color: var(--bg); border: none; border-radius: var(--r); font-family: var(--sans); font-size: 14px; font-weight: 700; cursor: pointer; transition: all .2s; letter-spacing: -.01em; }
+.submit-btn:hover { opacity: .85; transform: translateY(-1px); }
+.submit-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.form-note { font-family: var(--mono); font-size: 9px; color: var(--dim); letter-spacing: .04em; text-align: center; margin-top: 8px; line-height: 1.6; }
+
+/* Error banner */
+.submit-error { display: none; font-family: var(--mono); font-size: 11px; color: #ff5f57; text-align: center; margin-top: 12px; padding: 10px 14px; border: 1px solid rgba(255,95,87,.2); border-radius: var(--r); background: rgba(255,95,87,.04); letter-spacing: .02em; line-height: 1.6; }
+.submit-error.show { display: block; animation: fadeUp .3s ease both; }
+
+/* Field error */
+.form-group.has-error input, .form-group.has-error textarea { border-color: #ff5f57 !important; background: rgba(255,95,87,.04) !important; }
+.form-group .field-error { display: none; font-family: var(--mono); font-size: 10px; color: #ff5f57; margin-top: 4px; letter-spacing: .02em; }
+.form-group.has-error .field-error { display: block; }
+
+/* Success state */
+.success-state { display: none; text-align: center; padding: 60px 20px; }
+.success-state.show { display: block; animation: fadeUp .5s ease both; }
+.success-icon { font-size: 40px; margin-bottom: 16px; }
+.success-h { font-family: var(--display); font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+.success-p { font-size: 13px; color: var(--muted); line-height: 1.8; max-width: 400px; margin: 0 auto; }
+
+/* Footer */
+.footer { padding: 40px; text-align: center; }
+.footer-logo { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: .06em; margin-bottom: 6px; }
+.footer-tagline { font-family: var(--mono); font-size: 9px; color: var(--dim); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px; }
+.footer-links { display: flex; justify-content: center; gap: 16px; margin-bottom: 12px; }
+.footer-links a { font-size: 11px; color: var(--muted); transition: color .15s; }
+.footer-links a:hover { color: var(--fg); }
+.footer-copy { font-family: var(--mono); font-size: 8px; color: var(--dim); letter-spacing: .06em; }
+
+@media (max-width: 768px) {
+  .nav { padding: 12px 20px; }
+  .profile-sec { padding: 80px 20px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">J.O.B.Z.E. <span>powered by WVEZ</span></a>
+  <a href="index.html" class="nav-back">&larr; Back to Site</a>
+</nav>
+
+<!-- Profile Form -->
+<section class="profile-sec">
+  <div class="reveal">
+    <div class="sec-label">Deep Profile</div>
+    <h2 class="sec-h2">Make your first search hit harder.</h2>
+    <p class="sec-sub">You're already on the waitlist. This is optional, but everything you add here gets loaded into your profile before day one. More detail = better results.</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-bar reveal" style="transition-delay:.05s">
+    <div class="progress-step done"></div>
+    <div class="progress-step current"></div>
+  </div>
+
+  <!-- Nudge -->
+  <div class="nudge reveal" style="transition-delay:.1s">
+    <strong>You already did the hard part.</strong> This is the extra credit. Every field you fill out here means less guessing on our end and sharper results on yours. Skip whatever you want. Come back later if you need to.
+  </div>
+
+  <div id="form-container">
+    <form class="profile-form reveal" style="transition-delay:.15s" id="profile-form">
+
+      <!-- Verify -->
+      <div>
+        <div class="form-section-label">Verify yourself</div>
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" name="email" placeholder="Use the same email you signed up with" required>
+          <div class="field-error">We need this to match your waitlist signup.</div>
+        </div>
+      </div>
+
+      <!-- Targeting -->
+      <div>
+        <div class="form-section-label">What industries interest you?</div>
+        <div class="form-group">
+          <label>Industries</label>
+          <input type="text" name="industries" placeholder="e.g. FinTech, SaaS, healthcare tech, CPG, consulting, nonprofits">
+          <div class="field-hint">Leave blank if you're open to anything.</div>
+        </div>
+        <div class="form-group">
+          <label>Salary floor</label>
+          <input type="text" name="salary_floor" placeholder="e.g. $50k, $60k, or leave blank if flexible">
+          <div class="field-hint">The lowest annual salary you'd accept. We won't show you roles below this number.</div>
+        </div>
+      </div>
+
+      <!-- Off the table -->
+      <div>
+        <div class="form-section-label">What do you never want to see?</div>
+        <div class="form-group">
+          <label>Dealbreakers</label>
+          <textarea name="exclusions" placeholder="e.g. insurance sales, cold calling, unpaid internships, night shifts, 100% travel, door-to-door, lab work, clinical roles"></textarea>
+          <div class="field-hint">Be ruthless. Nothing is too petty. If you don't want to see it, list it.</div>
+        </div>
+        <div class="form-group">
+          <label>Companies to block</label>
+          <textarea name="applied_companies" placeholder="e.g.&#10;Deloitte&#10;Amazon&#10;Northwestern Mutual&#10;Enterprise Rent-A-Car"></textarea>
+          <div class="field-hint">One per line. Companies you've already applied to, been rejected from, or just don't want to see. They'll never show up in your results.</div>
+        </div>
+      </div>
+
+      <!-- What you bring -->
+      <div>
+        <div class="form-section-label">What's already on your resume that makes you competitive?</div>
+        <div class="form-group">
+          <label>Your strongest experience, skills, or projects</label>
+          <textarea name="top_experiences" placeholder="e.g.&#10;- 2 summer internships at a Big 4 accounting firm&#10;- Led a 12-person student org that ran campus events&#10;- Google Analytics and HubSpot certified&#10;- Built a social media campaign that got 42% more engagement&#10;- Fluent in Spanish"></textarea>
+          <div class="field-hint">Not what you want to do. What you've already done. Internships, projects, certifications, technical skills, leadership roles. This is what J.O.B.Z.E. highlights when matching you to roles and rewriting your resume.</div>
+        </div>
+      </div>
+
+      <!-- Resume upload -->
+      <div>
+        <div class="form-section-label">Upload your resume</div>
+        <div class="form-group">
+          <div class="upload-zone" id="upload-zone">
+            <div class="uz-icon">&#8593;</div>
+            <div class="uz-text">Drop your resume here or click to upload</div>
+            <div class="uz-hint">PDF or DOCX &middot; Max 5MB</div>
+          </div>
+          <input type="file" id="resume-upload" name="resume" accept=".pdf,.docx" style="display:none">
+          <div class="field-hint">This is what J.O.B.Z.E. reads before every search. It uses your actual experience for job matching, resume rewrites, and interview prep.</div>
+        </div>
+      </div>
+
+      <!-- Wishlist -->
+      <div>
+        <div class="form-section-label">Anything else?</div>
+        <div class="form-group">
+          <label>Features you'd love to see from J.O.B.Z.E.</label>
+          <textarea name="wishlist" placeholder="e.g. auto-apply to roles, LinkedIn message drafts, salary negotiation help, weekly job market updates, interview scheduling"></textarea>
+          <div class="field-hint">This directly shapes what gets built next. Every suggestion gets read.</div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Save My Profile &rarr;</button>
+      <div class="form-note">You can come back and update this anytime before the beta opens.</div>
+      <div class="submit-error" id="submit-error"></div>
+    </form>
+
+    <div class="success-state" id="success-state">
+      <div class="success-icon">&#10003;</div>
+      <div class="success-h">Profile saved.</div>
+      <p class="success-p">Your deep profile is locked in. When the beta opens, J.O.B.Z.E. will already know what you're looking for, what to avoid, and what makes you competitive. No setup required on day one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-logo">J.O.B.Z.E.</div>
+  <div class="footer-tagline">Hard Problems. EZ Solutions.</div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/warner-varnado-549b391a2" target="_blank">LinkedIn</a>
+    <a href="https://wvez.org" target="_blank">WVEZ Solutions</a>
+  </div>
+  <div class="footer-copy">&copy; 2026 WVEZ Solutions. All rights reserved.</div>
+</footer>
+
+<script>
+/* Scroll Reveal */
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+
+/* Upload Zone */
+(function() {
+  var zone = document.getElementById('upload-zone');
+  var fileInput = document.getElementById('resume-upload');
+  if (!zone || !fileInput) return;
+
+  function handleFiles(files) {
+    if (!files.length) return;
+    var file = files[0];
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File exceeds 5MB limit. Please upload a smaller resume.');
+      fileInput.value = '';
+      return;
+    }
+    zone.classList.add('has-file');
+    zone.innerHTML = '<div class="uz-icon" style="color:var(--accent)">&#10003;</div><div class="uz-text" style="color:var(--fg)">' + file.name + '</div><div class="uz-hint">Click to change</div>';
+  }
+
+  zone.addEventListener('click', function() { fileInput.click(); });
+  fileInput.addEventListener('change', function(e) { handleFiles(e.target.files); });
+  zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.style.borderColor = 'var(--accent)'; });
+  zone.addEventListener('dragleave', function() { zone.style.borderColor = ''; });
+  zone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    zone.style.borderColor = '';
+    if (e.dataTransfer.files.length) {
+      fileInput.files = e.dataTransfer.files;
+      handleFiles(e.dataTransfer.files);
+    }
+  });
+})();
+
+/* Form Submit */
+(function() {
+  var WEBHOOK_URL = 'https://n8n.wvez.org/webhook/jobze-deep-profile';
+  var form = document.getElementById('profile-form');
+  var submitBtn = form ? form.querySelector('.submit-btn') : null;
+  var errorBanner = document.getElementById('submit-error');
+  if (!form || !submitBtn) return;
+
+  var originalBtnText = submitBtn.textContent;
+
+  /* Clear errors on input */
+  form.querySelectorAll('input, textarea').forEach(function(field) {
+    field.addEventListener('input', function() {
+      var group = field.closest('.form-group');
+      if (group) group.classList.remove('has-error');
+      if (errorBanner) { errorBanner.classList.remove('show'); errorBanner.textContent = ''; }
+    });
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    if (errorBanner) { errorBanner.classList.remove('show'); errorBanner.textContent = ''; }
+
+    /* Validate email */
+    var emailField = form.querySelector('[name="email"]');
+    var emailVal = emailField ? emailField.value.trim() : '';
+    if (!emailVal) {
+      var group = emailField.closest('.form-group');
+      if (group) group.classList.add('has-error');
+      emailField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      emailField.focus();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+
+    var formData = new FormData(form);
+
+    fetch(WEBHOOK_URL, { method: 'POST', body: formData })
+    .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function() {
+      form.style.display = 'none';
+      var success = document.getElementById('success-state');
+      success.classList.add('show');
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    })
+    .catch(function(err) {
+      console.error('Profile save failed:', err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
+      if (errorBanner) {
+        errorBanner.textContent = 'Something went wrong. Check your connection and try again.';
+        errorBanner.classList.add('show');
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
