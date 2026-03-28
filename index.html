@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.location.pathname.includes('mobile')) {
+  window.location.replace('mobile.html');
+}
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>J.O.B.Z.E. | Job Search Suite for New Grads</title>
