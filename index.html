@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && !window.location.pathname.includes('mobile')) {
-  window.location.replace('mobile.html');
-}
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
 <title>J.O.B.Z.E. | Job Search Suite for New Grads</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <script type="text/javascript">
@@ -168,205 +158,133 @@ a { color: inherit; text-decoration: none; }
 .step-stack-card .step-wrapper { width: 100%; }
 @media (max-width: 768px) { .step-stack-outer { height: auto; } .step-stack-inner { position: relative; height: auto; grid-template-columns: 1fr; } .step-stack-cards { height: auto; } .step-stack-card { position: relative; inset: auto; margin-bottom: 20px; } }
 
-/* ═══════ PRODUCT / SLACK DEMO ═══════ */
-.demo-sec { padding: 0 40px; max-width: 1160px; margin: 0 auto; }
-.demo-shell { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--s3); }
-.demo-titlebar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--s2); }
-.demo-dot { width: 10px; height: 10px; border-radius: 50%; }
-.demo-dot.r { background: #ff5f57; } .demo-dot.y { background: #febc2e; } .demo-dot.g { background: #28c840; }
-.demo-titlebar-text { font-family: var(--mono); font-size: 9px; color: var(--dim); letter-spacing: .06em; margin-left: 8px; }
-.slack-body { display: grid; grid-template-columns: 200px 1fr; min-height: 480px; }
-
-/* Slack sidebar */
-.slack-side { border-right: 1px solid var(--border); background: rgba(0,0,0,.5); padding: 16px 0; display: flex; flex-direction: column; }
-.slack-ws { padding: 0 14px 14px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
-.slack-ws-name { font-size: 13px; font-weight: 700; letter-spacing: -.01em; }
-.slack-ws-status { font-family: var(--mono); font-size: 7.5px; color: var(--dim); letter-spacing: .06em; margin-top: 3px; }
-.slack-cat { font-family: var(--mono); font-size: 7.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); padding: 8px 14px 4px; }
-.slack-ch { display: flex; align-items: center; gap: 8px; padding: 4px 14px; font-size: 12px; color: var(--muted); cursor: default; }
-.slack-ch.active { color: var(--fg); background: rgba(255,255,255,.06); font-weight: 600; }
-.slack-ch-hash { font-size: 11px; opacity: .5; }
-.slack-dm { display: flex; align-items: center; gap: 8px; padding: 5px 14px; font-size: 12px; color: var(--muted); }
-.slack-dm.active { color: var(--fg); background: rgba(255,255,255,.06); font-weight: 600; }
-.slack-dm-dot { width: 7px; height: 7px; border-radius: 50%; background: #44b078; flex-shrink: 0; }
-.slack-dm-dot.offline { background: var(--border); }
-
-/* Slack chat area */
-.slack-chat { display: flex; flex-direction: column; }
-.slack-header { padding: 12px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
-.slack-header-name { font-size: 14px; font-weight: 700; }
-.slack-header-badge { font-family: var(--mono); font-size: 7px; letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border: 1px solid rgba(68,176,120,.4); border-radius: 40px; color: #44b078; }
-.slack-messages { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 16px; }
-.slack-messages::-webkit-scrollbar { width: 4px; }
-.slack-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-.slack-msg { display: flex; gap: 10px; animation: fadeUp .3s ease both; }
-.slack-avatar { width: 32px; height: 32px; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; }
-.slack-avatar.bot { background: rgba(255,255,255,.08); border: 1px solid var(--border); color: var(--dim); }
-.slack-avatar.user { background: rgba(68,176,120,.15); border: 1px solid rgba(68,176,120,.3); color: #44b078; }
-.slack-msg-body { flex: 1; min-width: 0; }
-.slack-msg-name { font-size: 12px; font-weight: 700; margin-bottom: 3px; }
-.slack-msg-name .ts { font-weight: 400; color: var(--dim); font-size: 10px; margin-left: 6px; font-family: var(--mono); }
-.slack-msg-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
-.slack-msg-text strong { color: var(--fg); font-weight: 600; }
-.slack-msg-text code { font-family: var(--mono); font-size: 11px; background: rgba(255,255,255,.06); padding: 1px 5px; border-radius: 3px; color: rgba(255,255,255,.8); }
-.slack-msg-text .context-block { margin-top: 8px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--r); background: rgba(255,255,255,.02); font-size: 12px; line-height: 1.7; }
-.slack-msg-text .job-card { margin-top: 8px; padding: 10px 12px; border-left: 3px solid rgba(68,176,120,.6); background: rgba(68,176,120,.04); border-radius: 0 var(--r) var(--r) 0; }
-.slack-msg-text .job-title { font-weight: 600; color: var(--fg); font-size: 13px; }
-.slack-msg-text .job-meta { font-family: var(--mono); font-size: 10px; color: var(--dim); margin-top: 2px; }
-.slack-msg-text .job-reason { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
-.typing-indicator { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
-.typing-indicator span { width: 6px; height: 6px; border-radius: 50%; background: var(--dim); animation: pulse 1.2s ease infinite; }
-.typing-indicator span:nth-child(2) { animation-delay: .2s; }
-.typing-indicator span:nth-child(3) { animation-delay: .4s; }
-
-/* Chat input */
-.slack-input-area { padding: 12px 18px; border-top: 1px solid var(--border); }
-.slack-input-wrap { display: flex; align-items: center; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; background: var(--s2); transition: border-color .2s; }
-.slack-input-wrap:focus-within { border-color: var(--border2); }
-.slack-input { flex: 1; background: transparent; border: none; outline: none; color: var(--fg); font-size: 13px; font-family: var(--sans); padding: 10px 14px; }
-.slack-input::placeholder { color: var(--dim); }
-.slack-send { padding: 10px 16px; background: transparent; border: none; color: var(--dim); cursor: pointer; font-size: 14px; transition: color .15s; }
-.slack-send:hover { color: var(--fg); }
-
-/* ═══════ COMPARISON GRID ═══════ */
-.compare-grid { display: grid; grid-template-columns: 1fr 48px 1fr; gap: 0; margin-top: 24px; align-items: stretch; }
-.compare-col { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; transition: opacity 0.7s ease, transform 0.7s ease; opacity: 0; transform: translateX(-40px); }
-.compare-col.slide-right { transform: translateX(40px); }
-.compare-col.animate-in { opacity: 1 !important; transform: translateX(0) !important; }
-.compare-col.muted { filter: saturate(0.25) brightness(0.7); }
-.compare-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 10px 16px; border-bottom: 1px solid var(--border); color: var(--dim); background: var(--s1); }
-.compare-label.bad { color: #ff5f57; }
-.compare-label.good { color: #28c840; }
-.chatgpt-shell { background: #1a1a1a; padding: 14px; display: flex; flex-direction: column; gap: 10px; position: relative; overflow: hidden; min-height: 320px; }
-.chatgpt-shell::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px); pointer-events: none; z-index: 1; animation: scanlines 8s linear infinite; }
-@keyframes scanlines { 0% { background-position: 0 0; } 100% { background-position: 0 100px; } }
-.chatgpt-user-msg { align-self: flex-end; background: #2f2f2f; border-radius: 18px; padding: 10px 16px; font-size: 13px; color: rgba(255,255,255,0.85); max-width: 80%; position: relative; z-index: 2; }
-.chatgpt-bot-msg { align-self: flex-start; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; max-width: 95%; position: relative; z-index: 2; min-height: 18px; }
-.chatgpt-result { background: #222; border: 1px solid #333; border-radius: 8px; padding: 10px 14px; margin-top: 6px; opacity: 0; transform: translateY(6px); transition: opacity 0.4s ease, transform 0.4s ease; position: relative; z-index: 2; }
-.chatgpt-result.visible { opacity: 1; transform: translateY(0); }
-.chatgpt-result-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.8); }
-.chatgpt-result-url { font-family: var(--mono); font-size: 10px; color: #4a9eff; margin-top: 3px; }
-.chatgpt-result-status { font-family: var(--mono); font-size: 9px; color: #ff5f57; margin-top: 4px; letter-spacing: .04em; animation: glitch-flicker 3s ease infinite; }
-.chatgpt-note { font-size: 11px; opacity: 0.45; position: relative; z-index: 2; color: rgba(255,255,255,0.7); line-height: 1.6; margin-top: 4px; }
-@keyframes glitch-flicker { 0%,89%,100% { opacity: 1; } 91% { opacity: 0.2; } 93% { opacity: 1; } 95% { opacity: 0.1; } 97% { opacity: 1; } }
-.compare-vs { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 2; }
-.compare-vs-line { width: 1px; flex: 1; background: var(--border); transform: scaleY(0); transform-origin: top; transition: transform 0.7s ease 0.4s; }
-.compare-vs-line.bottom { transform-origin: bottom; }
-.compare-vs-line.draw { transform: scaleY(1); }
-.compare-vs-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .12em; color: var(--dim); padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); white-space: nowrap; flex-shrink: 0; }
-.jobze-shell { background: var(--s3); padding: 14px; display: flex; flex-direction: column; gap: 10px; min-height: 320px; }
-.jobze-user-msg { align-self: flex-end; background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 18px; padding: 10px 16px; font-size: 13px; color: var(--muted); max-width: 80%; }
-.jobze-bot-intro { font-size: 13px; color: var(--muted); line-height: 1.7; min-height: 18px; }
-.jobze-job-card { opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease; }
-.jobze-job-card.visible { opacity: 1; transform: translateY(0); }
-.typewriter-cursor { display: inline-block; width: 2px; height: 12px; background: var(--muted); margin-left: 1px; vertical-align: middle; animation: blink 0.7s step-end infinite; }
-.compare-stat-badge { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: #28c840; padding: 3px 10px; border: 1px solid rgba(40,200,120,0.3); border-radius: 40px; display: inline-block; margin-top: 8px; opacity: 0; transition: opacity 0.4s ease; }
-.compare-stat-badge.visible { opacity: 1; }
-.jobze-send-btn { background: none; border: 1px solid var(--border); border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: var(--dim); cursor: pointer; transition: all .2s; opacity: 0.3; pointer-events: none; flex-shrink: 0; margin-left: auto; }
-.jobze-send-btn.active { opacity: 1; pointer-events: auto; border-color: #28c840; color: #28c840; animation: send-pulse 1.5s ease infinite; }
-.jobze-send-btn.active:hover { background: rgba(40,200,120,0.1); }
-.jobze-send-btn.sent { opacity: 0.3; pointer-events: none; animation: none; }
-@keyframes send-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(40,200,120,0.3); } 50% { box-shadow: 0 0 0 6px rgba(40,200,120,0); } }
-#jobze-send-row { display: flex; align-items: center; gap: 10px; }
-.compare-play-btn { display: flex; align-items: center; gap: 8px; margin: 0 auto 0; padding: 10px 22px; background: transparent; border: 1px solid var(--border); border-radius: 40px; color: var(--muted); font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: all .25s ease; }
-.compare-play-btn:hover { border-color: var(--fg); color: var(--fg); }
-.compare-play-btn .play-icon { width: 18px; height: 18px; border-radius: 50%; border: 1px solid currentColor; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.compare-play-btn .play-icon svg { width: 8px; height: 8px; fill: currentColor; margin-left: 1px; }
-.compare-play-btn.is-replay .play-icon svg { margin-left: 0; }
-@media (max-width: 768px) { .compare-grid { grid-template-columns: 1fr; } .compare-vs { flex-direction: row; height: 48px; } .compare-vs-line { width: 100%; height: 1px; flex: 1; transform: scaleX(0); transform-origin: left; } .compare-vs-line.draw { transform: scaleX(1); } }
-
-/* ═══════ UNIFIED SHOOTOUT ═══════ */
-/* Shootout section: tightened for 13" MacBook (900px viewport) */
-.snap-section.shootout-snap { justify-content: flex-start; padding-top: 40px; padding-bottom: 20px; overflow: hidden; }
-.shootout-sec { padding: 0 32px; max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; height: calc(100vh - 60px); overflow: hidden; }
-.shootout-tabs { display: flex; gap: 6px; margin-bottom: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; flex-shrink: 0; }
-.shootout-tabs::-webkit-scrollbar { display: none; }
-.shootout-tab { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 16px; border: 1px solid var(--border); border-radius: 40px; background: transparent; color: var(--dim); cursor: pointer; white-space: nowrap; transition: all .2s; }
-.shootout-tab:hover { border-color: var(--border2); color: var(--muted); }
-.shootout-tab.active { border-color: var(--fg); color: var(--fg); }
-.shootout-grid { display: grid; grid-template-columns: 1fr 48px 1fr; gap: 0; align-items: stretch; min-height: 0; flex: 1; }
-.shootout-col { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
-.shootout-col-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 14px; border-bottom: 1px solid var(--border); color: var(--dim); background: var(--s1); flex-shrink: 0; }
-.shootout-col-label.bad { color: #ff5f57; }
-.shootout-col-label.good { color: #28c840; }
-.shootout-status-bar { font-family: var(--mono); font-size: 8px; letter-spacing: .06em; color: var(--dim); padding: 5px 14px; border-bottom: 1px solid var(--border); background: rgba(40,200,64,0.03); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
-.shootout-feed { flex: 1; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-height: 0; position: relative; overflow-y: auto; scroll-behavior: smooth; }
-.shootout-feed::-webkit-scrollbar { width: 4px; }
-.shootout-feed::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-.shootout-idle { font-family: var(--mono); font-size: 11px; color: var(--dim); text-align: center; margin: auto; }
-/* Shootout messages */
-.shootout-msg { animation: fadeUp .55s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.shootout-msg-user { align-self: flex-end; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 16px; padding: 8px 14px; font-size: 13px; color: var(--muted); max-width: 85%; }
-.shootout-msg-bot { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; max-width: 95%; }
-.shootout-msg-bot.bad { background: #1a1a1a; border-radius: var(--r); padding: 10px 14px; }
-.shootout-msg-bot.good { background: var(--s3); border-radius: var(--r); padding: 10px 14px; }
-/* Context blocks (JOBZE side) — collapsible */
-.shootout-context { margin-top: 8px; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
-.shootout-context-toggle { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: rgba(255,255,255,0.02); cursor: pointer; font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); transition: color .2s; user-select: none; }
-.shootout-context-toggle:hover { color: var(--muted); }
-.shootout-context-toggle::after { content: '+'; font-size: 12px; transition: transform .2s; }
-.shootout-context.open .shootout-context-toggle::after { content: '−'; }
-.shootout-context-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
-.shootout-context.open .shootout-context-body { max-height: 300px; }
-.shootout-context-body-inner { padding: 10px 12px; font-size: 12px; color: var(--muted); line-height: 1.7; border-top: 1px solid var(--border); }
-/* Typing indicator */
-.shootout-typing { display: flex; gap: 4px; align-items: center; padding: 8px 0; }
-.shootout-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--dim); animation: pulse 1.2s ease infinite; }
-.shootout-typing span:nth-child(2) { animation-delay: .2s; }
-.shootout-typing span:nth-child(3) { animation-delay: .4s; }
-/* ── Controls row: fixed slot, play + controls swap in place ── */
-.shootout-controls-row { position: relative; display: flex; align-items: center; justify-content: center; margin-top: 8px; height: 38px; flex-shrink: 0; }
-.shootout-play-wrap { }
-.shootout-controls { display: flex; align-items: center; gap: 6px; }
-.shootout-ctrl-btn { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 14px; border: 1px solid var(--border); border-radius: 40px; background: transparent; color: var(--dim); cursor: pointer; transition: all .2s; }
-.shootout-ctrl-btn:hover { border-color: var(--border2); color: var(--muted); }
-.shootout-ctrl-btn.active { border-color: var(--fg); color: var(--fg); }
-/* Progress bar under each column label */
-.shootout-progress { height: 2px; background: rgba(255,255,255,.06); flex-shrink: 0; overflow: hidden; }
-.shootout-progress-bar { height: 100%; width: 0%; transition: width 0.3s linear; }
-.shootout-progress-bar.bad { background: rgba(255,95,87,.5); }
-.shootout-progress-bar.good { background: rgba(40,200,64,.5); }
-.shootout-progress-bar.done { width: 100% !important; transition: none; }
-/* Phase states */
-.shootout-grid.phase-center { display: flex; flex-direction: column; max-width: 580px; margin: 0 auto; }
-.shootout-grid.phase-center .compare-vs,
-.shootout-grid.phase-center #shootout-right { display: none; }
-.shootout-grid.phase-center #shootout-left { flex: 1; min-height: 0; }
-.shootout-grid.phase-split { display: grid; grid-template-columns: 1fr 48px 1fr; max-width: none; }
-.shootout-grid.phase-split #shootout-right { animation: slideInRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.shootout-grid.phase-split .compare-vs { animation: fadeIn 0.4s ease 0.1s both; }
-@keyframes slideInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-/* ═══════ ANNOTATIONS ROW (below demo) ═══════ */
-.shootout-annos-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; flex-shrink: 0; opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; pointer-events: none; }
-.shootout-annos-row.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-.shootout-anno-col { display: flex; gap: 6px; }
-/* Annotation cards */
-.shootout-anno { border: 1px solid var(--border); border-radius: var(--r); padding: 8px 10px; background: var(--s1); flex: 1; min-width: 0; }
-.shootout-anno.bad { border-left: 2px solid #ff5f57; }
-.shootout-anno.good { border-left: 2px solid #28c840; }
-.shootout-anno-label { font-family: var(--mono); font-size: 7px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 2px; }
-.shootout-anno-title { font-size: 11px; font-weight: 700; margin-bottom: 2px; }
-.shootout-anno-desc { font-size: 10px; color: var(--muted); line-height: 1.4; }
-/* Verdict strip */
-.shootout-verdict { border: 1px solid var(--border); border-radius: var(--r); padding: 10px 16px; text-align: center; font-size: 13px; font-weight: 600; background: var(--s1); opacity: 0; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; margin-top: 8px; flex-shrink: 0; }
-.shootout-verdict.visible { opacity: 1; transform: translateY(0); }
+/* ═══════ INTERACTIVE DEMO V4 ═══════ */
+.demo-v4-sec { padding: 0 40px; max-width: 1160px; margin: 0 auto; }
+.demo-v4-sec .i { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; flex-shrink: 0; }
+.demo-v4-sec .i svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.demo-v4-sec .i-sm { width: 14px; height: 14px; }
+.demo-v4-sec .i-sm svg { stroke-width: 2.2; }
+.demo-v4-sec .i-xs { width: 12px; height: 12px; }
+.demo-v4-sec .scenario-tabs { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; scrollbar-width: none; justify-content: center; }
+.demo-v4-sec .scenario-tabs::-webkit-scrollbar { display: none; }
+.demo-v4-sec .scenario-tabs .tab { padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--dim); background: var(--s1); border: 1px solid var(--border); border-radius: 40px; cursor: pointer; white-space: nowrap; transition: all .15s; font-family: var(--sans); }
+.demo-v4-sec .scenario-tabs .tab:hover { color: var(--muted); background: var(--s2); border-color: var(--border2); }
+.demo-v4-sec .scenario-tabs .tab.active { color: var(--fg); background: rgba(255,255,255,.06); border-color: var(--border2); }
+.demo-v4-sec .demo-frame { background: var(--s1); border-radius: var(--r); box-shadow: 0 25px 50px -12px rgba(0,0,0,.25), 0 12px 24px -8px rgba(0,0,0,.15), 0 0 0 .5px var(--border); overflow: hidden; border: 1px solid var(--border); }
+.demo-v4-sec .demo-titlebar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--s1); }
+.demo-v4-sec .dots { display: flex; gap: 6px; }
+.demo-v4-sec .dot { width: 10px; height: 10px; border-radius: 50%; }
+.demo-v4-sec .dot:nth-child(1) { background: #ff5f57; }
+.demo-v4-sec .dot:nth-child(2) { background: #febc2e; }
+.demo-v4-sec .dot:nth-child(3) { background: #28c840; }
+.demo-v4-sec .titlebar-text { flex: 1; text-align: center; font-size: 12px; color: var(--dim); letter-spacing: .02em; }
+.demo-v4-sec .profile-bar { padding: 8px 16px; background: var(--s1); border-bottom: 1px solid var(--border); font-size: 11px; color: var(--dim); display: flex; gap: 16px; flex-wrap: wrap; }
+.demo-v4-sec .profile-bar .tag { display: flex; align-items: center; gap: 4px; cursor: pointer; padding: 2px 4px; border-radius: 4px; transition: background .1s; border: none; font-size: 11px; font-family: var(--sans); letter-spacing: 0; text-transform: none; color: var(--dim); }
+.demo-v4-sec .profile-bar .tag:hover { background: rgba(255,255,255,.06); }
+.demo-v4-sec .profile-bar .tag strong { color: var(--muted); font-weight: 600; }
+.demo-v4-sec .workspace { display: flex; height: 460px; overflow: hidden; }
+.demo-v4-sec .sidebar { width: 200px; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--bg); flex-shrink: 0; }
+.demo-v4-sec .sidebar-header { padding: 14px 14px 10px; font-size: 13px; font-weight: 700; color: var(--fg); display: flex; align-items: center; gap: 6px; }
+.demo-v4-sec .sidebar-header .jz-badge { font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 6px; background: #4a9eff; color: #000; border-radius: 4px; }
+.demo-v4-sec .sidebar-section { padding: 4px 8px; font-size: 10px; font-weight: 600; color: var(--dim); text-transform: uppercase; letter-spacing: .06em; }
+.demo-v4-sec .sidebar-item { display: flex; align-items: center; gap: 8px; padding: 6px 14px; font-size: 12px; color: var(--muted); cursor: pointer; transition: background .1s; border-radius: 4px; margin: 0 6px; }
+.demo-v4-sec .sidebar-item:hover { background: var(--s2); }
+.demo-v4-sec .sidebar-item.active { background: rgba(255,255,255,.06); color: var(--fg); }
+.demo-v4-sec .sidebar-item .notif { margin-left: auto; font-size: 10px; font-weight: 700; background: #4a9eff; color: #000; border-radius: 10px; padding: 1px 6px; min-width: 18px; text-align: center; }
+.demo-v4-sec .sidebar-spacer { flex: 1; }
+.demo-v4-sec .sidebar-profile { padding: 10px 14px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; font-size: 11px; }
+.demo-v4-sec .avatar-sm { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+.demo-v4-sec .center-panel { flex: 1; display: flex; flex-direction: column; background: var(--bg); min-width: 0; position: relative; }
+.demo-v4-sec .panel-view { display: none; flex-direction: column; height: 100%; position: absolute; inset: 0; background: var(--bg); }
+.demo-v4-sec .panel-view.active { display: flex; }
+.demo-v4-sec .chat-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+.demo-v4-sec .chat-header .status { width: 8px; height: 8px; border-radius: 50%; background: #44b078; }
+.demo-v4-sec .chat-header .skill-tag { margin-left: auto; font-size: 10px; font-weight: 600; color: #4a9eff; background: rgba(74,158,255,.1); padding: 3px 8px; border-radius: 4px; transition: all .3s; }
+.demo-v4-sec .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.08) transparent; }
+.demo-v4-sec .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--dim); gap: 12px; text-align: center; padding: 20px; }
+.demo-v4-sec .empty-state .i { width: 32px; height: 32px; opacity: .4; }
+.demo-v4-sec .empty-state .i svg { stroke-width: 1.5; }
+.demo-v4-sec .empty-state p { font-size: 13px; line-height: 1.5; }
+.demo-v4-sec .empty-state strong { color: var(--muted); }
+.demo-v4-sec .msg { display: flex; gap: 10px; max-width: 100%; opacity: 0; transform: translateY(8px); transition: opacity .3s, transform .3s; }
+.demo-v4-sec .msg.visible { opacity: 1; transform: translateY(0); }
+.demo-v4-sec .msg-avatar { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+.demo-v4-sec .msg-body { min-width: 0; flex: 1; }
+.demo-v4-sec .msg-name { font-size: 11px; font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+.demo-v4-sec .msg-name .ts { font-weight: 400; color: var(--dim); font-size: 10px; }
+.demo-v4-sec .msg-text { font-size: 13px; line-height: 1.5; color: var(--fg); }
+.demo-v4-sec .msg-text strong { font-weight: 700; }
+.demo-v4-sec .msg-text .score { font-family: var(--mono); font-weight: 700; font-size: 14px; }
+.demo-v4-sec .msg-text .score.good { color: #44b078; }
+.demo-v4-sec .msg-text .score.bad { color: #ff5f57; }
+.demo-v4-sec .msg-text .score.delta { color: #4a9eff; }
+.demo-v4-sec .resp-section { margin-top: 10px; padding: 10px 12px; background: var(--s1); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; line-height: 1.6; }
+.demo-v4-sec .resp-section .resp-title { font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.demo-v4-sec .resp-section ul { list-style: none; padding: 0; }
+.demo-v4-sec .resp-section li { padding: 2px 0; color: var(--muted); }
+.demo-v4-sec .resp-section li::before { content: ""; display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--dim); margin-right: 8px; vertical-align: middle; }
+.demo-v4-sec .file-block { display: flex; align-items: center; gap: 8px; margin-top: 8px; padding: 8px 12px; background: var(--s1); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; cursor: pointer; transition: border-color .15s, background .15s; }
+.demo-v4-sec .file-block:hover { border-color: var(--border2); background: var(--s2); }
+.demo-v4-sec .file-name { font-weight: 600; color: var(--fg); }
+.demo-v4-sec .file-meta { margin-left: auto; font-size: 11px; font-weight: 600; }
+.demo-v4-sec .file-meta.saved { color: #4a9eff; }
+.demo-v4-sec .action-prompt { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; padding: 6px 14px; font-size: 12px; font-weight: 600; color: #4a9eff; background: rgba(74,158,255,.08); border: 1px solid rgba(74,158,255,.2); border-radius: 6px; cursor: pointer; transition: all .15s; font-family: var(--sans); }
+.demo-v4-sec .action-prompt:hover { background: rgba(74,158,255,.15); border-color: rgba(74,158,255,.35); }
+.demo-v4-sec .typing-indicator { display: flex; gap: 4px; padding: 4px 0; }
+.demo-v4-sec .typing-indicator span { width: 6px; height: 6px; border-radius: 50%; background: var(--dim); animation: dv4-tb 1.2s infinite; }
+.demo-v4-sec .typing-indicator span:nth-child(2) { animation-delay: .2s; }
+.demo-v4-sec .typing-indicator span:nth-child(3) { animation-delay: .4s; }
+@keyframes dv4-tb { 0%,60%,100% { transform: translateY(0); opacity: .4; } 30% { transform: translateY(-4px); opacity: 1; } }
+.demo-v4-sec .flag-block { margin-top: 6px; padding: 6px 10px; border-radius: 6px; font-size: 12px; line-height: 1.5; }
+.demo-v4-sec .flag-block.green { background: rgba(68,176,120,.08); border-left: 3px solid #44b078; }
+.demo-v4-sec .flag-block.red { background: rgba(255,95,87,.06); border-left: 3px solid #ff5f57; }
+.demo-v4-sec .flag-block .flag-title { font-weight: 700; font-size: 11px; margin-bottom: 2px; display: flex; align-items: center; gap: 4px; }
+.demo-v4-sec .flag-block.green .flag-title { color: #44b078; }
+.demo-v4-sec .flag-block.red .flag-title { color: #ff5f57; }
+.demo-v4-sec .chat-input-bar { padding: 10px 16px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.demo-v4-sec .chat-input { flex: 1; background: var(--s1); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: var(--dim); font-family: var(--sans); }
+.demo-v4-sec .send-btn { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,.06); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--dim); transition: all .15s; }
+.demo-v4-sec .send-btn:hover { background: rgba(255,255,255,.08); color: var(--fg); }
+.demo-v4-sec .channel-view { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.demo-v4-sec .ch-msg { display: flex; gap: 10px; font-size: 13px; line-height: 1.5; }
+.demo-v4-sec .ch-msg .ch-avatar { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+.demo-v4-sec .ch-msg .ch-name { font-size: 11px; font-weight: 700; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
+.demo-v4-sec .ch-msg .ch-name .ts { font-weight: 400; color: var(--dim); font-size: 10px; }
+.demo-v4-sec .ch-msg .ch-text { color: var(--muted); }
+.demo-v4-sec .drive-panel { width: 200px; border-left: 1px solid var(--border); background: var(--bg); display: flex; flex-direction: column; flex-shrink: 0; }
+.demo-v4-sec .drive-header { padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.demo-v4-sec .drive-files { flex: 1; padding: 8px 6px; overflow-y: auto; }
+.demo-v4-sec .drive-file { display: flex; align-items: center; gap: 8px; padding: 6px 10px; font-size: 11px; color: var(--muted); border-radius: 4px; cursor: pointer; transition: opacity .3s, transform .3s, background .1s; opacity: 0; transform: translateX(8px); }
+.demo-v4-sec .drive-file.visible { opacity: 1; transform: translateX(0); }
+.demo-v4-sec .drive-file:hover { background: var(--s2); }
+.demo-v4-sec .drive-file .df-new { margin-left: auto; font-size: 9px; font-weight: 700; color: #44b078; text-transform: uppercase; }
+.demo-v4-sec .file-preview { display: none; position: absolute; inset: 0; background: var(--bg); z-index: 10; flex-direction: column; }
+.demo-v4-sec .file-preview.open { display: flex; }
+.demo-v4-sec .fp-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+.demo-v4-sec .fp-close { margin-left: auto; cursor: pointer; color: var(--dim); padding: 4px; border-radius: 4px; transition: all .1s; display: flex; align-items: center; }
+.demo-v4-sec .fp-close:hover { color: var(--fg); background: rgba(255,255,255,.06); }
+.demo-v4-sec .fp-body { flex: 1; overflow-y: auto; padding: 16px; font-size: 12px; line-height: 1.7; color: var(--muted); }
+.demo-v4-sec .fp-body h3 { font-size: 13px; font-weight: 700; color: var(--fg); margin: 12px 0 6px; text-transform: uppercase; letter-spacing: .03em; }
+.demo-v4-sec .fp-body h3:first-child { margin-top: 0; }
+.demo-v4-sec .fp-body .fp-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--border); }
+.demo-v4-sec .fp-body .fp-row .fp-label { color: var(--dim); }
+.demo-v4-sec .fp-body .fp-row .fp-val { color: var(--fg); font-weight: 600; }
+.demo-v4-sec .fp-body .fp-bullet { padding: 3px 0; color: var(--muted); }
+.demo-v4-sec .fp-body .fp-bullet::before { content: ""; display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--dim); margin-right: 8px; vertical-align: middle; }
+.demo-v4-sec .fp-tag { display: inline-block; padding: 2px 8px; font-size: 10px; font-weight: 600; border-radius: 4px; margin: 2px 4px 2px 0; }
+.demo-v4-sec .fp-tag.g { background: rgba(68,176,120,.08); color: #44b078; }
+.demo-v4-sec .fp-tag.r { background: rgba(255,95,87,.06); color: #ff5f57; }
+.demo-v4-sec .fp-tag.b { background: rgba(74,158,255,.1); color: #4a9eff; }
+.demo-v4-sec .demo-controls { display: flex; align-items: center; gap: 8px; margin-top: 12px; justify-content: center; }
+.demo-v4-sec .ctrl-btn { display: flex; align-items: center; gap: 4px; padding: 6px 14px; font-size: 12px; font-weight: 500; color: var(--muted); background: var(--s1); border: 1px solid var(--border); border-radius: 40px; cursor: pointer; transition: all .15s; font-family: var(--sans); }
+.demo-v4-sec .ctrl-btn:hover { color: var(--fg); background: var(--s2); border-color: var(--border2); }
 @media (max-width: 768px) {
-  .shootout-sec { height: auto; overflow: visible; }
-  .shootout-grid { grid-template-columns: 1fr; }
-  .shootout-grid .compare-vs { flex-direction: row; height: 48px; }
-  .shootout-grid .compare-vs-line { width: 100%; height: 1px; flex: 1; }
-  .shootout-tabs { gap: 4px; }
-  .snap-section.shootout-snap { min-height: auto; height: auto; overflow: visible; padding-top: 40px; padding-bottom: 40px; }
-  .shootout-feed { max-height: 350px; min-height: 250px; }
-  .shootout-grid.phase-center { display: flex; flex-direction: column; max-width: none; }
-  .shootout-grid.phase-center .compare-vs,
-  .shootout-grid.phase-center #shootout-right { display: none; }
-  .shootout-grid.phase-split { grid-template-columns: 1fr; }
-  .shootout-grid.phase-split #shootout-right { animation: none; }
-  .shootout-grid.phase-split .compare-vs { display: none; }
-  .shootout-annos-row { grid-template-columns: 1fr; }
-  .shootout-anno-col { flex-direction: column; }
+  .demo-v4-sec .sidebar, .demo-v4-sec .drive-panel { display: none; }
+  .demo-v4-sec .workspace { height: 400px; }
+  .demo-v4-sec { padding-left: 20px; padding-right: 20px; }
+}
+@media (max-width: 480px) {
+  .demo-v4-sec .workspace { height: 360px; }
 }
 
 /* ═══════ STORY / REAL TALK ═══════ */
@@ -419,7 +337,7 @@ a { color: inherit; text-decoration: none; }
 /* Comparison table */
 .price-compare-label { font-family: var(--mono); font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
 .price-compare { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; background: var(--s1); }
-.pc-header { display: grid; grid-template-columns: 1fr 140px 140px; gap: 0; padding: 10px 20px; border-bottom: 1px solid var(--border); background: var(--s2); }
+.pc-header { display: grid; grid-template-columns: 1fr 100px 100px 100px 100px; gap: 0; padding: 10px 20px; border-bottom: 1px solid var(--border); background: var(--s2); }
 .pc-feature-col { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
 .pc-col { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); text-align: center; }
 .pc-col-jobze { color: var(--fg); font-weight: 600; }
@@ -432,7 +350,7 @@ a { color: inherit; text-decoration: none; }
 .pc-group.open .pc-group-rows { max-height: 600px; }
 .pc-expand-all { background:none; border:none; cursor:pointer; font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); transition:color .15s; padding:0; }
 .pc-expand-all:hover { color:var(--muted); }
-.pc-row { display: grid; grid-template-columns: 1fr 140px 140px; gap: 0; padding: 8px 20px; border-bottom: 1px solid var(--border); font-size: 13px; }
+.pc-row { display: grid; grid-template-columns: 1fr 100px 100px 100px 100px; gap: 0; padding: 8px 20px; border-bottom: 1px solid var(--border); font-size: 13px; }
 .pc-row:last-child { border-bottom: none; }
 .pc-row .pc-feature-col { font-family: var(--sans); font-size: 12.5px; color: var(--muted); text-transform: none; letter-spacing: 0; }
 .pc-row .pc-col { font-size: 14px; text-transform: none; letter-spacing: 0; display: flex; align-items: center; justify-content: center; }
@@ -444,7 +362,7 @@ a { color: inherit; text-decoration: none; }
   .price-layout { grid-template-columns: 1fr; gap: 24px; }
   .price-layout .price-tier-card { position: static; max-width: 340px; margin: 0 auto; }
   .price-tier-card { max-width: 340px; }
-  .pc-header, .pc-row { grid-template-columns: 1fr 80px 80px; padding: 10px 12px; }
+  .pc-header, .pc-row { grid-template-columns: 1fr 52px 52px 52px 52px; padding: 10px 12px; }
   .pc-group-header { padding: 12px; }
   .pc-row .pc-feature-col { font-size: 11px; }
   .pc-col { font-size: 8px; }
@@ -518,12 +436,10 @@ a { color: inherit; text-decoration: none; }
   .nav { padding: 12px 20px; }
   .nav-links { display: none; }
   .hero { padding: 100px 20px 60px; width: 100%; }
-  .container, .steps-sec, .demo-sec, .pricing-sec, .waitlist-sec, .story-sec { padding-left: 20px; padding-right: 20px; }
+  .container, .steps-sec, .pricing-sec, .waitlist-sec, .story-sec { padding-left: 20px; padding-right: 20px; }
   .hero-title { max-width: 100%; }
   .hero-sub { max-width: 100%; }
   .steps-grid { grid-template-columns: 1fr; }
-  .slack-body { grid-template-columns: 1fr; }
-  .slack-side { display: none; }
   .waitlist-layout { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
 }
@@ -558,7 +474,7 @@ a { color: inherit; text-decoration: none; }
     The rules changed. <br><span class="line2">Nobody sent the memo.</span>
   </h1>
   <p class="hero-hook reveal" style="transition-delay:.15s">You're doing everything right. The system just isn't built for you.<br>So we built a new one.</p>
-<p class="hero-sub reveal" style="transition-delay:.2s">A job search suite that reads your resume, enforces your preferences, and returns 3 verified roles you actually qualify for. Every single search.<br><br>Free during beta. Limited!</p>
+<p class="hero-sub reveal" style="transition-delay:.2s">A job search command center that reads your resume, knows your preferences, researches companies in real time, and handles the parts of the job search that eat your entire week.<br><br>Free during beta. Full access to every skill. Limited spots.</p>
   <div class="hero-ctas reveal" style="transition-delay:.3s">
     <a href="#waitlist" class="btn-primary">Claim Your Spot &rarr;</a>
   </div>
@@ -626,27 +542,28 @@ a { color: inherit; text-decoration: none; }
             <div class="step-visual">
               <div class="step-mock">
                 <div class="mock-header">J.O.B.Z.E.</div>
-                <div class="mock-pill">execute</div>
-                <div class="mock-pill-clear"></div>
-                <div class="mock-job">
-                  <div class="mock-job-title">Manufacturing Engineer I</div>
-                  <div class="mock-job-meta">Parker Hannifin · Cleveland, OH</div>
-                </div>
-                <div class="mock-job">
-                  <div class="mock-job-title">Design Engineer, Rotational</div>
-                  <div class="mock-job-meta">Caterpillar · Peoria, IL</div>
-                </div>
-                <div class="mock-job">
-                  <div class="mock-job-title">Test Engineer</div>
-                  <div class="mock-job-meta">Honeywell · Phoenix, AZ</div>
-                </div>
-                <div class="mock-followup" style="margin-top:8px; padding:6px 10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; font-family:var(--mono); font-size:7.5px; color:var(--dim); line-height:1.5;">Want me to prep you for the Caterpillar interview? Or rewrite your resume for that Honeywell role?</div>
+<div style="padding:6px 10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; margin-top:2px;">
+  <div style="font-family:var(--sans); font-size:9px; font-weight:700; color:#fff; margin-bottom:6px;">Resume Grade</div>
+  <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+    <div style="font-family:var(--mono); font-size:8px; color:var(--dim);">Current Score</div>
+    <div style="font-family:var(--mono); font-size:10px; font-weight:700; color:#ff5f57;">5.2 / 10</div>
+  </div>
+  <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+    <div style="font-family:var(--mono); font-size:8px; color:var(--dim);">After Rewrite</div>
+    <div style="font-family:var(--mono); font-size:10px; font-weight:700; color:#28c840;">8.1 / 10</div>
+  </div>
+  <div style="display:flex; justify-content:space-between;">
+    <div style="font-family:var(--mono); font-size:8px; color:var(--dim);">Delta</div>
+    <div style="font-family:var(--mono); font-size:10px; font-weight:700; color:#4a9eff;">+2.9</div>
+  </div>
+</div>
+<div style="margin-top:6px; padding:5px 8px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:5px; font-family:var(--mono); font-size:7px; color:var(--dim); line-height:1.5;">3 bullets rewritten. 4 ATS keywords added. Skills section restructured.</div>
               </div>
             </div>
             <div class="step-body">
               <div class="step-num">Step 03 | First message</div>
-              <div class="step-title">Type "execute." That's it.</div>
-              <div class="step-desc">J.O.B.Z.E. already has your resume and preferences from the form. Open Slack, DM it, say "execute." It comes back with 3 roles you qualify for, haven't seen, and match everything you specified. No dashboard, no onboarding, no re-explaining yourself. And the conversation doesn't stop there.</div>
+              <div class="step-title">Start talking. It already knows you.</div>
+              <div class="step-desc">JOBZE already has your resume and preferences from the form. Open Slack, DM it. Say 'grade my resume.' Say 'prep me for my Deloitte interview.' Say 'is $70K realistic for entry-level?' It responds with structured, researched output, not a wall of generic text. And the conversation doesn't stop there.</div>
             </div>
           </div>
         </div>
@@ -658,7 +575,7 @@ a { color: inherit; text-decoration: none; }
             <div class="step-visual">
               <div class="step-mock">
                 <div class="mock-header">J.O.B.Z.E.</div>
-                <div class="mock-pill" style="float:right;">is Honeywell worth applying to?</div>
+                <div class="mock-pill" style="float:right;">is Honeywell a reach for me?</div>
                 <div class="mock-pill-clear"></div>
                 <div style="padding:8px 10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:6px; margin-top:2px;">
                   <div style="font-family:var(--sans); font-size:9px; font-weight:700; color:#fff; margin-bottom:4px;">Recommendation: Apply</div>
@@ -668,8 +585,8 @@ a { color: inherit; text-decoration: none; }
             </div>
             <div class="step-body">
               <div class="step-num">Step 04 | Between searches</div>
-              <div class="step-title">Now it becomes your coach.</div>
-              <div class="step-desc">Between executions, J.O.B.Z.E. is still working. Ask it to rewrite a resume bullet and it tailors it for the exact role you're targeting. Ask it to prep you for an interview and it pulls real questions from real candidates. Ask if a company's worth applying to and it gives you a straight answer backed by real data. Ask it to write your cover letter and it builds one around your actual experience. It doesn't clock out after the search. That's the point.</div>
+              <div class="step-title">Your command center is ready.</div>
+              <div class="step-desc">Every cover letter JOBZE writes, every interview prep file, every execution result lands in your personal Google Drive folder. Open it anytime. Edit your preferences, update your resume, change your exclusions. JOBZE detects every change. Slack is where you talk. Google Drive is where you track. Together, they replace the 10 tabs you used to keep open.</div>
             </div>
           </div>
         </div>
@@ -678,107 +595,58 @@ a { color: inherit; text-decoration: none; }
   </div>
 </div>
 
-<div class="snap-section shootout-snap">
-<!-- ═══════ UNIFIED SHOOTOUT DEMO ═══════ -->
-<section class="shootout-sec" id="product">
-  <div class="reveal" style="margin-bottom:8px">
+<div class="snap-section" style="padding-top:60px; padding-bottom:60px;">
+<section class="demo-v4-sec" id="product">
+  <div class="reveal" style="text-align:center; margin-bottom:24px;">
     <div class="sec-label">See the difference</div>
-    <h2 class="sec-h2" style="margin-bottom:6px">Same ask. Different universe.</h2>
-    <p class="sec-sub">Pick a scenario. Watch both sides respond.</p>
+    <h2 class="sec-h2" style="margin-bottom:8px;">Same ask. Different universe.</h2>
+    <p class="sec-sub" style="margin:0 auto;">Pick a scenario. Watch JOBZE respond with your profile, your history, and live research built into every answer.</p>
   </div>
 
-  <!-- Scenario tabs -->
-  <div class="shootout-tabs reveal" style="transition-delay:.1s">
-    <button class="shootout-tab active" data-scenario="0">Find me jobs</button>
-    <button class="shootout-tab" data-scenario="1">Fix my resume bullet</button>
-    <button class="shootout-tab" data-scenario="2">Prep me for an interview</button>
-    <button class="shootout-tab" data-scenario="3">Is this company worth it?</button>
+  <div class="scenario-tabs" id="tabs">
+    <button class="tab" data-scenario="0">Grade my resume</button>
+    <button class="tab" data-scenario="1">Prep me for an interview</button>
+    <button class="tab" data-scenario="2">Should I apply here?</button>
+    <button class="tab" data-scenario="3">Be less formal</button>
   </div>
-
-  <!-- Demo grid (ChatGPT + VS + JOBZE) — no wrapper, full width -->
-  <div class="shootout-grid reveal" style="transition-delay:.2s">
-    <!-- ChatGPT column -->
-    <div class="shootout-col" id="shootout-left">
-      <div class="shootout-col-label bad">ChatGPT</div>
-      <div class="shootout-progress"><div class="shootout-progress-bar bad" id="progress-left"></div></div>
-      <div class="shootout-feed" id="shootout-feed-left">
-        <div class="shootout-idle">Pick a scenario above</div>
+  <div class="demo-frame">
+    <div class="demo-titlebar"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><div class="titlebar-text">J.O.B.Z.E.</div><div style="width:50px"></div></div>
+    <div class="profile-bar" id="profileBar"></div>
+    <div class="workspace">
+      <div class="sidebar">
+        <div class="sidebar-header">J.O.B.Z.E. <span class="jz-badge">Beta</span></div>
+        <div class="sidebar-section">Channels</div>
+        <div class="sidebar-item" data-panel="general"><span class="i i-sm" style="color:var(--dim)"><svg viewBox="0 0 24 24"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg></span> general</div>
+        <div class="sidebar-item" data-panel="feedback"><span class="i i-sm" style="color:var(--dim)"><svg viewBox="0 0 24 24"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg></span> beta-feedback</div>
+        <div class="sidebar-section" style="margin-top:8px">Direct Messages</div>
+        <div class="sidebar-item active" data-panel="jobze"><span class="i i-sm" style="color:#4a9eff"><svg viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg></span> J.O.B.Z.E.<span class="notif" id="sidebarNotif" style="display:none">1</span></div>
+        <div class="sidebar-item" data-panel="founder"><span class="i i-sm" style="color:var(--dim)"><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Warner (founder)</div>
+        <div class="sidebar-spacer"></div>
+        <div class="sidebar-profile"><div class="avatar-sm" style="background:#4a9eff;color:#000">YO</div><div><div style="font-weight:600;color:var(--fg);font-size:12px">You</div><div style="color:#44b078;font-size:10px">Active</div></div></div>
       </div>
-    </div>
-
-    <!-- VS divider -->
-    <div class="compare-vs">
-      <div class="compare-vs-line draw"></div>
-      <div class="compare-vs-badge">VS</div>
-      <div class="compare-vs-line bottom draw"></div>
-    </div>
-
-    <!-- JOBZE column -->
-    <div class="shootout-col" id="shootout-right">
-      <div class="shootout-col-label good">J.O.B.Z.E. | Built for this</div>
-      <div class="shootout-progress"><div class="shootout-progress-bar good" id="progress-right"></div></div>
-      <div class="shootout-status-bar" id="shootout-status-bar">Profile: ME Senior, UIUC &nbsp;|&nbsp; Filters: 0-2yr exp, no defense, no oil &amp; gas &nbsp;|&nbsp; Exclusions: 4 companies &nbsp;|&nbsp; Context: 11 interactions</div>
-      <div class="shootout-feed" id="shootout-feed-right">
-        <div class="shootout-idle">Pick a scenario above</div>
+      <div class="center-panel">
+        <div class="panel-view active" id="view-jobze">
+          <div class="chat-header"><div class="status"></div>J.O.B.Z.E.<span class="skill-tag" id="skillTag">--</span></div>
+          <div class="chat-messages" id="chatMessages"><div class="empty-state" id="emptyState"><span class="i" style="width:32px;height:32px;opacity:.4"><svg viewBox="0 0 24 24" style="stroke-width:1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><p>Pick a scenario above to see<br><strong>J.O.B.Z.E.</strong> in action.</p></div></div>
+          <div class="chat-input-bar"><div class="chat-input" id="chatInput">Message J.O.B.Z.E...</div><div class="send-btn"><span class="i i-sm"><svg viewBox="0 0 24 24"><path d="m5 12 7-7 7 7M12 19V5"/></svg></span></div></div>
+        </div>
+        <div class="panel-view" id="view-general"><div class="chat-header"><span class="i i-sm" style="color:var(--dim)"><svg viewBox="0 0 24 24"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg></span> general</div><div class="channel-view" id="ch-general"></div></div>
+        <div class="panel-view" id="view-feedback"><div class="chat-header"><span class="i i-sm" style="color:var(--dim)"><svg viewBox="0 0 24 24"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg></span> beta-feedback</div><div class="channel-view" id="ch-feedback"></div></div>
+        <div class="panel-view" id="view-founder"><div class="chat-header"><span class="i i-sm" style="color:var(--dim)"><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Warner (founder)</div><div class="channel-view" id="ch-founder"></div></div>
+        <div class="file-preview" id="filePreview">
+          <div class="fp-header"><span class="i i-sm" style="color:#4a9eff"><svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg></span><span id="fpTitle"></span><div class="fp-close" id="fpClose"><span class="i i-sm"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></span></div></div>
+          <div class="fp-body" id="fpBody"></div>
+        </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Controls row: play + pause/2x share one line -->
-  <div class="shootout-controls-row">
-    <div class="shootout-play-wrap" id="shootout-play-wrap">
-      <button class="compare-play-btn" id="shootout-play-btn">
-        <span class="play-icon"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></span>
-        <span id="shootout-play-label">Run ChatGPT</span>
-      </button>
-    </div>
-    <div class="shootout-controls" id="shootout-controls" style="display:none">
-      <button class="shootout-ctrl-btn" id="ctrl-pause">Pause</button>
-      <button class="shootout-ctrl-btn" id="ctrl-2x">2x</button>
-    </div>
-  </div>
-
-  <!-- Annotations row: limitations left, advantages right -->
-  <div class="shootout-annos-row" id="shootout-annos-row">
-    <div class="shootout-anno-col">
-      <div class="shootout-anno bad">
-        <div class="shootout-anno-label">Limitation 01</div>
-        <div class="shootout-anno-title">No memory between sessions.</div>
-        <div class="shootout-anno-desc">Every conversation starts from zero. Your resume, preferences, and history don't carry over.</div>
-      </div>
-      <div class="shootout-anno bad">
-        <div class="shootout-anno-label">Limitation 02</div>
-        <div class="shootout-anno-title">Can't verify its own output.</div>
-        <div class="shootout-anno-desc">It generates URLs that look real but frequently 404 or point to expired listings.</div>
-      </div>
-      <div class="shootout-anno bad">
-        <div class="shootout-anno-label">Limitation 03</div>
-        <div class="shootout-anno-title">Generic by design.</div>
-        <div class="shootout-anno-desc">It gives the same advice to everyone because it doesn't know anything specific about you.</div>
-      </div>
-    </div>
-    <div class="shootout-anno-col">
-      <div class="shootout-anno good">
-        <div class="shootout-anno-label">Advantage 01</div>
-        <div class="shootout-anno-title">Persistent profile and memory.</div>
-        <div class="shootout-anno-desc">Your resume, preferences, exclusions, and full history are stored and referenced every time.</div>
-      </div>
-      <div class="shootout-anno good">
-        <div class="shootout-anno-label">Advantage 02</div>
-        <div class="shootout-anno-title">Every link is verified live.</div>
-        <div class="shootout-anno-desc">Web search confirms each listing is active before it reaches you. Dead links never make it through.</div>
-      </div>
-      <div class="shootout-anno good">
-        <div class="shootout-anno-label">Advantage 03</div>
-        <div class="shootout-anno-title">Hard rules, not suggestions.</div>
-        <div class="shootout-anno-desc">Experience filters, industry exclusions, and duplicate blocking are enforced. The system says no so you don't have to.</div>
+      <div class="drive-panel">
+        <div class="drive-header"><span class="i i-sm"><svg viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg></span> Command Center</div>
+        <div class="drive-files" id="driveFiles"></div>
       </div>
     </div>
   </div>
-
-  <!-- Verdict strip -->
-  <div class="shootout-verdict" id="shootout-verdict">
-    [Verdict line for this scenario]
+  <div class="demo-controls">
+    <button class="ctrl-btn" id="replayBtn"><span class="i i-xs"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></span> Replay</button>
+    <button class="ctrl-btn" id="speedBtn">1x</button>
   </div>
 </section>
 </div>
@@ -810,10 +678,12 @@ a { color: inherit; text-decoration: none; }
       <div class="price-tier-price">$0<span class="price-tier-period">/month</span></div>
       <div class="price-tier-note">Full access. No card required. limited.</div>
       <div class="price-tier-highlights">
-        <div class="price-tier-hl">&#10003; 3 executions per week</div>
-        <div class="price-tier-hl">&#10003; 6 advisor skills, unlimited use</div>
-        <div class="price-tier-hl">&#10003; Persistent memory &amp; hard filters</div>
+        <div class="price-tier-hl">&#10003; All 6 advisor skills, unlimited use</div>
+        <div class="price-tier-hl">&#10003; Job matching executions</div>
+        <div class="price-tier-hl">&#10003; Persistent memory and hard filters</div>
+        <div class="price-tier-hl">&#10003; Personal Google Drive command center</div>
         <div class="price-tier-hl">&#10003; Slack community access</div>
+        <div class="price-tier-hl">&#10003; Daily usage limits (to keep the system fast for everyone)</div>
       </div>
       <a href="#waitlist" class="price-tier-cta">Claim Your Spot &rarr;</a>
     </div>
@@ -824,50 +694,61 @@ a { color: inherit; text-decoration: none; }
       <div class="price-compare" id="price-compare">
         <div class="pc-header">
           <div class="pc-feature-col">Feature</div>
-          <div class="pc-col pc-col-chatgpt">ChatGPT Free</div>
+          <div class="pc-col pc-col-chatgpt">ChatGPT Plus</div>
+          <div class="pc-col">LinkedIn Premium</div>
+          <div class="pc-col">Handshake</div>
           <div class="pc-col pc-col-jobze">J.O.B.Z.E. Beta</div>
         </div>
         <div style="display:flex; justify-content:flex-end; padding:6px 20px 2px;">
           <button class="pc-expand-all" id="pc-expand-all" type="button">+ Expand All</button>
         </div>
 
+        <div class="pc-group" data-group="cost">
+          <div class="pc-group-header"><span>Monthly Cost</span><span class="pc-group-toggle">+</span></div>
+          <div class="pc-group-rows">
+            <div class="pc-row"><div class="pc-feature-col">Monthly price</div><div class="pc-col" style="font-size:12px;color:var(--muted);">$20</div><div class="pc-col" style="font-size:12px;color:var(--muted);">$29.99</div><div class="pc-col" style="font-size:12px;color:var(--muted);">Free</div><div class="pc-col pc-yes" style="font-size:12px;">$0 (beta)</div></div>
+          </div>
+        </div>
+
         <div class="pc-group" data-group="search">
           <div class="pc-group-header"><span>Search &amp; Matching</span><span class="pc-group-toggle">+</span></div>
           <div class="pc-group-rows">
-            <div class="pc-row"><div class="pc-feature-col">Personalized job search</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Hard experience filters (0-2yr enforced)</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Live-verified listings</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Duplicate &amp; exclusion blocking</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Personalized job matching</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Experience filters enforced</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Duplicate blocking</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Exclusion lists</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
           </div>
         </div>
 
         <div class="pc-group" data-group="advisor">
           <div class="pc-group-header"><span>Career Advisor</span><span class="pc-group-toggle">+</span></div>
           <div class="pc-group-rows">
-            <div class="pc-row"><div class="pc-feature-col">Resume rewrite using your experience</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Interview prep from real questions</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Company intel with sourced data</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Cover letter from your resume</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Tough love / honest feedback</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Sourced data (Glassdoor, Levels.fyi, Blind)</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Resume scoring with peer benchmarking</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Cover letter from your actual resume</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Interview prep with company research</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Company intel (red/green flags)</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Honest career feedback</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Salary data from multiple sources</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
           </div>
         </div>
 
         <div class="pc-group" data-group="system">
           <div class="pc-group-header"><span>System</span><span class="pc-group-toggle">+</span></div>
           <div class="pc-group-rows">
-            <div class="pc-row"><div class="pc-feature-col">Persistent memory across sessions</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Reads your resume every response</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Preferences auto-update from conversation</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Memory between sessions</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-partial">~</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Reads your resume every response</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Personality adaptation</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Google Drive command center</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Live web research per response</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
           </div>
         </div>
 
         <div class="pc-group" data-group="community">
           <div class="pc-group-header"><span>Community</span><span class="pc-group-toggle">+</span></div>
           <div class="pc-group-rows">
-            <div class="pc-row"><div class="pc-feature-col">Slack community with other job seekers</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Suggest features &amp; vote on changes</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
-            <div class="pc-row"><div class="pc-feature-col">Share strategies with beta users</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Slack community with other job seekers</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Suggest features &amp; vote on changes</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
+            <div class="pc-row"><div class="pc-feature-col">Share strategies with beta users</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-no">&#10007;</div><div class="pc-col pc-yes">&#10003;</div></div>
           </div>
         </div>
       </div>
@@ -920,9 +801,9 @@ a { color: inherit; text-decoration: none; }
   <div class="waitlist-layout">
     <!-- Sidebar checklist -->
     <div class="wl-sidebar reveal" style="transition-delay:.1s">
-      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">J.O.B.Z.E. lives inside Slack, a free messaging app. When your spot opens, you'll get an invite to join. That's where everything happens.</div></div>
-      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">The email you use here is how we identify you. Use one you actually check.</div></div>
-      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">Your preferences start working from day one. The more you tell us now, the less setup later.</div></div>
+      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">Use the same email here that you'll use for Slack. That's the only way J.O.B.Z.E. knows who you are on day one.</div></div>
+      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">Your resume gets read before every single search. Keep it updated after onboarding.</div></div>
+      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">Your preferences are locked in from day one and evolve every time you chat.</div></div>
       <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">This is free. No card. No catch. Limited spots.</div></div>
     </div>
 
@@ -931,45 +812,75 @@ a { color: inherit; text-decoration: none; }
       <form class="wl-form reveal" style="transition-delay:.2s" id="waitlist-form">
         <!-- Section 1 -->
         <div>
-          <div class="form-section-label">01 | The basics</div>
+          <div class="form-section-label">01 | Who you are</div>
           <div style="display:flex;flex-direction:column;gap:12px">
             <div class="form-row">
               <div class="form-group"><label>Full Name</label><input type="text" name="full_name" placeholder="Your full name" required></div>
-              <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="Use an email you check daily" required></div>
+              <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="you@university.edu" required></div>
             </div>
             <div class="form-row">
-              <div class="form-group"><label>School</label><input type="text" name="school" placeholder="e.g. DePaul, UIC, Northwestern, Loyola"></div>
-              <div class="form-group"><label>Major</label><input type="text" name="major" placeholder="e.g. Marketing, Nursing, CS, Undeclared"></div>
+              <div class="form-group"><label>School</label><input type="text" name="school" placeholder="e.g. Loyola University Chicago"></div>
+              <div class="form-group"><label>Major</label><input type="text" name="major" placeholder="e.g. Finance, Computer Science"></div>
             </div>
-            <div class="form-group"><label>Expected Graduation</label><input type="text" name="graduation" placeholder="e.g. May 2026, Dec 2027"></div>
+            <div class="form-row">
+              <div class="form-group"><label>Expected Graduation</label><input type="text" name="graduation" placeholder="e.g. May 2026"></div>
+              <div class="form-group"><label>City / Location Preference</label><input type="text" name="location" placeholder="e.g. Chicago, open to remote"></div>
+            </div>
           </div>
         </div>
 
         <!-- Section 2 -->
         <div>
-          <div class="form-section-label">02 | What you're looking for</div>
+          <div class="form-section-label">02 | What you're after</div>
           <div style="display:flex;flex-direction:column;gap:12px">
-            <div class="form-group"><label>What kind of roles are you looking for?</label><textarea name="role_types" placeholder="e.g. summer internships, marketing coordinator, nursing residencies, software engineering, not sure yet"></textarea></div>
-            <div class="form-group"><label>Location preference</label><input type="text" name="location" placeholder="e.g. Chicago, NYC, remote, open to anything"></div>
+            <div class="form-group"><label>Role Types You're Targeting</label><textarea name="role_types" placeholder="e.g. RevOps analyst, rotational programs, strategy & ops, marketing coordinator"></textarea></div>
+            <div class="form-row">
+              <div class="form-group"><label>Industries You're Interested In</label><input type="text" name="industries" placeholder="e.g. FinTech, SaaS, healthcare tech"></div>
+              <div class="form-group"><label>Salary Floor (optional)</label><input type="text" name="salary_floor" placeholder="e.g. $55k or leave blank"></div>
+            </div>
           </div>
         </div>
 
-        <!-- Resume opt-in -->
+        <!-- Section 3 -->
         <div>
-          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:14px 0;">
-            <input type="checkbox" name="wants_resume_used" value="true" style="margin-top:3px;accent-color:#44b078;width:16px;height:16px;flex-shrink:0;">
-            <span style="font-size:12px;color:var(--muted);line-height:1.6;">I want J.O.B.Z.E. to use my resume for personalized job matches, resume rewrites, and interview prep. <span style="color:var(--dim);font-family:var(--mono);font-size:10px;">(We'll ask you to upload it in a follow-up email after you sign up.)</span></span>
-          </label>
+          <div class="form-section-label">03 | What's off the table</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="form-group"><label>Industries / Role Types to Exclude</label><textarea name="exclusions" placeholder="e.g. insurance, cold calling, clinical roles, door-to-door sales"></textarea></div>
+            <div class="form-group"><label>Companies Already Applied To or Rejected From</label><textarea name="applied_companies" placeholder="One per line"></textarea></div>
+          </div>
+        </div>
+
+        <!-- Section 4 -->
+        <div>
+          <div class="form-section-label">04 | Your edge</div>
+          <div class="form-group"><label>Top 3 experiences, projects, or skills you want J.O.B.Z.E. to lean on</label><textarea name="top_experiences" placeholder="e.g. 4 summers at Abbott, built n8n automation workflows, 95% processing time reduction, fluent in SQL and Power BI"></textarea></div>
+        </div>
+
+        <!-- Section 5 -->
+        <div>
+          <div class="form-section-label">05 | Your wishlist</div>
+          <div class="form-group"><label>Any future capabilities you would love to see from J.O.B.Z.E.?</label><textarea name="wishlist" placeholder="e.g. auto-apply to roles, LinkedIn message drafts, salary negotiation scripts, weekly job market reports"></textarea></div>
+        </div>
+
+        <!-- Resume Upload -->
+        <div>
+          <div class="form-section-label">Resume Upload</div>
+          <div class="upload-zone" id="upload-zone">
+            <div class="uz-icon">&#8593;</div>
+            <div class="uz-text">Drop your resume here or click to upload</div>
+            <div class="uz-hint">PDF or DOCX &middot; Max 5MB</div>
+          </div>
+          <input type="file" id="resume-upload" name="resume" accept=".pdf,.docx" style="display:none">
         </div>
 
         <button type="submit" class="submit-btn">Claim My Spot &rarr;</button>
-        <div class="email-warning">You'll receive a confirmation email at this address. When the beta opens, your Slack invite comes to this same inbox.</div>
+        <div class="email-warning">The email you use here must match your Slack sign-in. That's how J.O.B.Z.E. recognizes you on day one.</div>
       </form>
 
       <div class="success-state" id="success-state">
         <div class="success-icon">&#10003;</div>
         <div class="success-h">You're in.</div>
-        <p class="success-p">Check your inbox. We just sent a confirmation to the email you signed up with. When your spot opens, you'll get an invite to the Slack workspace where J.O.B.Z.E. lives. No downloads, no dashboard, just open Slack and start.</p>
+        <p class="success-p">We got your application. When your slot opens, you'll get a Slack invite to the JOBZE Beta workspace. Check your inbox. It'll come from us directly.</p>
       </div>
     </div>
   </div>
@@ -994,8 +905,8 @@ a { color: inherit; text-decoration: none; }
     <!-- Right column -->
     <div class="story-col story-col-right" id="story-right">
       <p>So I built a workflow. At first it just found jobs for me. Then I added preference filters. Then I taught it how to read my resume and match against listings properly. Then I built the skills: resume rewrites, cover letters, interview prep, company research. Each one tuned to do what I was spending hours doing manually.</p>
-      <p>What started as one automation to save myself time turned into a full system with hard rules, persistent memory, and six specialized skills that handle every part of the job search that used to eat my entire week.</p>
       <div class="story-callout">I use it myself. Every week. This isn't a demo product. It's the tool I needed and couldn't find anywhere else.</div>
+<p>What started as one automation to save myself time turned into a system with 6 specialized skill files (over 100,000 characters of instructions), a self-hosted search engine for live data, a PostgreSQL database tracking every interaction, and a prompt architecture that layers your profile, your history, and live research into every single response. I didn't plan to build all of that. I just kept solving problems until the system was complete.</p>
       <p>The beta exists because I want to hear what's broken in your job search and build that into the system too. Not to hit a revenue number. To actually solve the problem.</p>
       <p class="story-closer">If you want a shortcut, there are cheaper ones. If you want something that works, you're in the right place.</p>
     </div>
@@ -1109,558 +1020,199 @@ const counterObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
 
-/* ═══════ SHOOTOUT DEMO ═══════ */
-(function() {
-  const feedLeft = document.getElementById('shootout-feed-left');
-  const feedRight = document.getElementById('shootout-feed-right');
-  const annosRow = document.getElementById('shootout-annos-row');
-  const verdict = document.getElementById('shootout-verdict');
-  const tabs = document.querySelectorAll('.shootout-tab');
-  const grid = document.querySelector('.shootout-grid');
-  const playWrap = document.getElementById('shootout-play-wrap');
-  const playBtn = document.getElementById('shootout-play-btn');
-  const playLabel = document.getElementById('shootout-play-label');
-  const controlsWrap = document.getElementById('shootout-controls');
-  const ctrlPause = document.getElementById('ctrl-pause');
-  const ctrl2x = document.getElementById('ctrl-2x');
-  const progressLeft = document.getElementById('progress-left');
-  const progressRight = document.getElementById('progress-right');
-  if (!feedLeft || !feedRight || !tabs.length || !grid || !playBtn) return;
+/* ═══════ INTERACTIVE DEMO V4 ═══════ */
+const IC={
+file:'<svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>',
+filePen:'<svg viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M13.5 15.5 15 14"/></svg>',
+clipboard:'<svg viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>',
+settings:'<svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>',
+chart:'<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>',
+shieldCheck:'<svg viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>',
+alertTri:'<svg viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></svg>',
+arrowR:'<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
+};
+// === FULLY RANDOMIZED DATA: NO PERSONAL REFERENCES ===
+const NAMES=['Jordan Mitchell','Priya Patel','Marcus Chen','Sofia Rodriguez','Aiden Kim','Olivia Thompson','Malik Johnson','Emma Nakamura','Diego Fernandez','Jasmine Okafor','Tyler Russo','Nia Williams','Kevin Tran','Aaliyah Hassan','Connor Murphy','Zoe Carter','Lucas Park','Mia Gonzalez','Noah Singh','Ella Hoffman'];
+const SCHOOLS=['Penn State','Michigan State','Ohio State','UNC Chapel Hill','University of Florida','Texas A&M','Virginia Tech','Arizona State','University of Georgia','Rutgers','Purdue','Indiana University','University of Maryland','UC Davis','Oregon State'];
+const MAJORS=['Business Administration','Nursing','Computer Science','Mechanical Engineering','Psychology','Biology','Communications','Marketing','Information Systems','Economics','Data Science','Public Health','Political Science','Graphic Design','Criminal Justice'];
+const TIERS=['Large public research','Mid-size public','Flagship state','Regional public','Large public'];
+// Major-appropriate skill sets
+const SKILL_SETS={
+'Business Administration':['Excel','PowerPoint','Salesforce','SAP','Tableau','QuickBooks','Power BI'],
+'Nursing':['Epic EMR','Patient Assessment','IV Therapy','BLS/ACLS','Medication Admin','Cerner','Care Planning'],
+'Computer Science':['Python','Java','React','SQL','AWS','Git','Docker','TypeScript','Node.js'],
+'Mechanical Engineering':['SolidWorks','AutoCAD','MATLAB','ANSYS','3D Printing','GD&T','FEA'],
+'Psychology':['SPSS','Research Design','Clinical Assessment','Statistical Analysis','Survey Design','R'],
+'Biology':['PCR','Gel Electrophoresis','Lab Safety','CRISPR','Microscopy','Cell Culture','Data Analysis'],
+'Communications':['Adobe Creative Suite','Social Media Management','AP Style','Video Editing','Canva','Google Analytics'],
+'Marketing':['Google Ads','HubSpot','SEO','Content Strategy','A/B Testing','Mailchimp','Google Analytics'],
+'Information Systems':['SQL','Python','Tableau','AWS','Jira','Agile','Power BI','Cybersecurity'],
+'Economics':['Stata','R','Excel','Econometrics','Bloomberg Terminal','Forecasting','Python'],
+'Data Science':['Python','R','SQL','TensorFlow','Tableau','Pandas','Machine Learning','Power BI'],
+'Public Health':['SAS','Epidemiology','REDCap','Grant Writing','Biostatistics','Community Assessment'],
+'Political Science':['Policy Analysis','Research Methods','Data Visualization','Grant Writing','Public Speaking'],
+'Graphic Design':['Figma','Adobe Illustrator','Photoshop','After Effects','InDesign','Sketch','Blender'],
+'Criminal Justice':['Case Management','Report Writing','Legal Research','Data Analysis','Crisis Intervention'],
+};
+// Major-appropriate companies
+const COMPANIES_BY_TYPE={
+healthcare:['Mayo Clinic','Cleveland Clinic','Kaiser Permanente','HCA Healthcare','Ascension','Johns Hopkins Medicine'],
+tech:['Microsoft','Google','Amazon','Salesforce','IBM','Oracle','Cisco','Intuit','Spotify','Shopify'],
+business:['JPMorgan Chase','Goldman Sachs','Deloitte','PwC','McKinsey','BCG','Accenture','Morgan Stanley'],
+engineering:['Boeing','Lockheed Martin','Tesla','SpaceX','General Electric','Honeywell','Raytheon','3M'],
+media:['Disney','NBCUniversal','ViacomCBS','Spotify','WPP','Omnicom','Edelman','Weber Shandwick'],
+research:['NIH','CDC','Pfizer','Moderna','Merck','Genentech','Eli Lilly','Amgen'],
+government:['RAND Corporation','Brookings Institute','State Department','Federal Reserve','Congressional Budget Office'],
+general:['Amazon','Google','Microsoft','Target','Procter & Gamble','Johnson & Johnson','Visa','PayPal'],
+};
+const BULLETS_BY_MAJOR={
+'Business Administration':['Analyzed quarterly sales data across 4 product lines, identifying $230K in revenue optimization opportunities','Managed vendor relationships for $1.8M procurement budget, negotiating 12% cost reduction','Built automated reporting dashboard in Tableau tracking 15 KPIs for executive team','Coordinated cross-functional project with 8 team members, delivering 2 weeks ahead of deadline','Conducted market analysis on 20 competitor products for go-to-market strategy presentation'],
+'Nursing':['Provided direct patient care for 6-8 patients per shift in a 32-bed medical-surgical unit','Administered medications and monitored vital signs using Epic EMR for 200+ patient encounters','Collaborated with interdisciplinary care team to develop discharge plans reducing readmission by 15%','Performed triage assessments in emergency department, prioritizing care for 40+ patients per shift','Documented clinical findings and care plans with 99.5% accuracy across 500+ encounters'],
+'Computer Science':['Developed REST API serving 10,000+ daily requests with 99.9% uptime using Node.js and PostgreSQL','Built automated CI/CD pipeline reducing deployment time from 4 hours to 15 minutes','Designed and implemented microservices architecture handling 50K concurrent users','Led migration of legacy monolith to containerized services, reducing infrastructure costs by 35%','Created machine learning model achieving 94% accuracy on customer churn prediction'],
+'Mechanical Engineering':['Designed injection mold tooling for automotive component, reducing unit cost by 18%','Conducted FEA analysis on structural assembly, identifying stress concentrations that prevented field failures','Developed test fixtures for production line validation, improving throughput by 22%','Created SolidWorks models for 15+ components in new product development pipeline','Led DFMEA review for 3 critical subsystems, resolving 12 potential failure modes before production'],
+'Psychology':['Administered standardized assessments (MMPI-2, Beck Depression Inventory) for 50+ research participants','Conducted 30+ semi-structured interviews for qualitative study on workplace burnout','Analyzed survey data from 500 respondents using SPSS, presenting findings at regional conference','Developed recruitment strategy for clinical trial, achieving 95% enrollment target in 6 weeks','Co-authored literature review covering 75 peer-reviewed studies on cognitive behavioral therapy outcomes'],
+'Biology':['Performed PCR and gel electrophoresis on 200+ samples for gene expression study','Maintained cell culture lines for 3 concurrent research projects with zero contamination incidents','Collected and processed field samples across 12 sites for environmental biodiversity assessment','Operated confocal microscope for imaging neuronal tissue, generating data for 2 published papers','Managed laboratory inventory and ordering for $50K annual research budget'],
+'Communications':['Produced 40+ social media posts per week across 4 platforms, growing engagement by 65%','Wrote press releases and media pitches resulting in coverage in 8 regional publications','Managed content calendar for brand with 120K followers, maintaining consistent posting schedule','Created video content that generated 500K+ views across YouTube and Instagram','Coordinated event marketing for 3 campus events, each drawing 200+ attendees'],
+'Marketing':['Managed Google Ads campaigns with $15K monthly budget, achieving 3.2x ROAS','Built email automation sequences in HubSpot, increasing open rates from 18% to 32%','Conducted A/B tests on 20+ landing page variants, improving conversion rate by 28%','Developed content strategy producing 8 blog posts per month, driving 40% organic traffic growth','Analyzed customer segmentation data for 50K+ users to inform Q4 campaign targeting'],
+};
+// Fill missing majors with general bullets
+['Information Systems','Economics','Data Science','Public Health','Political Science','Graphic Design','Criminal Justice'].forEach(m=>{
+BULLETS_BY_MAJOR[m]=BULLETS_BY_MAJOR[m]||['Contributed to team project that delivered results 2 weeks ahead of schedule','Conducted research analysis on 100+ data points for departmental report','Presented findings to faculty panel, receiving highest evaluation score in cohort','Managed project timeline and deliverables for 5-person capstone team','Built data visualization dashboard summarizing key metrics for stakeholder review'];
+});
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function pickN(a,n){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b.slice(0,n)}
+function randGPA(){return(2.8+Math.random()*1.2).toFixed(2)}
+function randYear(){return 2024+Math.floor(Math.random()*3)}
+function getCompaniesForMajor(m){
+if(['Nursing','Public Health'].includes(m))return COMPANIES_BY_TYPE.healthcare;
+if(['Computer Science','Information Systems','Data Science'].includes(m))return COMPANIES_BY_TYPE.tech;
+if(['Business Administration','Economics','Marketing'].includes(m))return COMPANIES_BY_TYPE.business;
+if(['Mechanical Engineering'].includes(m))return COMPANIES_BY_TYPE.engineering;
+if(['Communications','Graphic Design'].includes(m))return COMPANIES_BY_TYPE.media;
+if(['Biology','Psychology'].includes(m))return COMPANIES_BY_TYPE.research;
+if(['Political Science','Criminal Justice'].includes(m))return COMPANIES_BY_TYPE.government;
+return COMPANIES_BY_TYPE.general;
+}
+function getRoleTitle(m){
+const map={'Business Administration':'Business Analyst','Nursing':'Registered Nurse','Computer Science':'Software Engineer','Mechanical Engineering':'Design Engineer','Psychology':'Research Associate','Biology':'Lab Technician','Communications':'Content Coordinator','Marketing':'Marketing Associate','Information Systems':'IT Analyst','Economics':'Economic Analyst','Data Science':'Data Analyst','Public Health':'Health Program Coordinator','Political Science':'Policy Analyst','Graphic Design':'Junior Designer','Criminal Justice':'Case Coordinator'};
+return map[m]||'Analyst';
+}
 
-  // ── State ──
-  let currentPhase = 'idle'; // idle | selected | chatgpt-running | transitioning | jobze-ready | jobze-running | done
-  let selectedIndex = 0;
-  let rightContextCount = 0;
-  const completedSnapshots = {};
-  let progressIntervals = [];
+// Build a random user profile for file previews
+function randomProfile(){const m=pick(MAJORS),s=pick(SCHOOLS);return{name:pick(NAMES),school:s,major:m,tier:pick(TIERS),gpa:randGPA(),grad:randYear(),skills:pickN(SKILL_SETS[m]||['Excel','PowerPoint','Research'],4),companies:pickN(getCompaniesForMajor(m),2),bullets:pickN(BULLETS_BY_MAJOR[m]||BULLETS_BY_MAJOR['Business Administration'],4),role:getRoleTitle(m)}}
 
-  // ── Progress bar helpers ──
-  function resetProgress() {
-    progressIntervals.forEach(id => clearInterval(id));
-    progressIntervals = [];
-    if (progressLeft) { progressLeft.style.width = '0%'; progressLeft.classList.remove('done'); }
-    if (progressRight) { progressRight.style.width = '0%'; progressRight.classList.remove('done'); }
-  }
-  function completeProgress(bar) { if (bar) { bar.classList.add('done'); bar.style.width = '100%'; } }
-  function startProgressTimer(bar, durationMs) {
-    if (!bar) return;
-    const start = Date.now();
-    const id = setInterval(() => {
-      if (paused) return;
-      const pct = Math.min(100, ((Date.now() - start) / durationMs) * 100);
-      bar.style.width = pct + '%';
-      if (pct >= 100) clearInterval(id);
-    }, 80);
-    progressIntervals.push(id);
-  }
+const FILE_DATA={
+'Resume_v1.docx':()=>{const p=randomProfile();return`<h3>Resume Preview</h3><div class="fp-row"><span class="fp-label">Name</span><span class="fp-val">${p.name}</span></div><div class="fp-row"><span class="fp-label">School</span><span class="fp-val">${p.school}</span></div><div class="fp-row"><span class="fp-label">Major</span><span class="fp-val">${p.major}</span></div><div class="fp-row"><span class="fp-label">GPA</span><span class="fp-val">${p.gpa}</span></div><div class="fp-row"><span class="fp-label">Graduation</span><span class="fp-val">May ${p.grad}</span></div><h3>Skills</h3>${p.skills.map(s=>'<span class="fp-tag b">'+s+'</span>').join('')}<h3>Experience</h3><div style="margin-bottom:8px"><strong>${p.companies[0]}</strong> &mdash; ${p.role} Intern<br><span style="color:var(--dim)">Summer ${p.grad-1}</span></div>${p.bullets.slice(0,2).map(b=>'<div class="fp-bullet">'+b+'</div>').join('')}<div style="margin:8px 0"><strong>${p.companies[1]}</strong> &mdash; ${p.role} Intern<br><span style="color:var(--dim)">Summer ${p.grad-2}</span></div>${p.bullets.slice(2,4).map(b=>'<div class="fp-bullet">'+b+'</div>').join('')}`},
+'Preferences.doc':()=>{const m=pick(MAJORS);return`<h3>Search Preferences</h3><div class="fp-row"><span class="fp-label">Target Roles</span><span class="fp-val">${getRoleTitle(m)}, Associate</span></div><div class="fp-row"><span class="fp-label">Experience Level</span><span class="fp-val">0-2 years (hard filter)</span></div><div class="fp-row"><span class="fp-label">Location</span><span class="fp-val">${pick(['New York, Remote','Los Angeles, Remote','Austin, Remote','Seattle, Remote','Boston, Remote','Denver, Remote','Atlanta, Remote'])}</span></div><div class="fp-row"><span class="fp-label">Salary Floor</span><span class="fp-val">$${pick(['48','50','52','55','58','60','62'])},000</span></div><div class="fp-row"><span class="fp-label">Company Size</span><span class="fp-val">${pick(['Any','50+','100+','500+'])}</span></div><h3>Exclusions</h3><div class="fp-bullet">No defense contractors</div><div class="fp-bullet">Exclude: ${pickN(COMPANIES_BY_TYPE.general,2).join(', ')}</div><h3>Personality</h3><div class="fp-row"><span class="fp-label">Color</span><span class="fp-val" style="color:#ff5f57">Red (direct, structured)</span></div><div class="fp-row"><span class="fp-label">Last Updated</span><span class="fp-val">April 4, 2026</span></div>`},
+'Job_Log.gsheet':()=>{const m=pick(MAJORS);const cs=pickN(getCompaniesForMajor(m),5);const sts=['Applied','Interview','Rejected','Saved','Applied'];return`<h3>Job Log (${cs.length} entries)</h3><div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-top:8px">${cs.map((c,i)=>'<div style="display:flex;padding:8px 12px;border-bottom:1px solid var(--border);font-size:11px;gap:12px"><span style="flex:1;color:var(--fg)">'+c+'</span><span style="width:100px;color:var(--muted)">'+getRoleTitle(m)+'</span><span class="fp-tag '+(sts[i]==='Interview'?'g':sts[i]==='Rejected'?'r':'b')+'" style="font-size:9px">'+sts[i]+'</span></div>').join('')}</div><div style="margin-top:12px;color:var(--dim);font-size:11px">Auto-updated by J.O.B.Z.E. after each execution</div>`},
+'Resume_v2.docx':()=>`<h3>Resume v2 (Rewritten by J.O.B.Z.E.)</h3><div class="fp-row"><span class="fp-label">Score Before</span><span class="fp-val" style="color:#ff5f57">5.2 / 10</span></div><div class="fp-row"><span class="fp-label">Score After</span><span class="fp-val" style="color:#44b078">8.1 / 10</span></div><div class="fp-row"><span class="fp-label">Delta</span><span class="fp-val" style="color:#4a9eff">+2.9</span></div><h3>Changes Made</h3><div class="fp-bullet">Rewrote 6 bullet points from task-based to impact-based</div><div class="fp-bullet">Added missing ATS keywords identified from peer benchmarking</div><div class="fp-bullet">Restructured skills section to lead with technical proficiencies</div><div class="fp-bullet">Reformatted dates and titles for consistency</div><h3>Keywords Added</h3>${pickN(['data analysis','project management','cross-functional','stakeholder communication','process improvement','quantitative research','strategic planning','team leadership'],6).map(k=>'<span class="fp-tag g">'+k+'</span>').join('')}`,
+'Interview_Prep.docx':()=>{const co=pick(COMPANIES_BY_TYPE.general);return`<h3>Interview Prep: ${co}</h3><div class="fp-row"><span class="fp-label">Company</span><span class="fp-val">${co}</span></div><div class="fp-row"><span class="fp-label">Role</span><span class="fp-val">${pick(MAJORS)} Track</span></div><div class="fp-row"><span class="fp-label">Rounds</span><span class="fp-val">2 (Behavioral + Technical/Case)</span></div><h3>Prepared Questions (STAR Format)</h3><div class="fp-bullet"><strong>"Describe a time you worked on a project under a tight deadline."</strong></div><div class="fp-bullet"><strong>"Tell me about a time you had to influence a stakeholder."</strong></div><div class="fp-bullet"><strong>"Walk me through a time you identified a problem and solved it."</strong></div><h3>Company Research (Live, April 2026)</h3><div class="fp-bullet">Recent earnings beat analyst expectations by 8%</div><div class="fp-bullet">Glassdoor: ${(3.4+Math.random()*0.8).toFixed(1)}/5 from ${Math.floor(2000+Math.random()*10000).toLocaleString()}+ reviews</div><div class="fp-bullet">Expanding operations in 2 new regions this quarter</div>`},
+};
 
-  // ── Mutual exclusion: play OR controls, never both ──
-  function showPlayBtn() { playWrap.style.display = ''; if (controlsWrap) controlsWrap.style.display = 'none'; }
-  function showCtrlBtns() {
-    playWrap.style.display = 'none';
-    if (controlsWrap) controlsWrap.style.display = 'flex';
-    if (ctrlPause) { ctrlPause.textContent = 'Pause'; ctrlPause.classList.remove('active'); }
-    if (ctrl2x) ctrl2x.classList.remove('active');
-    speedFactor = 1; paused = false;
-  }
-  function hideAllCtrls() {
-    playWrap.style.display = 'none';
-    if (controlsWrap) controlsWrap.style.display = 'none';
-    paused = false; frozenTimers = []; speedFactor = 1;
-  }
+// === CHANNEL DATA ===
+const FEEDBACK_MSGS=[
+{name:'Marcus',color:'#e87b35',text:'the resume rewrite changed my bullet points completely. went from describing tasks to showing measurable impact. got a callback the same week.'},
+{name:'Priya',color:'#8b5cf6',text:'interview prep was insanely detailed. it pulled news from that week about the company expanding. interviewer literally asked me about it.'},
+{name:'Sofia',color:'#ec4899',text:'is anyone else using the tough love skill? it told me my salary expectations were 15K above market for my tier. hurt to hear but i adjusted and got an offer faster.'},
+{name:'Aiden',color:'#06b6d4',text:'company intel flagged recent layoffs that i completely missed in my own research. saved me from applying to a team that was downsizing.'},
+{name:'Jasmine',color:'#f59e0b',text:'just switched my personality to Yellow and the whole vibe changed. feels like talking to a friend who happens to know everything about the job market.'},
+{name:'Tyler',color:'#10b981',text:'cover letter was better than anything i wrote manually. it pulled specific things from my resume i forgot were even on there.'},
+];
+const GENERAL_MSGS=[
+{name:'Warner',color:'#4a9eff',isFounder:true,text:'welcome to the beta. few ground rules: be honest about what works and what doesn\'t. if something feels off, say it. that\'s how the product gets better.'},
+{name:'Nia',color:'#ec4899',text:'just joined yesterday. already ran my first resume grade. is a 4.8 normal for a first pass?'},
+{name:'Warner',color:'#4a9eff',isFounder:true,text:'4.8 is average for the first grade. most people score between 4-6 before rewrites. the system benchmarks against your school tier and major. run the rewrite and check the delta.'},
+{name:'Kevin',color:'#06b6d4',text:'how often do the search results update? asked about a company and it pulled news from 2 days ago.'},
+{name:'Warner',color:'#4a9eff',isFounder:true,text:'live on every response. the search engine runs 3 targeted searches per skill call. if the data exists online, it finds it. no caching, no training data cutoffs.'},
+{name:'Connor',color:'#10b981',text:'the Google Drive folder is clutch. having every cover letter saved automatically means i can actually track what i sent where.'},
+];
+const FOUNDER_MSGS=[
+{from:'you',text:'hey, quick question. can J.O.B.Z.E. help with networking emails or is it just applications?'},
+{from:'founder',text:'not yet, but that\'s on the roadmap. right now the 6 skills cover the core job search loop. networking outreach is probably skill #7. if enough beta users ask for it, it ships faster.'},
+{from:'you',text:'makes sense. also, the tough love skill is brutally honest'},
+{from:'founder',text:'that\'s the point. every other tool tells you your resume is "great" because they want you to keep using the product. this one tells you the truth because the truth is what gets you hired.'},
+{from:'you',text:'respect. one more thing, can i change my preferences mid-beta?'},
+{from:'founder',text:'yeah, just update your Preferences.doc in Drive. the system detects changes on the next message. no need to re-register.'},
+];
 
-  // ── Timer system (supports pause + 2x mid-flight) ──
-  let timers = [];       // active timer entries: { fn, id, startTime, delay, speedAtCreation }
-  let frozenTimers = []; // paused timers: { fn, remaining }
-  let paused = false;
-  let speedFactor = 1;
+// Random profile for demo scenarios
+const demoMajor=pick(MAJORS),demoSchool=pick(SCHOOLS),demoTier=pick(TIERS);
+const demoCompany=pick(COMPANIES_BY_TYPE.general);
+const demoRole=getRoleTitle(demoMajor);
+const demoSkills=pickN(SKILL_SETS[demoMajor]||['Excel','Research','Analysis'],3);
 
-  function schedule(fn, delay) {
-    const realDelay = delay * speedFactor;
-    const entry = { fn, startTime: Date.now(), delay: realDelay, speedAtCreation: speedFactor, id: null };
-    entry.id = setTimeout(() => {
-      const i = timers.indexOf(entry);
-      if (i !== -1) timers.splice(i, 1);
-      fn();
-    }, realDelay);
-    timers.push(entry);
-  }
+const scenarios=[
+{skill:"resume-rewrite",profile:[{l:"Profile:",v:demoMajor+" Senior, "+demoSchool},{l:"Tier:",v:demoTier},{l:"Color:",v:'<span style="color:#ff5f57">Red</span>'},{l:"History:",v:Math.floor(5+Math.random()*20)+" interactions"}],driveNew:[{icon:IC.filePen,name:"Resume_v2.docx",delay:6000}],steps:[
+{type:"user",text:"grade my resume",delay:0},{type:"typing",duration:2200},
+{type:"bot",delay:0,html:'I\'d rate your current resume a <span class="score bad">5.2 / 10</span> for '+demoMajor+' right now.<br><br>After my suggested changes, you\'d be sitting at <span class="score good">8.1 / 10</span>. That\'s a <span class="score delta">+2.9</span> jump.<div class="resp-section"><div class="resp-title">What\'s already working</div><ul><li>Leadership experience is well-positioned and quantified</li><li>Skills section aligns with what '+demoMajor.toLowerCase()+' recruiters scan for in 2026</li></ul></div><div class="resp-section" style="margin-top:6px"><div class="resp-title">What needs work</div><ul><li>Internship bullets describe tasks, not impact. Reframe around measurable outcomes and specific deliverables</li><li>Missing ATS keywords that 78% of '+demoMajor.toLowerCase()+' resumes in your tier include: <strong>'+demoSkills.join(', ')+'</strong></li></ul></div>'},
+{type:"action-prompt",text:"Want me to rewrite it?",delay:600,triggersNext:true},
+{type:"user",text:"yes rewrite it",delay:0},{type:"typing",duration:3000},
+{type:"bot",delay:0,html:'Done. Your rewrite scores <span class="score good">8.1 / 10</span>. I kept your formatting and upgraded the text.<div class="file-block" data-file="Resume_v2.docx"><span class="i i-sm" style="color:#4a9eff">'+IC.file+'</span><span class="file-name">Resume_v2.docx</span><span class="file-meta saved">Saved to Drive</span></div>'}
+]},
+{skill:"interview-prep",profile:[{l:"Profile:",v:demoMajor+" Senior, "+demoSchool},{l:"Skills:",v:demoSkills.join(', ')},{l:"Color:",v:'<span style="color:#ff5f57">Red</span>'},{l:"History:",v:Math.floor(5+Math.random()*20)+" interactions"}],driveNew:[{icon:IC.clipboard,name:"Interview_Prep.docx",delay:5500}],steps:[
+{type:"user",text:"prep me for my "+demoCompany+" interview",delay:0},{type:"typing",duration:2800},
+{type:"bot",delay:0,html:'Here\'s your interview prep for <strong>'+demoRole+'</strong> at <strong>'+demoCompany+'</strong>.<div class="resp-section"><div class="resp-title">What you should know about '+demoCompany+'</div><ul><li>Recent earnings beat analyst expectations. Stock up 12% YTD.</li><li>Interview process: typically 2 rounds, behavioral + technical/case</li><li>Glassdoor: '+(3.4+Math.random()*0.8).toFixed(1)+'/5 from '+Math.floor(2000+Math.random()*10000).toLocaleString()+'+ reviews.</li></ul></div><div class="resp-section" style="margin-top:6px"><div class="resp-title">Behavioral (STAR Format)</div><ul><li><strong>"Describe a time you worked under a tight deadline."</strong><br>&#8594; Reference your internship experience directly<br>&#8594; Quantify the output and the constraints</li></ul></div><div class="resp-section" style="margin-top:6px"><div class="resp-title">Strategy</div><ul><li>Lead with your strongest technical skill, it maps to what they need</li><li>Ask about their recent expansion. Shows research they won\'t expect from a new grad</li></ul></div><div class="file-block" data-file="Interview_Prep.docx"><span class="i i-sm" style="color:#4a9eff">'+IC.clipboard+'</span><span class="file-name">Interview_Prep.docx</span><span class="file-meta saved">Saved to Drive</span></div>'},
+{type:"action-prompt",text:"Run a mock interview?",delay:600,triggersNext:false}
+]},
+{skill:"company-intel",profile:[{l:"Profile:",v:demoMajor+" Senior"},{l:"Preferences:",v:pick(['Tech','Healthcare','Consulting','Engineering'])+", "+pick(['New York','Los Angeles','Austin','Seattle','Boston','Denver','Atlanta'])+"/Remote"},{l:"Size:",v:"Any"},{l:"History:",v:Math.floor(5+Math.random()*20)+" interactions"}],driveNew:[],steps:[
+{type:"user",text:"is "+demoCompany+" a reach for me?",delay:0},{type:"typing",duration:3200},
+{type:"bot",delay:0,html:'Here\'s how <strong>'+demoCompany+'</strong> stacks up against your profile.<div class="resp-section"><div class="resp-title">Overview</div><ul><li>'+pick(['Fortune 500 company','Major public company','Leading industry player'])+'. Publicly traded.</li><li>Employee Sentiment: Glassdoor '+(3.4+Math.random()*0.8).toFixed(1)+'/5 from '+Math.floor(1000+Math.random()*8000).toLocaleString()+'+ reviews.</li><li>Recent News: Announced new initiatives in Q1 2026. Strong momentum heading into hiring season.</li></ul></div><div class="flag-block green"><div class="flag-title"><span class="i i-xs" style="color:#44b078">'+IC.shieldCheck+'</span> Strong Fit Signals</div>Industry match for your background &middot; Recent growth signals stability &middot; Strong Glassdoor from large sample</div><div class="flag-block red"><div class="flag-title"><span class="i i-xs" style="color:#ff5f57">'+IC.alertTri+'</span> Watch For</div>Competitive hiring process &middot; Some reviews cite long hours during peak periods</div><div class="resp-section" style="margin-top:6px"><div class="resp-title">How this fits your profile</div><ul><li>Solid match. Entry-level comp data shows <strong>$'+pick(['55-70','60-75','65-80','58-72'])+'K</strong> range.</li></ul></div>'},
+{type:"action-prompt",text:"Want me to check for open roles?",delay:600,triggersNext:false}
+]},
+{skill:"system",profile:[{l:"Profile:",v:demoMajor+" Senior, "+demoSchool},{l:"Color:",v:'<span style="color:#ff5f57">Red</span>'},{l:"History:",v:Math.floor(5+Math.random()*20)+" interactions"}],driveNew:[],steps:[
+{type:"user",text:"be less formal with me",delay:0},{type:"typing",duration:800},
+{type:"bot",delay:0,html:'Got it. I shifted my tone for you.<div class="resp-section" style="margin-top:8px"><div class="resp-title">What changed</div><ul><li>Personality color updated from <span style="color:#ff5f57;font-weight:700">Red</span> to <span style="color:#eab308;font-weight:700">Yellow</span> in the database</li><li>Every future response across all 6 skills adapts to the new tone</li><li>This is permanent, not just this conversation</li></ul></div><div class="resp-section" style="margin-top:6px"><div class="resp-title">4 Personality Profiles</div><ul><li><span style="color:#ff5f57;font-weight:700">Red:</span> Direct, structured, no-nonsense</li><li><span style="color:#eab308;font-weight:700">Yellow:</span> Casual, friendly, conversational</li><li><span style="color:#44b078;font-weight:700">Green:</span> Supportive, encouraging, detailed</li><li><span style="color:#4a9eff;font-weight:700">Blue:</span> Analytical, data-forward, precise</li></ul></div>'},
+{type:"bot",delay:2000,html:'if you want to test the vibe, just ask me something and you\'ll hear the difference'}
+]}];
 
-  function killAllTimers() {
-    timers.forEach(e => clearTimeout(e.id));
-    timers = [];
-    frozenTimers = [];
-  }
+// === ENGINE ===
+let currentScenario=-1,isPlaying=false,speed=1,timeouts=[];
+const chatEl=document.getElementById('chatMessages'),driveEl=document.getElementById('driveFiles'),skillEl=document.getElementById('skillTag'),profileEl=document.getElementById('profileBar'),notifEl=document.getElementById('sidebarNotif'),inputEl=document.getElementById('chatInput');
+const baseDriveHTML='<div class="drive-file visible" data-file="Resume_v1.docx"><span class="i i-xs">'+IC.file+'</span> Resume_v1.docx</div><div class="drive-file visible" data-file="Preferences.doc"><span class="i i-xs">'+IC.settings+'</span> Preferences.doc</div><div class="drive-file visible" data-file="Job_Log.gsheet"><span class="i i-xs">'+IC.chart+'</span> Job_Log.gsheet</div>';
+function clearTimeouts(){timeouts.forEach(t=>clearTimeout(t));timeouts=[]}
+function reset(){clearTimeouts();isPlaying=false;chatEl.innerHTML='';driveEl.innerHTML=baseDriveHTML;bindDriveClicks();notifEl.style.display='none';inputEl.textContent='Message J.O.B.Z.E...';inputEl.style.color='';closeFilePreview()}
+function switchPanel(id){document.querySelectorAll('.panel-view').forEach(v=>v.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');document.querySelectorAll('.sidebar-item').forEach(s=>{s.classList.toggle('active',s.dataset.panel===id)});closeFilePreview()}
+function populateChannels(){
+document.getElementById('ch-general').innerHTML=GENERAL_MSGS.map(m=>'<div class="ch-msg"><div class="ch-avatar" style="background:'+m.color+';color:#000">'+m.name[0]+'</div><div><div class="ch-name"'+(m.isFounder?' style="color:#4a9eff"':'')+'>'+m.name+' <span class="ts">today</span></div><div class="ch-text">'+m.text+'</div></div></div>').join('');
+document.getElementById('ch-feedback').innerHTML=FEEDBACK_MSGS.map(m=>'<div class="ch-msg"><div class="ch-avatar" style="background:'+m.color+';color:#000">'+m.name[0]+'</div><div><div class="ch-name">'+m.name+' <span class="ts">today</span></div><div class="ch-text">'+m.text+'</div></div></div>').join('');
+document.getElementById('ch-founder').innerHTML=FOUNDER_MSGS.map(m=>{
+if(m.from==='you')return'<div class="ch-msg"><div class="ch-avatar" style="background:#4a9eff;color:#000">YO</div><div><div class="ch-name">You <span class="ts">today</span></div><div class="ch-text">'+m.text+'</div></div></div>';
+return'<div class="ch-msg"><div class="ch-avatar" style="background:rgba(255,255,255,.06);color:#4a9eff">WV</div><div><div class="ch-name" style="color:#4a9eff">Warner (founder) <span class="ts">today</span></div><div class="ch-text">'+m.text+'</div></div></div>';}).join('');
+}
+populateChannels();
+document.querySelectorAll('.sidebar-item[data-panel]').forEach(item=>{item.addEventListener('click',()=>switchPanel(item.dataset.panel))});
+function openFilePreview(fn){const gen=FILE_DATA[fn];if(!gen)return;document.getElementById('fpTitle').textContent=fn;document.getElementById('fpBody').innerHTML=gen();document.getElementById('filePreview').classList.add('open')}
+function closeFilePreview(){document.getElementById('filePreview').classList.remove('open')}
+document.getElementById('fpClose').addEventListener('click',closeFilePreview);
+function bindDriveClicks(){driveEl.querySelectorAll('.drive-file[data-file]').forEach(f=>{f.addEventListener('click',()=>{switchPanel('jobze');openFilePreview(f.dataset.file)})})}
+bindDriveClicks();
+chatEl.addEventListener('click',e=>{const fb=e.target.closest('.file-block[data-file]');if(fb)openFilePreview(fb.dataset.file)});
+profileEl.addEventListener('click',e=>{const tag=e.target.closest('.tag');if(tag)openFilePreview('Preferences.doc')});
+let timeCounter=0;
+function getTime(){const b=new Date();b.setHours(10,42+Math.floor(timeCounter/2),0);timeCounter++;const h=b.getHours(),m=b.getMinutes().toString().padStart(2,'0');return(h>12?h-12:h)+':'+m+' '+(h>=12?'PM':'AM')}
+function addMessage(type,content,callback){
+const div=document.createElement('div');div.className='msg';
+if(type==='user')div.innerHTML='<div class="msg-avatar" style="background:#4a9eff;color:#000">YO</div><div class="msg-body"><div class="msg-name">You <span class="ts">'+getTime()+'</span></div><div class="msg-text">'+content+'</div></div>';
+else if(type==='typing')div.innerHTML='<div class="msg-avatar" style="background:rgba(255,255,255,.06);color:#4a9eff">JZ</div><div class="msg-body"><div class="msg-name" style="color:#4a9eff">J.O.B.Z.E. <span class="ts">'+getTime()+'</span></div><div class="typing-indicator"><span></span><span></span><span></span></div></div>';
+else if(type==='bot')div.innerHTML='<div class="msg-avatar" style="background:rgba(255,255,255,.06);color:#4a9eff">JZ</div><div class="msg-body"><div class="msg-name" style="color:#4a9eff">J.O.B.Z.E. <span class="ts">'+getTime()+'</span></div><div class="msg-text">'+content+'</div></div>';
+else if(type==='action-prompt'){div.className='';div.style.cssText='padding-left:38px;opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s';const btn=document.createElement('button');btn.className='action-prompt';btn.innerHTML='<span class="i i-xs">'+IC.arrowR+'</span> '+content;if(callback)btn.addEventListener('click',callback);div.appendChild(btn)}
+chatEl.appendChild(div);requestAnimationFrame(()=>{requestAnimationFrame(()=>{div.classList.add('visible');if(type==='action-prompt'){div.style.opacity='1';div.style.transform='translateY(0)'}})});chatEl.scrollTop=chatEl.scrollHeight;return div}
+function removeTyping(){chatEl.querySelectorAll('.typing-indicator').forEach(ind=>{const msg=ind.closest('.msg');if(msg)msg.remove()})}
+function addDriveFile(iconSvg,name){const div=document.createElement('div');div.className='drive-file';div.dataset.file=name;div.innerHTML='<span class="i i-xs">'+iconSvg+'</span> '+name+' <span class="df-new">new</span>';driveEl.appendChild(div);div.addEventListener('click',()=>{switchPanel('jobze');openFilePreview(name)});requestAnimationFrame(()=>{requestAnimationFrame(()=>div.classList.add('visible'))})}
+function loadScenario(idx){if(currentScenario===idx&&isPlaying)return;currentScenario=idx;const s=scenarios[idx];document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));skillEl.textContent=s.skill;profileEl.innerHTML=s.profile.map(p=>'<span class="tag"><strong>'+p.l+'</strong> '+p.v+'</span>').join('');switchPanel('jobze');reset();const es=document.getElementById('emptyState');if(es)es.remove();play()}
+function play(){if(isPlaying)return;isPlaying=true;timeCounter=0;const s=scenarios[currentScenario];let w=false;
+s.driveNew.forEach(f=>{timeouts.push(setTimeout(()=>addDriveFile(f.icon,f.name),f.delay/speed))});
+function run(i){if(i>=s.steps.length||w){if(!w)isPlaying=false;return}const step=s.steps[i];
+if(step.type==='user'){inputEl.textContent=step.text;inputEl.style.color='var(--fg)';timeouts.push(setTimeout(()=>{inputEl.textContent='Message J.O.B.Z.E...';inputEl.style.color='';addMessage('user',step.text);notifEl.style.display='inline';run(i+1)},600/speed))}
+else if(step.type==='typing'){timeouts.push(setTimeout(()=>{addMessage('typing');timeouts.push(setTimeout(()=>{removeTyping();run(i+1)},step.duration/speed))},200/speed))}
+else if(step.type==='bot'){timeouts.push(setTimeout(()=>{addMessage('bot',step.html);notifEl.style.display='none';run(i+1)},(step.delay||0)/speed))}
+else if(step.type==='action-prompt'){timeouts.push(setTimeout(()=>{if(step.triggersNext){w=true;addMessage('action-prompt',step.text,()=>{w=false;run(i+1)})}else{addMessage('action-prompt',step.text);isPlaying=false}},(step.delay||0)/speed))}}
+timeouts.push(setTimeout(()=>run(0),400/speed))}
+document.querySelectorAll('.tab').forEach(tab=>{tab.addEventListener('click',()=>loadScenario(parseInt(tab.dataset.scenario)))});
+document.getElementById('replayBtn').addEventListener('click',()=>{if(currentScenario>=0){reset();const es=document.getElementById('emptyState');if(es)es.remove();play()}});
+const speedBtn=document.getElementById('speedBtn');const speeds=[1,1.5,2];let speedIdx=0;
+speedBtn.addEventListener('click',()=>{speedIdx=(speedIdx+1)%speeds.length;speed=speeds[speedIdx];speedBtn.textContent=speed+'x'});
 
-  function pauseAll() {
-    if (paused) return;
-    paused = true;
-    const now = Date.now();
-    frozenTimers = timers.map(e => {
-      clearTimeout(e.id);
-      return { fn: e.fn, remaining: Math.max(0, e.delay - (now - e.startTime)) };
-    });
-    timers = [];
-    if (ctrlPause) { ctrlPause.textContent = 'Resume'; ctrlPause.classList.add('active'); }
-  }
-
-  function resumeAll() {
-    if (!paused) return;
-    paused = false;
-    if (ctrlPause) { ctrlPause.textContent = 'Pause'; ctrlPause.classList.remove('active'); }
-    frozenTimers.forEach(ft => {
-      const realDelay = ft.remaining; // already in real ms
-      const entry = { fn: ft.fn, startTime: Date.now(), delay: realDelay, speedAtCreation: speedFactor, id: null };
-      entry.id = setTimeout(() => {
-        const i = timers.indexOf(entry);
-        if (i !== -1) timers.splice(i, 1);
-        ft.fn();
-      }, realDelay);
-      timers.push(entry);
-    });
-    frozenTimers = [];
-  }
-
-  // Reschedule all in-flight timers at new speed (called when 2x is toggled)
-  function rescheduleAtNewSpeed() {
-    const now = Date.now();
-    const pending = timers.map(e => {
-      clearTimeout(e.id);
-      const elapsed = now - e.startTime;
-      const remaining = Math.max(0, e.delay - elapsed);
-      return { fn: e.fn, remaining };
-    });
-    timers = [];
-    pending.forEach(p => {
-      // Scale remaining time by ratio of new speed to old
-      // remaining is already in real ms at the old speed, so just apply the ratio
-      const newDelay = p.remaining * speedFactor / (speedFactor === 0.5 ? 1 : 0.5);
-      // Simpler: if going to 2x, halve remaining. If going to 1x, double remaining.
-      const entry = { fn: p.fn, startTime: Date.now(), delay: p.remaining, speedAtCreation: speedFactor, id: null };
-      entry.id = setTimeout(() => {
-        const i = timers.indexOf(entry);
-        if (i !== -1) timers.splice(i, 1);
-        p.fn();
-      }, p.remaining);
-      timers.push(entry);
-    });
-  }
-
-  // ── DOM helpers ──
-  function addTyping(feed) {
-    const el = document.createElement('div');
-    el.className = 'shootout-typing';
-    el.innerHTML = '<span></span><span></span><span></span>';
-    feed.appendChild(el);
-    feed.scrollTop = feed.scrollHeight;
-    return el;
-  }
-
-  function addMessage(feed, msg, side) {
-    const el = document.createElement('div');
-    el.className = 'shootout-msg';
-    if (msg.type === 'user') {
-      let prefix = '';
-      if (side === 'right') {
-        prefix = '<div style="font-family:var(--mono); font-size:9px; color:var(--dim); letter-spacing:.06em; text-align:right; margin-bottom:4px; opacity:.6;">In Slack, Alex types:</div>';
-      }
-      el.innerHTML = prefix + '<div class="shootout-msg-user">' + msg.html + '</div>';
-    } else {
-      const sideClass = side === 'left' ? 'bad' : 'good';
-      let contextHtml = '';
-      if (msg.context) {
-        let isFirstContext = false;
-        if (side === 'right') {
-          rightContextCount++;
-          if (rightContextCount === 1) isFirstContext = true;
-        }
-        contextHtml = '<div class="shootout-context' + (isFirstContext ? ' open' : '') + '">' +
-          '<div class="shootout-context-toggle" onclick="this.parentElement.classList.toggle(\'open\')">' + msg.context.label + '</div>' +
-          '<div class="shootout-context-body"><div class="shootout-context-body-inner">' + msg.context.body + '</div></div></div>';
-      }
-      el.innerHTML = '<div class="shootout-msg-bot ' + sideClass + '">' + msg.html + contextHtml + '</div>';
-    }
-    feed.appendChild(el);
-    feed.scrollTop = feed.scrollHeight;
-  }
-
-  // ── Scenario data ──
-  const statusBars = [
-    'Profile: ME Senior, UIUC &nbsp;|&nbsp; Filters: 0-2yr exp, no defense, no oil &amp; gas &nbsp;|&nbsp; Exclusions: 4 companies &nbsp;|&nbsp; Context: 11 interactions',
-    'Profile: BSN Senior, UIC &nbsp;|&nbsp; Filters: new grad RN, Chicago metro, no travel nursing &nbsp;|&nbsp; Exclusions: 2 companies &nbsp;|&nbsp; Context: 8 interactions',
-    'Profile: Marketing Senior, DePaul &nbsp;|&nbsp; Filters: 0-2yr exp, CPG/agency, no pharma &nbsp;|&nbsp; Exclusions: 1 company &nbsp;|&nbsp; Context: 6 interactions',
-    'Profile: Biochem Senior, Loyola &nbsp;|&nbsp; Filters: 0-2yr exp, biotech/pharma, Chicago area &nbsp;|&nbsp; Exclusions: 3 companies &nbsp;|&nbsp; Context: 9 interactions'
-  ];
-  const statusBar = document.getElementById('shootout-status-bar');
-
-  const scenarios = [
-    { // 0: Find me jobs — Mechanical Engineering (unchanged)
-      left: [
-        { type: 'user', html: 'Find me entry-level mechanical engineering jobs in Chicago', typingDur: 300, readTime: 600 },
-        { type: 'bot', html: 'Here are some entry-level mechanical engineering positions in the Chicago area that might be a good fit:', typingDur: 600, readTime: 800 },
-        { type: 'bot', html: '<div style="margin-top:8px"><div style="font-weight:600; font-size:13px;">Mechanical Engineer I, Illinois Tool Works</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">itw.com/careers/mechanical-eng-2024</div><div style="font-size:10px; color:#ff5f57; margin-top:3px; opacity:.7;">⚠ Page not found</div></div><div style="margin-top:12px"><div style="font-weight:600; font-size:13px;">Design Engineer, Northrop Grumman</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">northropgrumman.com/jobs/design-eng-chi</div><div style="font-size:10px; color:#ff5f57; margin-top:3px; opacity:.7;">⚠ Defense contractor</div></div><div style="margin-top:12px"><div style="font-weight:600; font-size:13px;">Senior Mechanical Engineer, Motorola Solutions</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">motorolasolutions.com/careers/sr-mech-eng</div><div style="font-size:10px; color:#ff5f57; margin-top:3px; opacity:.7;">⚠ Requires 5–7 years experience</div></div>', typingDur: 800, readTime: 3500 },
-        { type: 'bot', html: '<em style="font-size:12px; color:var(--dim);">Note: I don\'t have access to your resume or previous searches. Please share your background and preferences for more tailored results.</em>', typingDur: 400, readTime: 1200 }
-      ],
-      right: [
-        { type: 'user', html: 'execute', typingDur: 300, readTime: 400 },
-        { type: 'bot', html: 'Found these roles matching your criteria:', context: { label: 'Data pulled', body: 'Resume: Heat exchanger design project (18% thermal efficiency gain), manufacturing internship with thermocouple validation experience &middot; Preferences: 0-2yr only, Chicago/Midwest, no oil & gas, no defense contractors &middot; Exclusions: 4 companies already sent &middot; Job log: 11 roles tracked' }, typingDur: 700, readTime: 2000 },
-        { type: 'bot', html: '<div style="margin-top:8px; padding:10px 12px; border-left:3px solid rgba(68,176,120,.6); background:rgba(68,176,120,.04); border-radius:0 6px 6px 0; margin-bottom:8px;"><div style="font-weight:600; font-size:13px;">Manufacturing Engineer I, Parker Hannifin</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">Chicago, IL &middot; Entry Level &middot; $65k\u2013$74k &middot; \u2705 Active</div><div style="font-size:12px; color:var(--muted); margin-top:6px; font-style:italic;">Your heat exchanger project proves you can take a design from prototype to validated performance data. That\'s exactly what this role does at production scale.</div></div><div style="padding:10px 12px; border-left:3px solid rgba(68,176,120,.6); background:rgba(68,176,120,.04); border-radius:0 6px 6px 0; margin-bottom:8px;"><div style="font-weight:600; font-size:13px;">Product Design Engineer, Caterpillar</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">Peoria, IL &middot; 0\u20132yr &middot; $68k\u2013$78k &middot; \u2705 Active</div><div style="font-size:12px; color:var(--muted); margin-top:6px; font-style:italic;">Your thermal systems work maps to their powertrain cooling team. Manufacturing internship gives you the shop floor credibility they look for.</div></div><div style="padding:10px 12px; border-left:3px solid rgba(68,176,120,.6); background:rgba(68,176,120,.04); border-radius:0 6px 6px 0;"><div style="font-weight:600; font-size:13px;">Test Engineer (Rotational), Honeywell</div><div style="font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px;">Des Plaines, IL &middot; New Grad &middot; $70k\u2013$76k &middot; \u2705 Active</div><div style="font-size:12px; color:var(--muted); margin-top:6px; font-style:italic;">Rotational programs want engineers who can test, analyze, and iterate. Your senior design project is a perfect STAR story for their interview.</div></div>', typingDur: 1000, readTime: 5000 },
-        { type: 'bot', html: '3 roles added to your job log. You won\'t see these again.', typingDur: 400, readTime: 800 }
-      ]
-    },
-    { // 1: Fix my resume bullet — NURSING
-      left: [
-        { type: 'user', html: 'Fix this bullet: Helped with patient care and vitals during clinical rotation on the med-surg floor', typingDur: 300, readTime: 600 },
-        { type: 'bot', html: 'Great start! Here are some ways to make this bullet stronger:', typingDur: 500, readTime: 800 },
-        { type: 'bot', html: '<div style="margin-top:4px; line-height:1.8;">\u2022 Quantify your experience. How many patients did you care for per shift?<br>\u2022 Use a stronger action verb like "Assisted" or "Supported"<br>\u2022 Mention specific skills like medication administration or EHR documentation<br>\u2022 Example: "Supported patient care activities including vital signs and documentation on a medical-surgical unit, contributing to positive patient outcomes"</div>', typingDur: 700, readTime: 3000 },
-        { type: 'bot', html: '<em style="font-size:12px; color:var(--dim);">Would you like me to refine this further? It would help to know what specialty you\'re targeting.</em>', typingDur: 400, readTime: 1000 }
-      ],
-      right: [
-        { type: 'user', html: 'Fix this bullet: Helped with patient care and vitals during clinical rotation on the med-surg floor', typingDur: 300, readTime: 600 },
-        { type: 'bot', html: 'That bullet has three problems.', context: { label: 'Data pulled', body: 'Resume section: Med-Surg Clinical Rotation, Spring 2025, Rush University Medical Center &middot; Clinical hours: 240 hours across med-surg, 96 hours ICU, 48 hours L&D &middot; Target roles: New grad RN, med-surg or ICU &middot; Certifications: BLS, ACLS &middot; Stored resume version: v3 (last updated Mar 2)' }, typingDur: 600, readTime: 1500 },
-        { type: 'bot', html: '<div style="line-height:1.8;"><div style="margin-bottom:8px;">\ud83d\udd34 <strong>"Helped with"</strong>: passive helper language. Nurse managers skip bullets that don\'t show ownership. Use verbs like assessed, administered, monitored, triaged. You were doing real patient care, not watching.</div><div style="margin-bottom:8px;">\ud83d\udd34 <strong>No patient load or metric.</strong> "Patient care and vitals" is what every nursing student writes. You managed up to 6 patients per shift on that rotation. That number proves you can handle a real assignment.</div><div>\ud83d\udd34 <strong>No clinical skill anchor.</strong> "Med-surg floor" is the setting, not the skill. You were doing medication administration, wound assessments, and documenting in Epic. Those are the keywords nurse recruiters search for in ATS systems.</div></div>', typingDur: 900, readTime: 4000 },
-        { type: 'bot', html: '<div style="margin-top:10px;"><div style="font-size:11px; color:var(--dim); font-family:var(--mono); letter-spacing:.06em; margin-bottom:6px;">REWRITE:</div><div style="padding:10px 12px; border:1px solid var(--border); border-radius:6px; background:rgba(255,255,255,.02); font-size:13px; line-height:1.7;">Assessed and monitored 4\u20136 patients per shift on a 34-bed medical-surgical unit, administering medications via PO/IV routes, performing wound care assessments, and documenting interventions in Epic EMR with 100% on-time charting compliance.</div></div>', context: { label: 'Why this works', body: 'Uses active clinical verbs (assessed, monitored, administering) that match ATS keywords in 87% of new-grad RN job postings. Patient ratio (4-6) proves assignment readiness. Specifying Epic EMR matters because 79% of U.S. hospitals use Epic. Medication routes (PO/IV) and wound care are hard skills that separate clinical experience from observational hours. Formatted for new-grad RN and med-surg roles per your target list.' }, typingDur: 800, readTime: 3500 }
-      ]
-    },
-    { // 2: Prep me for an interview — MARKETING
-      left: [
-        { type: 'user', html: 'I have an interview at Kraft Heinz for an associate brand manager role. How should I prep?', typingDur: 300, readTime: 600 },
-        { type: 'bot', html: 'Congratulations on the interview! Here are some tips to prepare:', typingDur: 500, readTime: 700 },
-        { type: 'bot', html: '<div style="line-height:1.8;">\u2022 Research Kraft Heinz\'s brand portfolio and recent campaigns<br>\u2022 Review the job description and map your experiences to their requirements<br>\u2022 Prepare STAR-format answers for behavioral questions<br>\u2022 Have 2\u20133 thoughtful questions ready for the interviewer<br>\u2022 Brush up on marketing fundamentals like the 4 P\'s and brand positioning</div>', typingDur: 700, readTime: 2500 },
-        { type: 'bot', html: '<em style="font-size:12px; color:var(--dim);">Would you like help with specific interview questions? Share the role details and I can help you practice.</em>', typingDur: 400, readTime: 1000 }
-      ],
-      right: [
-        { type: 'user', html: 'I have an interview at Kraft Heinz for an associate brand manager role. How should I prep?', typingDur: 300, readTime: 600 },
-        { type: 'bot', html: 'Kraft Heinz ABM role. Here\'s what you need walking in:', context: { label: 'Data pulled', body: 'Job listing: Associate Brand Manager, Kraft Heinz, Chicago IL &middot; Your resume: Social media campaign for DePaul student org (42% engagement increase), marketing internship at mid-size CPG brand &middot; Glassdoor interview data: 28 reported interviews for marketing roles at Kraft Heinz &middot; Preferences: Already flagged Kraft Heinz as a target company' }, typingDur: 700, readTime: 1800 },
-        { type: 'bot', html: '<div style="line-height:1.8;"><div style="margin-bottom:10px;"><strong>What they actually ask:</strong> Based on reported interviews, Kraft Heinz ABM interviews are case-heavy. Expect: "Pick one of our brands that\'s underperforming and pitch a repositioning strategy" and "Walk us through a time you used data to change a marketing decision." They also run a mini case study where you analyze Nielsen data and present a recommendation in 20 minutes.</div><div style="margin-bottom:10px;"><strong>Your angle:</strong> Most marketing grads lead with coursework or hypothetical campaigns. You ran a real campaign for a student org and can point to a 42% engagement lift with actual before/after metrics. That\'s rare at the entry level. Frame it as: problem, insight, creative strategy, measured result. That\'s exactly how brand managers present internally at KHC.</div><div><strong>Don\'t say:</strong> Don\'t say "I\'m passionate about marketing." Every candidate says that. Don\'t pitch a social media idea without tying it to a business metric. Kraft Heinz is a numbers-driven culture. If you can\'t connect creative work to revenue or market share, it won\'t land.</div></div>', typingDur: 1000, readTime: 5500 },
-        { type: 'bot', html: 'Want to run a practice case? I\'ll give you a real Kraft Heinz brand scenario and score your response.', context: { label: 'Source', body: 'Interview prep sourced from 28 Glassdoor interview reports for Kraft Heinz marketing roles, filtered for 2024-2026 entries. Comp data: $65k-$75k base + $8k-$12k signing bonus per reported offers for ABM roles.' }, typingDur: 500, readTime: 1500 }
-      ]
-    },
-    { // 3: Is this company worth it? — BIOCHEMISTRY
-      left: [
-        { type: 'user', html: 'Is Baxter International worth applying to?', typingDur: 300, readTime: 600 },
-        { type: 'bot', html: 'Baxter International is a global healthcare company headquartered in Deerfield, Illinois. Here\'s an overview:', typingDur: 600, readTime: 1000 },
-        { type: 'bot', html: '<div style="line-height:1.8;">\u2022 Founded in 1931, they employ over 50,000 people globally<br>\u2022 Known for IV solutions, renal care products, and surgical equipment<br>\u2022 They offer positions across R&D, manufacturing, and quality assurance<br>\u2022 Glassdoor rating is around 3.8/5 with generally positive reviews<br>\u2022 Could be a good fit if you\'re interested in healthcare or biotech</div>', typingDur: 700, readTime: 2500 },
-        { type: 'bot', html: '<em style="font-size:12px; color:var(--dim);">Would you like me to help you find open positions there?</em>', typingDur: 400, readTime: 1000 }
-      ],
-      right: [
-        { type: 'user', html: 'Is Baxter International worth applying to?', typingDur: 300, readTime: 600 },
-        { type: 'bot', html: 'Short answer: Yes, but not every role there. Here\'s the breakdown.', context: { label: 'Data pulled', body: 'Your preferences: Biotech/pharma, entry-level lab or QC roles, Chicago area &middot; Resume: Biochem senior capstone on protein purification using HPLC, lab assistant role with cell culture experience &middot; Baxter profile: 160-acre HQ campus in Deerfield IL, 20 min from Chicago &middot; Glassdoor data: 3.8 rating, 54% positive interview experience' }, typingDur: 500, readTime: 1500 },
-        { type: 'bot', html: '<div style="line-height:1.8;"><div style="margin-bottom:8px;">\ud83d\udfe2 <strong>Strong match for QC/lab roles.</strong> Baxter runs pharmaceutical manufacturing out of their Round Lake facility. Their Quality Control Analyst roles specifically list HPLC and cell culture as preferred skills, which is exactly what your capstone and lab assistant experience cover.</div><div style="margin-bottom:8px;">\ud83d\udfe1 <strong>Watch the role level.</strong> A lot of their Deerfield postings are senior-level R&D (3-5+ years). Filter for Round Lake and look for "Associate" or "Analyst I" titles. Those are the ones scoped for new grads with a bachelor\'s.</div><div>\ud83d\udfe1 <strong>Comp:</strong> Entry-level QC Analyst at Baxter pays $52k-$64k in the Chicago suburbs. That\'s in range with what you\'ve been targeting, but $3k-$5k below Abbott and Takeda for comparable roles. Benefits package is solid though: tuition reimbursement if you\'re considering a master\'s.</div></div>', typingDur: 900, readTime: 4500 },
-        { type: 'bot', html: 'I\'d apply to the Round Lake QC roles specifically. Want me to pull the active listings that match your profile?', typingDur: 400, readTime: 1200 }
-      ]
-    }
-  ];
-
-  const verdicts = [
-    "ChatGPT guessed. Three broken links. JOBZE searched, verified, and explained why each role fits your resume.",
-    "One side gave generic nursing tips. The other side knew your patient load, your EMR system, and the exact ATS keywords nurse recruiters filter for.",
-    "Generic interview advice vs. what Kraft Heinz actually asks, sourced from 28 real interviews. Plus the case study format they don't warn you about.",
-    "ChatGPT wrote a company bio. JOBZE told you which facility to target, which job titles to filter for, and how the pay compares to your other options."
-  ];
-
-  // ── Full reset: wipe everything back to idle ──
-  function resetAll() {
-    killAllTimers();
-    hideAllCtrls();
-    resetProgress();
-    feedLeft.innerHTML = '<div class="shootout-idle">Pick a scenario above</div>';
-    feedRight.innerHTML = '';
-    feedLeft.style.opacity = '1';
-    feedLeft.style.transition = '';
-    if (annosRow) annosRow.classList.remove('visible');
-    verdict.classList.remove('visible');
-    grid.classList.remove('phase-split');
-    grid.classList.add('phase-center');
-    playBtn.disabled = false;
-    playBtn.classList.remove('is-replay');
-    playLabel.textContent = 'Run ChatGPT';
-    rightContextCount = 0;
-    currentPhase = 'idle';
-  }
-
-  // ── Restore a completed scenario instantly ──
-  function restoreSnapshot(index) {
-    const snap = completedSnapshots[index];
-    if (!snap) return false;
-    killAllTimers();
-    hideAllCtrls();
-    resetProgress();
-    completeProgress(progressLeft);
-    completeProgress(progressRight);
-    selectedIndex = index;
-    currentPhase = 'done';
-
-    // Update status bar
-    if (statusBar && statusBars[index]) {
-      statusBar.innerHTML = statusBars[index];
-    }
-
-    grid.classList.remove('phase-center');
-    grid.classList.add('phase-split');
-    feedLeft.innerHTML = snap.leftHTML;
-    feedLeft.style.opacity = '1';
-    feedLeft.style.transition = '';
-    feedRight.innerHTML = snap.rightHTML;
-    if (annosRow) annosRow.classList.add('visible');
-    verdict.textContent = snap.verdictText;
-    verdict.classList.add('visible');
-
-    showPlayBtn();
-    playBtn.disabled = false;
-    playLabel.textContent = '\u21BB Replay';
-    playBtn.classList.add('is-replay');
-    return true;
-  }
-
-  // ── Select a scenario (always works, even mid-playback) ──
-  function selectScenario(index, forceReplay) {
-    // ALWAYS stop whatever is happening and switch
-    resetAll();
-
-    // Update status bar for this scenario's profile
-    if (statusBar && statusBars[index]) {
-      statusBar.innerHTML = statusBars[index];
-    }
-
-    // If completed before and not forcing replay, restore snapshot
-    if (!forceReplay && completedSnapshots[index]) {
-      // Need to set tab active state
-      tabs.forEach(t => t.classList.remove('active'));
-      tabs[index].classList.add('active');
-      restoreSnapshot(index);
-      return;
-    }
-
-    selectedIndex = index;
-    currentPhase = 'selected';
-
-    // Show user prompt immediately in ChatGPT feed
-    const sc = scenarios[index];
-    const userMsg = sc.left[0];
-    feedLeft.innerHTML = '';
-    const el = document.createElement('div');
-    el.className = 'shootout-msg';
-    el.innerHTML = '<div class="shootout-msg-user">' + userMsg.html + '</div>';
-    feedLeft.appendChild(el);
-
-    // Show play button
-    showPlayBtn();
-    playBtn.disabled = false;
-    playLabel.textContent = 'Run ChatGPT';
-  }
-
-  // ── Phase 2: Run ChatGPT side ──
-  function runChatGPT() {
-    if (currentPhase !== 'selected') return;
-    currentPhase = 'chatgpt-running';
-    playBtn.disabled = true;
-    showCtrlBtns();
-
-    const sc = scenarios[selectedIndex];
-    const msgs = sc.left.slice(1);
-    const mult = 1.8;
-    let t = 200;
-
-    msgs.forEach(msg => {
-      const typing = (msg.typingDur || 500) * mult;
-      const read = (msg.readTime || 800) * mult;
-      const at = t;
-      schedule(() => {
-        const dots = addTyping(feedLeft);
-        schedule(() => { dots.remove(); addMessage(feedLeft, msg, 'left'); }, typing);
-      }, at);
-      t += typing + read;
-    });
-
-    // Drive progress bar for ChatGPT side
-    const totalDuration = (t + 1500) * speedFactor;
-    startProgressTimer(progressLeft, totalDuration);
-
-    // After done: breathe, dim, transition
-    schedule(() => {
-      completeProgress(progressLeft);
-      feedLeft.style.transition = 'opacity 0.6s ease';
-      feedLeft.style.opacity = '0.6';
-      schedule(() => {
-        feedLeft.style.transition = 'opacity 0.3s ease';
-        feedLeft.style.opacity = '1';
-        hideAllCtrls();
-        startTransition();
-      }, 700);
-    }, t + 1500);
-  }
-
-  // ── Phase 3: Transition to split view ──
-  function startTransition() {
-    currentPhase = 'transitioning';
-    grid.classList.remove('phase-center');
-    grid.classList.add('phase-split');
-
-    // Show JOBZE user prompt
-    const sc = scenarios[selectedIndex];
-    const userMsg = sc.right[0];
-    feedRight.innerHTML = '';
-    const el = document.createElement('div');
-    el.className = 'shootout-msg';
-    const prefix = '<div style="font-family:var(--mono); font-size:9px; color:var(--dim); letter-spacing:.06em; text-align:right; margin-bottom:4px; opacity:.6;">In Slack, Alex types:</div>';
-    el.innerHTML = prefix + '<div class="shootout-msg-user">' + userMsg.html + '</div>';
-    feedRight.appendChild(el);
-
-    // Brief typing, then show Run JOBZE button
-    const dots = addTyping(feedRight);
-    schedule(() => {
-      dots.remove();
-      currentPhase = 'jobze-ready';
-      showPlayBtn();
-      playBtn.disabled = false;
-      playLabel.textContent = 'Run J.O.B.Z.E.';
-    }, 800);
-  }
-
-  // ── Phase 4: Run JOBZE side ──
-  function runJOBZE() {
-    if (currentPhase !== 'jobze-ready') return;
-    currentPhase = 'jobze-running';
-    playBtn.disabled = true;
-    showCtrlBtns();
-    rightContextCount = 0;
-
-    const sc = scenarios[selectedIndex];
-    const msgs = sc.right.slice(1);
-    const mult = 1.5;
-    let t = 200;
-
-    msgs.forEach(msg => {
-      const typing = (msg.typingDur || 500) * mult;
-      const read = (msg.readTime || 800) * mult;
-      const at = t;
-      schedule(() => {
-        const dots = addTyping(feedRight);
-        schedule(() => { dots.remove(); addMessage(feedRight, msg, 'right'); }, typing);
-      }, at);
-      t += typing + read;
-    });
-
-    // Drive progress bar for JOBZE side
-    const totalDuration = (t + 1800) * speedFactor;
-    startProgressTimer(progressRight, totalDuration);
-
-    // After done: show annotations + verdict
-    schedule(() => {
-      completeProgress(progressRight);
-      hideAllCtrls();
-      finishDemo();
-    }, t + 1800);
-  }
-
-  // ── Phase 5: Show annotations row + verdict ──
-  function finishDemo() {
-    currentPhase = 'done';
-    if (annosRow) annosRow.classList.add('visible');
-
-    schedule(() => {
-      verdict.textContent = verdicts[selectedIndex];
-      verdict.classList.add('visible');
-
-      completedSnapshots[selectedIndex] = {
-        leftHTML: feedLeft.innerHTML,
-        rightHTML: feedRight.innerHTML,
-        verdictText: verdicts[selectedIndex]
-      };
-
-      schedule(() => {
-        showPlayBtn();
-        playBtn.disabled = false;
-        playLabel.textContent = '\u21BB Replay';
-        playBtn.classList.add('is-replay');
-      }, 800);
-    }, 2500);
-  }
-
-  // ── Play button: routes to correct phase ──
-  playBtn.addEventListener('click', () => {
-    if (playBtn.disabled) return;
-    if (currentPhase === 'selected') runChatGPT();
-    else if (currentPhase === 'jobze-ready') runJOBZE();
-    else if (currentPhase === 'done') selectScenario(selectedIndex, true);
-  });
-
-  // ── Pause button ──
-  if (ctrlPause) {
-    ctrlPause.addEventListener('click', () => {
-      if (paused) resumeAll(); else pauseAll();
-    });
-  }
-
-  // ── 2x button: reschedules ALL in-flight timers ──
-  if (ctrl2x) {
-    ctrl2x.addEventListener('click', () => {
-      const wasfast = speedFactor === 0.5;
-      if (paused) {
-        // Toggle speed for when we resume
-        speedFactor = wasfast ? 1 : 0.5;
-        // Rescale frozen timers
-        frozenTimers = frozenTimers.map(ft => ({
-          fn: ft.fn,
-          remaining: wasfast ? ft.remaining * 2 : ft.remaining / 2
-        }));
-      } else {
-        // Pause everything, change speed, rescale, resume
-        const now = Date.now();
-        const pending = timers.map(e => {
-          clearTimeout(e.id);
-          return { fn: e.fn, remaining: Math.max(0, e.delay - (now - e.startTime)) };
-        });
-        timers = [];
-        speedFactor = wasfast ? 1 : 0.5;
-        // Rescale remaining times
-        const scale = wasfast ? 2 : 0.5;
-        pending.forEach(p => {
-          const newDelay = p.remaining * scale;
-          const entry = { fn: p.fn, startTime: Date.now(), delay: newDelay, speedAtCreation: speedFactor, id: null };
-          entry.id = setTimeout(() => {
-            const i = timers.indexOf(entry);
-            if (i !== -1) timers.splice(i, 1);
-            p.fn();
-          }, newDelay);
-          timers.push(entry);
-        });
-      }
-      ctrl2x.classList.toggle('active', speedFactor === 0.5);
-    });
-  }
-
-  // ── Tab clicks: ALWAYS work, even mid-playback ──
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const idx = parseInt(tab.dataset.scenario, 10);
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      selectScenario(idx);
-    });
-  });
-
-  // ── Initialize ──
-  grid.classList.add('phase-center');
-  hideAllCtrls();
-
-  // ── Auto-select scenario 0 when section scrolls into view ──
-  let autoPlayed = false;
-  const shootoutSection = document.getElementById('product');
-  if (shootoutSection) {
-    const autoPlayObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting && !autoPlayed) {
-          autoPlayed = true;
-          selectScenario(0);
-          autoPlayObserver.unobserve(shootoutSection);
-        }
-      });
-    }, { threshold: 0.3 });
-    autoPlayObserver.observe(shootoutSection);
-  }
-})();
 
 /* ═══════ STORY WORD-BY-WORD REVEAL ═══════ */
 (function() {
@@ -2194,32 +1746,13 @@ document.querySelectorAll('a[href^="#"]').forEach(function(link) {
 
 /* ═══════ WAITLIST FORM SUBMIT ═══════ */
 (function() {
-  var WEBHOOK_URL = 'https://n8n.wvez.org/webhook/jobze-waitlist-v2';
   var form = document.getElementById('waitlist-form');
-  var submitBtn = form ? form.querySelector('.submit-btn') : null;
-  if (!form || !submitBtn) return;
-  var originalBtnText = submitBtn.textContent;
-
+  if (!form) return;
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
-
-    var formData = new FormData(form);
-
-    fetch(WEBHOOK_URL, { method: 'POST', body: formData })
-    .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function() {
-      form.style.display = 'none';
-      var success = document.getElementById('success-state');
-      success.classList.add('show');
-    })
-    .catch(function(err) {
-      console.error('Waitlist failed:', err);
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalBtnText;
-      alert('Something went wrong. Please try again.');
-    });
+    form.style.display = 'none';
+    var success = document.getElementById('success-state');
+    success.classList.add('show');
   });
 })();
 
