@@ -401,11 +401,7 @@ a { color: inherit; text-decoration: none; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
 /* Upload zone */
-.upload-zone { border: 1px dashed var(--border); border-radius: var(--r); padding: 28px; text-align: center; cursor: pointer; transition: all .2s; background: var(--s1); }
-.upload-zone:hover { border-color: var(--border2); background: var(--s2); }
-.upload-zone .uz-icon { font-size: 22px; margin-bottom: 8px; color: var(--dim); }
-.upload-zone .uz-text { font-size: 12px; color: var(--muted); }
-.upload-zone .uz-hint { font-family: var(--mono); font-size: 8px; color: var(--dim); margin-top: 4px; letter-spacing: .06em; }
+/* upload-zone CSS removed - resume upload replaced with checkbox */
 
 .submit-btn { width: 100%; padding: 16px; background: var(--fg); color: var(--bg); border: none; border-radius: var(--r); font-family: var(--sans); font-size: 14px; font-weight: 700; cursor: pointer; transition: all .2s; letter-spacing: -.01em; }
 .submit-btn:hover { opacity: .85; transform: translateY(-1px); }
@@ -802,7 +798,7 @@ a { color: inherit; text-decoration: none; }
     <!-- Sidebar checklist -->
     <div class="wl-sidebar reveal" style="transition-delay:.1s">
       <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">Use the same email here that you'll use for Slack. That's the only way J.O.B.Z.E. knows who you are on day one.</div></div>
-      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">Your resume gets read before every single search. Keep it updated after onboarding.</div></div>
+      <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">Your resume gets read before every single search. Upload it to your Google Drive folder after you get your Slack invite.</div></div>
       <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">Your preferences are locked in from day one and evolve every time you chat.</div></div>
       <div class="wl-check"><div class="wl-check-icon">+</div><div class="wl-check-text">This is free. No card. No catch. Limited spots.</div></div>
     </div>
@@ -862,15 +858,13 @@ a { color: inherit; text-decoration: none; }
           <div class="form-group"><label>Any future capabilities you would love to see from J.O.B.Z.E.?</label><textarea name="wishlist" placeholder="e.g. auto-apply to roles, LinkedIn message drafts, salary negotiation scripts, weekly job market reports"></textarea></div>
         </div>
 
-        <!-- Resume Upload -->
+        <!-- Resume Opt-In -->
         <div>
-          <div class="form-section-label">Resume Upload</div>
-          <div class="upload-zone" id="upload-zone">
-            <div class="uz-icon">&#8593;</div>
-            <div class="uz-text">Drop your resume here or click to upload</div>
-            <div class="uz-hint">PDF or DOCX &middot; Max 5MB</div>
-          </div>
-          <input type="file" id="resume-upload" name="resume" accept=".pdf,.docx" style="display:none">
+          <div class="form-section-label">06 | Resume</div>
+          <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer;">
+            <input type="checkbox" name="wants_resume_used" value="true" style="margin-top:3px; width:16px; height:16px; accent-color:#fff; flex-shrink:0;">
+            <span style="font-size:13px; color:var(--muted); line-height:1.7;"><strong style="color:var(--fg);">I want J.O.B.Z.E. to use my resume.</strong><br>This unlocks resume grading, rewrites, and smarter job matching. You will upload your resume to your personal Google Drive folder after receiving your Slack invite. Better results start here.</span>
+          </label>
         </div>
 
         <button type="submit" class="submit-btn">Claim My Spot &rarr;</button>
@@ -1711,38 +1705,7 @@ document.querySelectorAll('a[href^="#"]').forEach(function(link) {
   }, { passive: true });
 })();
 
-/* ═══════ WAITLIST UPLOAD ZONE ═══════ */
-(function() {
-  const zone = document.getElementById('upload-zone');
-  const fileInput = document.getElementById('resume-upload');
-  if (!zone || !fileInput) return;
 
-  function handleFiles(files) {
-    if (!files.length) return;
-    var file = files[0];
-    if (file.size > 5 * 1024 * 1024) {
-      alert('File exceeds 5MB limit. Please upload a smaller resume.');
-      fileInput.value = '';
-      return;
-    }
-    zone.innerHTML = '<div class="uz-icon" style="color:var(--fg)">&#10003;</div><div class="uz-text" style="color:var(--fg)">' + file.name + '</div><div class="uz-hint">Click to change</div>';
-  }
-
-  zone.addEventListener('click', function() { fileInput.click(); });
-  fileInput.addEventListener('change', function(e) {
-    handleFiles(e.target.files);
-  });
-  zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.style.borderColor = 'var(--border2)'; });
-  zone.addEventListener('dragleave', function() { zone.style.borderColor = ''; });
-  zone.addEventListener('drop', function(e) {
-    e.preventDefault();
-    zone.style.borderColor = '';
-    if (e.dataTransfer.files.length) {
-      fileInput.files = e.dataTransfer.files;
-      handleFiles(e.dataTransfer.files);
-    }
-  });
-})();
 
 /* ═══════ WAITLIST FORM SUBMIT ═══════ */
 (function() {
