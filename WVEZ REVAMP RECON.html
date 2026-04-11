@@ -328,7 +328,7 @@ body::after{content:'';position:fixed;inset:0;background:url('beanstalk-dark.png
 <body>
 <a href="https://wvez.org" class="back-btn">&lt; WVEZ.ORG</a>
 <!-- BACKGROUND VIDEO -->
-<video id="bg-video" muted loop playsinline autoplay preload="auto" src="https://pub-2b72d9c0a9f649e99699874d22247129.r2.dev/16392053-uhd_3840_2160_24fps.mp4"></video>
+<video id="bg-video" muted loop playsinline webkit-playsinline autoplay preload="auto" src="https://pub-2b72d9c0a9f649e99699874d22247129.r2.dev/16392053-uhd_3840_2160_24fps.mp4"></video>
 
 <!-- HERO -->
 <div class="hero">
@@ -980,6 +980,26 @@ function jumpToBk(i) {
       rootMargin: "0px 0px -50px 0px"
     });
     sectionsToAnimate.forEach(el => observer.observe(el));
+    // Force background video play on mobile (iOS Safari autoplay workaround)
+    const bgVideo = document.getElementById('bg-video');
+    if (bgVideo) {
+      const tryPlay = () => {
+        const p = bgVideo.play();
+        if (p !== undefined) {
+          p.catch(() => {
+            const forcePlay = () => {
+              bgVideo.play();
+              document.removeEventListener('touchstart', forcePlay);
+              document.removeEventListener('scroll', forcePlay);
+            };
+            document.addEventListener('touchstart', forcePlay, { once: true });
+            document.addEventListener('scroll', forcePlay, { once: true });
+          });
+        }
+      };
+      tryPlay();
+    }
+
     lucide.createIcons();
   });
 </script>
