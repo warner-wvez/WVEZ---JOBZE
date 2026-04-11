@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WVEZ RECON — Inventory Surveillance Engine</title>
+<title>WVEZ RECON: Inventory Surveillance Engine</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   .hero-tag { font-family: var(--sans); font-size: 11px; font-style: italic; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.05em; opacity: 0.8; }
@@ -238,7 +238,7 @@ body::after{content:'';position:fixed;inset:0;background:url('beanstalk-dark.png
 .ai-sum{font-size:12.5px;color:var(--muted);line-height:1.8;opacity:0;animation:fadeUp .5s 2s ease forwards}
 .ai-sum strong{color:var(--fg);font-weight:600}
 
-/* BREAKDOWN — expandable */
+/* BREAKDOWN: expandable */
 .bk-sec{padding:72px 40px 0;max-width:1160px;margin:0 auto}
 .bk-list{display:flex;flex-direction:column;gap:3px}
 .bk-row{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s}
@@ -462,7 +462,7 @@ body::after{content:'';position:fixed;inset:0;background:url('beanstalk-dark.png
         <div class="ss-v">Competitive intel engine</div>
       </div>
       <div class="ss-expand">
-        <div class="ss-body">I pivoted from tracking two stores for their live promos and price changes, to creating a workflow that was capable of monitoring <strong>full inventories of stores in any radius</strong>, then comparing their live data side-by-side to extract insights on demand. That's when RECON became what it is now — a tool that tells a business owner exactly where they're winning (and losing) on prices.</div>
+        <div class="ss-body">I pivoted from tracking two stores for their live promos and price changes, to creating a workflow that was capable of monitoring <strong>full inventories of stores in any radius</strong>, then comparing their live data side-by-side to extract insights on demand. That's when RECON became what it is now, a tool that tells a business owner exactly where they're winning (and losing) on prices.</div>
       </div>
     </div>
     <div class="ss-item" onclick="toggleStory(this)">
@@ -480,7 +480,7 @@ body::after{content:'';position:fixed;inset:0;background:url('beanstalk-dark.png
         <div class="ss-v">Data storage &amp; Batching</div>
       </div>
       <div class="ss-expand">
-        <div class="ss-body">I knew early on after the pivot I wanted some kind of <strong>pattern learning</strong> built into the system. I wanted the tool should get smarter over time and learn how well a business was truly operating compared to its nearby competitors. But I didn't know how to store thousands of product records efficiently. That's when I discovered <strong>Supabase</strong> and taught myself about batching, vector embeddings, and how to build a system that compounds its own knowledge with every run.</div>
+        <div class="ss-body">I knew early on after the pivot I wanted some kind of <strong>pattern learning</strong> built into the system. I wanted the tool to get smarter over time and learn how well a business was truly operating compared to its nearby competitors. But I didn't know how to store thousands of product records efficiently. That's when I discovered <strong>Supabase</strong> and taught myself about batching, vector embeddings, and how to build a system that compounds its own knowledge with every run.</div>
       </div>
     </div>
   </div>
@@ -559,7 +559,7 @@ body::after{content:'';position:fixed;inset:0;background:url('beanstalk-dark.png
     </div>
     <div class="bk-row" id="bk-3" onclick="toggleBk(this)">
       <div class="bk-head"><div class="bk-dot c4"></div><span class="bk-num">04</span><span class="bk-name">Merge &amp; Fingerprint</span><span class="bk-count">2 nodes</span><span class="bk-arrow">▾</span></div>
-      <div class="bk-expand"><div class="bk-body">Combines all products into one list. Each product gets a <strong>permanent ID</strong> — same product next week gets the same ID. That's how prices get tracked over time.</div></div>
+      <div class="bk-expand"><div class="bk-body">Combines all products into one list. Each product gets a <strong>permanent ID</strong>. Same product next week gets the same ID. That's how prices get tracked over time.</div></div>
     </div>
     <div class="bk-row" id="bk-4" onclick="toggleBk(this)">
       <div class="bk-head"><div class="bk-dot c5"></div><span class="bk-num">05</span><span class="bk-name">Route &amp; Archive</span><span class="bk-count">7 nodes</span><span class="bk-arrow">▾</span></div>
@@ -581,13 +581,13 @@ body::after{content:'';position:fixed;inset:0;background:url('beanstalk-dark.png
   <div class="sum-inner">
     <div>
       <h2 class="sum-h">One click.<br>Full market intelligence.</h2>
-      <p class="sum-p">RECON started as a way to track my own deals and became a full competitive intelligence engine in 2-3 weeks. Every run builds on the last — the system's memory compounds over time. Point it at any two retail endpoints and it works.</p>
+      <p class="sum-p">RECON started as a way to track my own deals and became a full competitive intelligence engine in 2-3 weeks. Every run builds on the last. The system's memory compounds over time. Point it at any two retail endpoints and it works.</p>
     </div>
     <div class="ocs">
-      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Price Gap Alerts</strong> — Every product where the client is cheaper, quantified to the cent.</div></div>
-      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Scarcity Wins</strong> — Products competitors are out of that the client still has in stock.</div></div>
-      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Historical Memory</strong> — Every run is stored, enabling week-over-week price trend detection.</div></div>
-      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Permanent Archive</strong> — Timestamped Excel snapshots and live Google Sheets, updated every run.</div></div>
+      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Price Gap Alerts</strong>: Every product where the client is cheaper, quantified to the cent.</div></div>
+      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Scarcity Wins</strong>: Products competitors are out of that the client still has in stock.</div></div>
+      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Historical Memory</strong>: Every run is stored, enabling week-over-week price trend detection.</div></div>
+      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Permanent Archive</strong>: Timestamped Excel snapshots and live Google Sheets, updated every run.</div></div>
     </div>
   </div>
 </div>
@@ -601,18 +601,18 @@ let running = false, stopRequested = false;
 let completed = new Set();
 let autoIdx = -1, selIdx = -1;
 
-// ─── PHASE CONTENT — generic retail (electronics) ────────────────────────────
+// ─── PHASE CONTENT: generic retail (electronics) ────────────────────────────
 const PHASES = [
-  // 0 — Trigger
+  // 0: Trigger
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 01</span><span class="ph-title">Trigger</span></div>
   <div class="ph-desc">One click fires all three data collection branches at the same time.</div>
   <div class="ds">
-    <div class="dr" style="animation-delay:.2s"><span class="dstore">BRANCH 1</span><span class="dname">Competitor Store — Batch 1</span><span class="dval ok">→ fired</span></div>
-    <div class="dr" style="animation-delay:.5s"><span class="dstore">BRANCH 2</span><span class="dname">Competitor Store — Batch 2</span><span class="dval ok">→ fired</span></div>
-    <div class="dr" style="animation-delay:.8s"><span class="dstore">BRANCH 3</span><span class="dname">Client Store — Full Inventory</span><span class="dval ok">→ fired</span></div>
+    <div class="dr" style="animation-delay:.2s"><span class="dstore">BRANCH 1</span><span class="dname">Competitor Store: Batch 1</span><span class="dval ok">→ fired</span></div>
+    <div class="dr" style="animation-delay:.5s"><span class="dstore">BRANCH 2</span><span class="dname">Competitor Store: Batch 2</span><span class="dval ok">→ fired</span></div>
+    <div class="dr" style="animation-delay:.8s"><span class="dstore">BRANCH 3</span><span class="dname">Client Store: Full Inventory</span><span class="dval ok">→ fired</span></div>
   </div>`,
 
-  // 1 — Collect
+  // 1: Collect
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 02</span><span class="ph-title">Live Data Collection</span></div>
   <div class="ph-desc">Three requests fire at once. The competitor store uses a <strong>headless browser</strong> so it looks like a real customer. The client store is a direct API call.</div>
   <div class="ntabs">
@@ -653,7 +653,7 @@ const PHASES = [
 }</div>
   </div>`,
 
-  // 2 — Normalize
+  // 2: Normalize
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 03</span><span class="ph-title">Normalize</span></div>
   <div class="ph-desc">Both stores send data in completely different formats. This step <strong>translates both into one matching format</strong> so they can be compared.</div>
   <div class="ntabs">
@@ -688,7 +688,7 @@ const PHASES = [
     </div>
   </div>`,
 
-  // 3 — Merge + SKU
+  // 3: Merge + SKU
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 04</span><span class="ph-title">Merge &amp; Fingerprint</span></div>
   <div class="ph-desc">All 1,107 products merge into one stream. Each gets a <strong>permanent ID</strong> computed from its content. Same product next week = same SKU.</div>
   <div class="ds">
@@ -705,7 +705,7 @@ const PHASES = [
     <div class="dr" style="animation-delay:.2s"><span class="dstore">SKU GEN</span><span class="dname">1,107 products fingerprinted and timestamped</span><span class="dval ok">✓ complete</span></div>
   </div>`,
 
-  // 4 — Route + Archive
+  // 4: Route + Archive
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 05</span><span class="ph-title">Route &amp; Archive</span></div>
   <div class="ph-desc">Data splits back into competitor vs. client. Both go to <strong>Google Sheets</strong>, get converted to <strong>Excel</strong>, and backed up to <strong>Google Drive</strong>.</div>
   <div class="ntabs">
@@ -760,7 +760,7 @@ const PHASES = [
     </div>
   </div>`,
 
-  // 5 — AI Memory
+  // 5: AI Memory
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 06</span><span class="ph-title">Build AI Memory</span></div>
   <div class="ph-desc">Every product is saved to a <strong>database</strong> (for exact lookups) and converted into <strong>AI embeddings</strong> (for meaning-based search). This is how the system learns over time.</div>
   <div class="ntabs">
@@ -779,7 +779,7 @@ const PHASES = [
   <span class="jk">"Price_Sale"</span>: <span class="jn">89</span>
 }</div>
     <div class="ds">
-      <div class="dr" style="animation-delay:.2s"><span class="dstore">SUPABASE</span><span class="dname">1,107 rows inserted — price history updated</span><span class="dval ok">✓ stored</span></div>
+      <div class="dr" style="animation-delay:.2s"><span class="dstore">SUPABASE</span><span class="dname">1,107 rows inserted. Price history updated</span><span class="dval ok">✓ stored</span></div>
       <div class="dr" style="animation-delay:.5s"><span class="dstore">TOTAL</span><span class="dname">Database now at 8,441 total records</span><span class="dval dim">8,441</span></div>
     </div>
   </div>
@@ -795,30 +795,30 @@ const PHASES = [
     </div>
   </div>`,
 
-  // 6 — Intelligence
+  // 6: Intelligence
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 07</span><span class="ph-title">AI Intelligence Report</span></div>
   <div class="ph-desc">The AI reads all 1,107 products and writes a competitive analysis:</div>
   <div class="air">
     <div class="ais">
-      <div class="ais-t"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Price Gaps — client is cheaper</div>
+      <div class="ais-t"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Price Gaps: client is cheaper</div>
       <div class="ag-row" style="animation-delay:.1s"><span class="ag-prod">Whispering Angel · C&ocirc;tes de Provence Ros&eacute; 2023</span><span class="ag-c">$21.99</span><span class="ag-x">$24</span><span class="ag-d">-$2.01</span></div>
       <div class="ag-row" style="animation-delay:.3s"><span class="ag-prod">Veuve Clicquot · Yellow Label Brut NV</span><span class="ag-c">$54.99</span><span class="ag-x">$58</span><span class="ag-d">-$3.01</span></div>
       <div class="ag-row" style="animation-delay:.5s"><span class="ag-prod">Opus One · Napa Valley Red 2020</span><span class="ag-c">$419.99</span><span class="ag-x">$435</span><span class="ag-d">-$15.01</span></div>
     </div>
     <div class="ais">
-      <div class="ais-t"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg> Scarcity Wins — competitor out of stock</div>
-      <div class="sc-row" style="animation-delay:1.1s"><span style="color:#ffd080">&#9670;</span><span class="sc-prod">Screaming Eagle · Cabernet Sauvignon 2019 — client has 3 bottles</span><span class="sc-badge">OOS — promote now</span></div>
-      <div class="sc-row" style="animation-delay:1.3s"><span style="color:#ffd080">&#9670;</span><span class="sc-prod">Penfolds Grange · Shiraz 2018 — client has 8 bottles</span><span class="sc-badge">OOS — promote now</span></div>
-      <div class="sc-row" style="animation-delay:1.5s"><span style="color:#ffd080">&#9670;</span><span class="sc-prod">Dom P&eacute;rignon · Vintage 2013 — client has 14 bottles</span><span class="sc-badge">OOS — promote now</span></div>
+      <div class="ais-t"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg> Scarcity Wins: competitor out of stock</div>
+      <div class="sc-row" style="animation-delay:1.1s"><span style="color:#ffd080">&#9670;</span><span class="sc-prod">Screaming Eagle · Cabernet Sauvignon 2019, client has 3 bottles</span><span class="sc-badge">OOS: promote now</span></div>
+      <div class="sc-row" style="animation-delay:1.3s"><span style="color:#ffd080">&#9670;</span><span class="sc-prod">Penfolds Grange · Shiraz 2018, client has 8 bottles</span><span class="sc-badge">OOS: promote now</span></div>
+      <div class="sc-row" style="animation-delay:1.5s"><span style="color:#ffd080">&#9670;</span><span class="sc-prod">Dom P&eacute;rignon · Vintage 2013, client has 14 bottles</span><span class="sc-badge">OOS: promote now</span></div>
     </div>
     <div class="ais">
       <div class="ais-t"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/></svg> What to do next</div>
-      <p class="ai-sum">The client holds <strong>price advantages on ros&eacute; and sparkling categories</strong>. The Opus One gap is the largest at <strong>$15 below competitor</strong> — a meaningful edge on a high-ticket bottle. Three allocated/luxury wines show competitor stock at zero — <strong>Screaming Eagle Cabernet, Penfolds Grange, and Dom P&eacute;rignon</strong>. These typically sell within days of restock. Recommend featuring those scarcity items in the weekend email blast.</p>
+      <p class="ai-sum">The client holds <strong>price advantages on ros&eacute; and sparkling categories</strong>. The Opus One gap is the largest at <strong>$15 below competitor</strong>, a meaningful edge on a high-ticket bottle. Three allocated/luxury wines show competitor stock at zero: <strong>Screaming Eagle Cabernet, Penfolds Grange, and Dom P&eacute;rignon</strong>. These typically sell within days of restock. Recommend featuring those scarcity items in the weekend email blast.</p>
     </div>
   </div>`,
 ];
 
-// ─── ENGINE — click any stage + stop ─────────────────────────────────────────
+// ─── ENGINE: click any stage + stop ─────────────────────────────────────────
 function showPhase(i) {
   const pv = document.getElementById('phaseView');
   pv.innerHTML = PHASES[i]();

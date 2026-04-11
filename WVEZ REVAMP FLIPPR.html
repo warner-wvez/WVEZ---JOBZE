@@ -460,11 +460,11 @@ body::after{content:'';position:fixed;inset:0;background:url('beanstalk-dark.png
       <p class="sum-p">Built from years of reselling instinct and weeks of product research, this workflow turns a firehose of new listings into a clean stream of validated buy signals. No browsing. No second-guessing. Every notification that hits your phone has already been filtered, identified, priced, and profit-checked.</p>
     </div>
     <div class="ocs">
-      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>200+ listings scanned per run</strong> — across four high-turnover product categories with proven resale margins.</div></div>
-      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>60-term junk filter</strong> — catches broken screens, parts listings, accessories, and dozens of false positives that waste your time.</div></div>
-      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Real sold comp pricing</strong> — median price from up to 60 actual sales, cached for 6 hours to stay fast.</div></div>
-      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>True profit math</strong> — accounts for marketplace fees, payment processing, shipping both ways, and minimum ROI thresholds.</div></div>
-      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Instant buy signals</strong> — formatted alerts with profit breakdown and direct listing links, delivered to your phone in seconds.</div></div>
+      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>200+ listings scanned per run</strong>: across four high-turnover product categories with proven resale margins.</div></div>
+      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>60-term junk filter</strong>: catches broken screens, parts listings, accessories, and dozens of false positives that waste your time.</div></div>
+      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Real sold comp pricing</strong>: median price from up to 60 actual sales, cached for 6 hours to stay fast.</div></div>
+      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>True profit math</strong>: accounts for marketplace fees, payment processing, shipping both ways, and minimum ROI thresholds.</div></div>
+      <div class="oc"><div class="oc-d"></div><div class="oc-t"><strong>Instant buy signals</strong>: formatted alerts with profit breakdown and direct listing links, delivered to your phone in seconds.</div></div>
     </div>
   </div>
 </div>
@@ -497,7 +497,7 @@ let completed = new Set();
 let autoIdx = -1, selIdx = -1, userTookControl = false;
 
 const PHASES = [
-  // 0 — Auth + Keywords
+  // 0: Auth + Keywords
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 01</span><span class="ph-title">Auth + Keywords</span></div>
   <div class="ph-desc">Token acquired. <strong>4 product keywords</strong> loaded with target price ranges and category IDs.</div>
   <div class="ntabs">
@@ -522,7 +522,7 @@ const PHASES = [
     </div>
   </div>`,
 
-  // 1 — Scan
+  // 1: Scan
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 02</span><span class="ph-title">Scan eBay</span></div>
   <div class="ph-desc">50 newest listings pulled per keyword. <strong>200 total items ingested</strong> from US-only, used, fixed-price listings.</div>
   <div class="ds">
@@ -533,7 +533,7 @@ const PHASES = [
     <div class="dr" style="animation-delay:1.4s"><span class="dstore">TOTAL</span><span class="dname">All keywords returned</span><span class="dval pen">200 listings</span></div>
   </div>`,
 
-  // 2 — Filter Pipeline
+  // 2: Filter Pipeline
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 03</span><span class="ph-title">Filter Pipeline</span></div>
   <div class="ph-desc">Four-stage filter chain: <strong>flatten → price range → condition → junk title regex</strong>. Only clean, buyable products survive.</div>
   <div class="ntabs">
@@ -558,7 +558,7 @@ const PHASES = [
 ✕ "Smartwatch Housing Case Cover Screen Protector"</div>
   </div>`,
 
-  // 3 — Identify & Price
+  // 3: Identify & Price
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 04</span><span class="ph-title">Identify &amp; Price</span></div>
   <div class="ph-desc">Deterministic parser <strong>extracts exact models</strong>, then each is <strong>priced against up to 60 real sold comps</strong>. Full profit math: marketplace fees, payment processing, and shipping.</div>
   <div class="ntabs">
@@ -596,7 +596,7 @@ const PHASES = [
     </div>
   </div>`,
 
-  // 4 — Alert (NO EMOJIS)
+  // 4: Alert (NO EMOJIS)
   () => `<div class="ph-hdr"><span class="ph-badge">Phase 05</span><span class="ph-title">Telegram Buy Signal</span></div>
   <div class="ph-desc"><strong>Pre-validated alert</strong> with everything needed to act. One tap to buy.</div>
   <div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:18px 20px;margin:12px 0;font-size:12.5px;line-height:1.9">
