@@ -1714,9 +1714,30 @@ document.querySelectorAll('a[href^="#"]').forEach(function(link) {
   if (!form) return;
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    form.style.display = 'none';
-    var success = document.getElementById('success-state');
-    success.classList.add('show');
+    var btn = form.querySelector('.submit-btn');
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
+
+    var formData = new FormData(form);
+    var data = {};
+    formData.forEach(function(value, key) { data[key] = value; });
+
+    // Checkbox handling
+    data.wants_resume_used = form.querySelector('input[name="wants_resume_used"]').checked ? 'true' : 'false';
+
+    fetch('https://n8n.wvez.org/webhook/waitlist-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(function(response) {
+        form.style.display = 'none';
+        document.getElementById('success-state').classList.add('show');
+    })
+    .catch(function(error) {
+        form.style.display = 'none';
+        document.getElementById('success-state').classList.add('show');
+    });
   });
 })();
 
